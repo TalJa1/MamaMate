@@ -11,7 +11,7 @@ import {
 import React from 'react';
 import carousel from '../data/carousel.json';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
 
 interface CarouselItems {
@@ -43,23 +43,31 @@ const OnboardingPage = () => {
   const renderContent = () => {
     switch (currentIndex) {
       case 1:
-        return <Image source={require('../assets/momAndchild.png')} />;
+        return (
+          <Image
+            style={styles.momAndchild}
+            source={require('../assets/momAndchild.png')}
+          />
+        );
       case 2:
-        return <Image source={require('../assets/yoga.png')} />;
+        return (
+          <Image style={styles.yoga} source={require('../assets/yoga.png')} />
+        );
       case 3:
-        return <Image source={require('../assets/bath.png')} />;
+        return (
+          <Image style={styles.bath} source={require('../assets/bath.png')} />
+        );
       case 4:
-        return <Image source={require('../assets/child.png')} />;
+        return (
+          <Image style={styles.child} source={require('../assets/child.png')} />
+        );
       default:
         return <Image source={require('../assets/IsolationMode.png')} />;
     }
   };
   return (
     <View style={styles.container}>
-      <View style={styles.upperview}>
-        {/* <Image source={require('../assets/IsolationMode.png')} /> */}
-        {renderContent()}
-      </View>
+      <View style={styles.upperview}>{renderContent()}</View>
       <View style={styles.lowerview}>
         <FlatList
           horizontal
@@ -106,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: width,
+    zIndex: 2,
   },
   lowerview: {
     flex: 1.4,
@@ -159,6 +168,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
     color: '#A0A0A0',
+  },
+  momAndchild: {
+    position: 'relative',
+    top: 60,
+    height: height / 2.9,
+    width: width / 1.9,
+  },
+  yoga: {
+    position: 'relative',
+    top: 55,
+    width: width,
+    height: height / 3.5,
+  },
+  bath: {
+    position: 'relative',
+    top: 60,
+    width: width / 1.1,
+    height: height / 2.9,
+  },
+  child: {
+    position: 'relative',
+    top: 55,
+    width: width,
+    height: height / 2.5,
   },
 });
 
