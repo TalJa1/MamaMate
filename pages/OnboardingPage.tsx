@@ -6,11 +6,13 @@ import {
   Dimensions,
   FlatList,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';
 
 const {width} = Dimensions.get('window');
+const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
 
 interface CarouselItems {
   title: string;
@@ -20,6 +22,7 @@ interface CarouselItems {
 
 const OnboardingPage = () => {
   const carouselListRef = React.useRef<FlatList<CarouselItems> | null>();
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 
   const renderItems: React.FC<{item: CarouselItems}> = ({item}) => {
     return (
@@ -31,6 +34,12 @@ const OnboardingPage = () => {
       </View>
     );
   };
+
+  const onViewRef = React.useRef(({changed}: {changed: any}) => {
+    if (changed[0].isViewable) {
+      setCurrentIndex(changed[0].index);
+    }
+  });
 
   return (
     <View style={styles.container}>
@@ -49,7 +58,25 @@ const OnboardingPage = () => {
             carouselListRef.current = ref;
           }}
           style={styles.carousel}
+          viewabilityConfig={viewConfigRef}
+          onViewableItemsChanged={onViewRef.current}
         />
+        <View style={styles.discardView}>
+          <View style={styles.pagging}>
+            {carousel.map((v, i) => (
+              <TouchableOpacity
+                key={i}
+                style={[
+                  styles.circle,
+                  {backgroundColor: i === currentIndex ? 'white' : 'grey'},
+                ]}
+              />
+            ))}
+          </View>
+          <TouchableOpacity onPress={() => console.log('Discard pressed')}>
+            <Text style={styles.discardTxt}>Bỏ qua</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -97,6 +124,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: '#FFFFFF',
+  },
+  pagging: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  circle: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+    backgroundColor: 'grey',
+    marginHorizontal: 5,
+  },
+  discardView: {
+    marginBottom: 40,
+  },
+  discardTxt: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '400',
+    color: '#A0A0A0',
   },
 });
 
