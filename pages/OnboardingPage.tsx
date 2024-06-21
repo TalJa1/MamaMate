@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 60,
     width: width / 1.1,
-    height: height / 2.9,
+    height: height / 2.8,
   },
   child: {
     position: 'relative',
