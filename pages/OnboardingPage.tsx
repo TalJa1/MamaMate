@@ -20,6 +20,10 @@ interface CarouselItems {
   description: string;
 }
 
+interface ImgMode {
+  mode: number;
+}
+
 const OnboardingPage = () => {
   const carouselListRef = React.useRef<FlatList<CarouselItems> | null>();
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
@@ -40,11 +44,25 @@ const OnboardingPage = () => {
       setCurrentIndex(changed[0].index);
     }
   });
-
+  const renderContent = () => {
+    switch (currentIndex) {
+      case 1:
+        return <Image source={require('../assets/momAndchild.png')} />;
+      case 2:
+        return <Image source={require('../assets/yoga.png')} />;
+      case 3:
+        return <Image source={require('../assets/bath.png')} />;
+      case 4:
+        return <Image source={require('../assets/child.png')} />;
+      default:
+        return <Image source={require('../assets/IsolationMode.png')} />;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
-        <Image source={require('../assets/IsolationMode.png')} />
+        {/* <Image source={require('../assets/IsolationMode.png')} /> */}
+        {renderContent()}
       </View>
       <View style={styles.lowerview}>
         <FlatList
