@@ -20,10 +20,6 @@ interface CarouselItems {
   description: string;
 }
 
-interface ImgMode {
-  mode: number;
-}
-
 const OnboardingPage = () => {
   const carouselListRef = React.useRef<FlatList<CarouselItems> | null>();
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
@@ -106,13 +102,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#AF90D6',
   },
   upperview: {
-    flex: 0.5,
+    flex: 0.6,
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: width,
   },
   lowerview: {
-    flex: 1.5,
+    flex: 1.4,
     alignItems: 'center',
     backgroundColor: '#221E3D',
     borderTopLeftRadius: 30,
@@ -146,7 +142,7 @@ const styles = StyleSheet.create({
   pagging: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 20,
+    marginVertical: 30,
   },
   circle: {
     width: 10,
@@ -156,7 +152,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   discardView: {
-    marginBottom: 40,
+    marginBottom: 50,
   },
   discardTxt: {
     fontSize: 16,
