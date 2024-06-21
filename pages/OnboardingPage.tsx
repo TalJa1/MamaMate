@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const {width, height} = Dimensions.get('window');
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
@@ -21,6 +23,7 @@ interface CarouselItems {
 }
 
 const OnboardingPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const carouselListRef = React.useRef<FlatList<CarouselItems> | null>();
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 
@@ -95,7 +98,7 @@ const OnboardingPage = () => {
               />
             ))}
           </View>
-          <TouchableOpacity onPress={() => console.log('Discard pressed')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Question')}>
             <Text style={styles.discardTxt}>Bỏ qua</Text>
           </TouchableOpacity>
         </View>
