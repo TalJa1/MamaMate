@@ -16,7 +16,11 @@ const App = () => {
           component={OnboardingPage}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Question" component={QuestionPage} />
+        <Stack.Screen
+          name="Question"
+          options={{headerShown: false}}
+          component={QuestionPage}
+        />
       </Stack.Navigator>
     </NavigationContainer>
     // <OnboardingPage />
