@@ -53,7 +53,13 @@ const QuestionPage = () => {
         </View>
         <View style={styles.bottomGrp}>
           <TouchableOpacity
-            style={styles.nextBtn}
+            disabled={momDad === ''}
+            style={[
+              styles.nextBtn,
+              momDad === ''
+                ? {backgroundColor: 'gray'}
+                : {backgroundColor: '#E5CFEF'},
+            ]}
             onPress={() => console.log('next Pressed')}>
             <Text style={styles.nextBtnText}>Tiếp theo</Text>
           </TouchableOpacity>
@@ -114,7 +120,6 @@ const styles = StyleSheet.create({
   nextBtn: {
     position: 'absolute',
     bottom: 70,
-    backgroundColor: '#E5CFEF',
     height: 54,
     width: 315,
     borderRadius: 30,
