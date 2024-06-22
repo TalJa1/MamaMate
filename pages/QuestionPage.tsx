@@ -70,7 +70,7 @@ const QuestionPage = () => {
                 ? {backgroundColor: 'gray'}
                 : {backgroundColor: '#E5CFEF'},
             ]}
-            onPress={() => console.log('next Pressed')}>
+            onPress={() => navigation.navigate('Question2')}>
             <Text style={styles.nextBtnText}>Tiếp theo</Text>
           </TouchableOpacity>
           <Image
