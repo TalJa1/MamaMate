@@ -29,13 +29,17 @@ const QuestionPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
-        <TouchableOpacity
-          style={styles.backBtn}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Image source={require('../assets/Icons/backIcon.png')} />
-        </TouchableOpacity>
+        <View style={styles.backtbtnContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Image
+              style={styles.imgBtn}
+              source={require('../assets/Icons/backIcon.png')}
+            />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.initText}>
           Là bố hay là mẹ đang mong chờ sự ra đời của con vậy ạ?
         </Text>
@@ -88,23 +92,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#AF90D6',
   },
-
   upperview: {
     flex: 0.4,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: width,
-    justifyContent: 'space-around',
-    paddingHorizontal: 34,
   },
-  backBtn: {
+  backtbtnContainer: {
     width: width,
-    marginLeft: 20,
+    alignItems: 'flex-start',
+    position: 'relative',
+    top: 40,
+    paddingLeft: 30,
+  },
+  imgBtn: {
+    width: 30,
+    height: 40,
   },
   initText: {
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'center',
     lineHeight: 25,
+    paddingHorizontal: 34,
     paddingBottom: 20,
   },
   lowerview: {

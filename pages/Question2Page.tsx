@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {View} from 'react-native';
 import React from 'react';
+import QuestionPageLayout from '../components/QuestionPageLayout';
 
 const Question2Page = () => {
-  return <View></View>;
+  return <QuestionPageLayout />;
 };
 
 export default Question2Page;
