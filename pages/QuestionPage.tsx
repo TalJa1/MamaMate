@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -13,6 +14,15 @@ import React from 'react';
 const {width, height} = Dimensions.get('window');
 
 const QuestionPage = () => {
+  const [momDad, setMomDad] = React.useState<string>('');
+
+  const handleSelectMomDad = (value: string) => {
+    if (value === 'M') {
+      setMomDad('M');
+    } else {
+      setMomDad('D');
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
@@ -22,14 +32,26 @@ const QuestionPage = () => {
       </View>
       <View style={styles.lowerview}>
         <View style={styles.choices}>
-          <View>
+          <TouchableOpacity
+            style={[
+              styles.choicesGrp,
+              momDad === 'M' ? {opacity: 1} : {opacity: 0.4},
+            ]}
+            onPress={() => handleSelectMomDad('M')}>
             <Image source={require('../assets/questionsAssets/isMom.png')} />
-          </View>
-          <View>
+            <Text style={styles.choicesTxt}>Mẹ nè!</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.choicesGrp,
+              momDad === 'D' ? {opacity: 1} : {opacity: 0.4},
+            ]}
+            onPress={() => handleSelectMomDad('D')}>
             <Image source={require('../assets/questionsAssets/isDad.png')} />
-          </View>
+            <Text style={styles.choicesTxt}>Bố đây</Text>
+          </TouchableOpacity>
         </View>
-        <View>
+        <View style={styles.bottomGrp}>
           <TouchableOpacity
             style={styles.nextBtn}
             onPress={() => console.log('next Pressed')}>
@@ -75,6 +97,11 @@ const styles = StyleSheet.create({
   },
   img: {
     opacity: 0.2,
+    height: 255,
+    width: 310,
+  },
+  bottomGrp: {
+    alignItems: 'center',
   },
   choices: {
     flex: 1,
@@ -85,16 +112,28 @@ const styles = StyleSheet.create({
     marginTop: 80,
   },
   nextBtn: {
+    position: 'absolute',
+    bottom: 70,
     backgroundColor: '#E5CFEF',
     height: 54,
     width: 315,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
   },
   nextBtnText: {
     fontSize: 16,
     fontWeight: '700',
+  },
+  choicesTxt: {
+    textAlign: 'center',
+    fontWeight: '400',
+    fontSize: 16,
+    color: '#AF90D6',
+  },
+  choicesGrp: {
+    rowGap: 14,
   },
 });
 
