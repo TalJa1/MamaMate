@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import QuestionPage from './pages/QuestionPage';
 import Question2Page from './pages/Question2Page';
 import MethodinputPage from './pages/MethodinputPage';
+import MenstrualcyclePage from './pages/MenstrualcyclePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,11 @@ const App = () => {
           name="MethodInput"
           options={{headerShown: false}}
           component={MethodinputPage}
+        />
+        <Stack.Screen
+          name="Menstrualcycle"
+          options={{headerShown: false}}
+          component={MenstrualcyclePage}
         />
       </Stack.Navigator>
     </NavigationContainer>

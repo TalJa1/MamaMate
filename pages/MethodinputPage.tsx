@@ -72,7 +72,7 @@ const MethodinputPage = () => {
       title={`${getTitleSource(value)}?`}
       CustomView={renderView()}
       isDiscard={false}
-      // value={choice}
+      value={5}
     />
   );
 };

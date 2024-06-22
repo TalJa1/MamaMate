@@ -38,8 +38,12 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
     if (value === -1) {
     }
 
-    if (value && value > 0) {
+    if (value && value > 0 && value <= 4) {
       navigation.navigate('MethodInput', {value});
+    }
+
+    if (value === 5) {
+      navigation.navigate('Menstrualcycle');
     }
   };
 
