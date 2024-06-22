@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageSource} from '../services/imageHelper';
@@ -18,15 +18,24 @@ const {width, height} = Dimensions.get('window');
 interface RenderLayout {
   image: string;
   title: string;
+  CustomView?: ReactNode;
+  isDiscard?: boolean;
 }
 
-const QuestionPageLayout: React.FC<RenderLayout> = ({image, title}) => {
+const QuestionPageLayout: React.FC<RenderLayout> = ({
+  image,
+  title,
+  CustomView,
+  isDiscard,
+}) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  console.log(isDiscard);
 
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
         <TouchableOpacity
+          style={styles.backBtnOpa}
           onPress={() => {
             navigation.goBack();
           }}>
@@ -42,6 +51,19 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({image, title}) => {
       <View style={styles.lowerview}>
         <View style={styles.bottomGrp}>
           <Text style={styles.titleTxt}>{title}</Text>
+        </View>
+        <View style={styles.mainContent}>{CustomView}</View>
+        <View style={styles.btnGrp}>
+          {isDiscard === true ? (
+            <TouchableOpacity style={styles.disBtn}>
+              <Text style={styles.disBtnTxt}>Bỏ qua</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+          <TouchableOpacity style={styles.nextBtn}>
+            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -85,6 +107,9 @@ const styles = StyleSheet.create({
     position: 'relative',
     bottom: 30,
   },
+  backBtnOpa: {
+    zIndex: 2,
+  },
   titleTxt: {
     width: width,
     fontSize: 20,
@@ -95,6 +120,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderBottomWidth: 1,
     borderBottomColor: '#3E3C62C4',
+  },
+  mainContent: {
+    marginTop: 30,
+  },
+  btnGrp: {
+    position: 'absolute',
+    bottom: 40,
+    alignItems: 'center',
+    rowGap: 10,
+  },
+  disBtn: {
+    height: 54,
+    width: 315,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E5CFEF',
+  },
+  nextBtn: {
+    backgroundColor: '#E5CFEF',
+    height: 54,
+    width: 315,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  disBtnTxt: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#E5CFEF',
+  },
+  nextBtnTxt: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#221E3D',
   },
 });
 
