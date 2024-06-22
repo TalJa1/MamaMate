@@ -1,5 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,8 +21,25 @@ const QuestionPage = () => {
         </Text>
       </View>
       <View style={styles.lowerview}>
-        <Text>H</Text>
-        <Image source={require('../assets/questionsAssets/yoga1.png')} />
+        <View style={styles.choices}>
+          <View>
+            <Image source={require('../assets/questionsAssets/isMom.png')} />
+          </View>
+          <View>
+            <Image source={require('../assets/questionsAssets/isDad.png')} />
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={() => console.log('next Pressed')}>
+            <Text style={styles.nextBtnText}>Tiếp theo</Text>
+          </TouchableOpacity>
+          <Image
+            style={styles.img}
+            source={require('../assets/questionsAssets/yoga1.png')}
+          />
+        </View>
       </View>
     </View>
   );
@@ -43,15 +67,34 @@ const styles = StyleSheet.create({
   lowerview: {
     flex: 1.6,
     alignItems: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: '#221E3D',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     width: width,
   },
   img: {
-    position: 'relative',
-    bottom: 0,
-    opacity: 0.5,
+    opacity: 0.2,
+  },
+  choices: {
+    flex: 1,
+    flexDirection: 'row',
+    width: width,
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    marginTop: 80,
+  },
+  nextBtn: {
+    backgroundColor: '#E5CFEF',
+    height: 54,
+    width: 315,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nextBtnText: {
+    fontSize: 16,
+    fontWeight: '700',
   },
 });
 
