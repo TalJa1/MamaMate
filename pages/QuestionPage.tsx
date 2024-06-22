@@ -26,6 +26,9 @@ const QuestionPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
+        <TouchableOpacity style={styles.backBtn}>
+          <Image source={require('../assets/Icons/backIcon.png')} />
+        </TouchableOpacity>
         <Text style={styles.initText}>
           Là bố hay là mẹ đang mong chờ sự ra đời của con vậy ạ?
         </Text>
@@ -78,19 +81,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#AF90D6',
   },
+
   upperview: {
     flex: 0.4,
     alignItems: 'center',
     width: width,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
     paddingHorizontal: 34,
-    position: 'relative',
-    bottom: 34,
+  },
+  backBtn: {
+    width: width,
+    marginLeft: 20,
   },
   initText: {
     fontSize: 20,
     fontWeight: '700',
     textAlign: 'center',
+    lineHeight: 25,
+    paddingBottom: 20,
   },
   lowerview: {
     flex: 1.6,
