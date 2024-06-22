@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -20,6 +21,8 @@ interface RenderLayout {
   title: string;
   CustomView?: ReactNode;
   isDiscard?: boolean;
+  // Get the user's choice => can be null
+  value?: number;
 }
 
 const QuestionPageLayout: React.FC<RenderLayout> = ({
@@ -27,9 +30,9 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   title,
   CustomView,
   isDiscard,
+  value = -1,
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  console.log(isDiscard);
 
   return (
     <View style={styles.container}>
@@ -61,9 +64,17 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
           ) : (
             <></>
           )}
-          <TouchableOpacity style={styles.nextBtn}>
-            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-          </TouchableOpacity>
+          {(value && value > 0) || value === -1 ? (
+            <TouchableOpacity style={styles.nextBtn}>
+              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={[styles.nextBtn, {backgroundColor: 'gray'}]}
+              disabled>
+              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -119,6 +130,7 @@ const styles = StyleSheet.create({
     paddingBottom: 19,
     paddingHorizontal: 30,
     borderBottomWidth: 1,
+    fontWeight: '800',
     borderBottomColor: '#3E3C62C4',
   },
   mainContent: {
