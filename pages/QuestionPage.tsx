@@ -9,12 +9,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
 const QuestionPage = () => {
   const [momDad, setMomDad] = React.useState<string>('');
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleSelectMomDad = (value: string) => {
     if (value === 'M') {
@@ -26,7 +29,11 @@ const QuestionPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
-        <TouchableOpacity style={styles.backBtn}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <Image source={require('../assets/Icons/backIcon.png')} />
         </TouchableOpacity>
         <Text style={styles.initText}>
