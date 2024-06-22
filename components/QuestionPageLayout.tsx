@@ -34,6 +34,15 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
+  const handlePagination = () => {
+    if (value === -1) {
+    }
+
+    if (value && value > 0) {
+      navigation.navigate('MethodInput', {value});
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.upperview}>
@@ -65,7 +74,7 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
             <></>
           )}
           {(value && value > 0) || value === -1 ? (
-            <TouchableOpacity style={styles.nextBtn}>
+            <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
               <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
             </TouchableOpacity>
           ) : (
