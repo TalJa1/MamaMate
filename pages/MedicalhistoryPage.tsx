@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
   },
+
   inputIcon: {
     color: '#E5CFEF61',
     fontSize: 25,
