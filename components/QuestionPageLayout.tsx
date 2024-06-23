@@ -23,6 +23,8 @@ interface RenderLayout {
   isDiscard?: boolean;
   // Get the user's choice => can be null
   value?: number;
+  // Name of navigation page
+  nextPage: string;
 }
 
 const QuestionPageLayout: React.FC<RenderLayout> = ({
@@ -31,6 +33,7 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   CustomView,
   isDiscard,
   value = -1,
+  nextPage,
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
@@ -39,11 +42,11 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
     }
 
     if (value && value > 0 && value <= 4) {
-      navigation.navigate('MethodInput', {value});
+      navigation.navigate(nextPage, {value});
     }
 
     if (value === 5) {
-      navigation.navigate('Menstrualcycle');
+      navigation.navigate(nextPage);
     }
   };
 

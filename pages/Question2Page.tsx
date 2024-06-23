@@ -5,7 +5,7 @@ import QuestionPageLayout from '../components/QuestionPageLayout';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 const Question2Page = () => {
-  const [choice, setChoice] = React.useState<number>(-1);
+  const [choice, setChoice] = React.useState<number>(0);
   const renderView = () => {
     return (
       <View style={styles.container}>
@@ -56,6 +56,7 @@ const Question2Page = () => {
       CustomView={renderView()}
       isDiscard={false}
       value={choice}
+      nextPage="MethodInput"
     />
   );
 };

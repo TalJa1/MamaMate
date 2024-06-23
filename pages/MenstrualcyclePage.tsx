@@ -30,6 +30,7 @@ const MenstrualcyclePage = () => {
       CustomView={renderView()}
       isDiscard={true}
       // value={choice}
+      nextPage=""
     />
   );
 };

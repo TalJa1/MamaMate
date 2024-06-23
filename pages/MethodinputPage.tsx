@@ -73,6 +73,7 @@ const MethodinputPage = () => {
       CustomView={renderView()}
       isDiscard={false}
       value={5}
+      nextPage="Menstrualcycle"
     />
   );
 };
