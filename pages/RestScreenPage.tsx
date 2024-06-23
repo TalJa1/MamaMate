@@ -23,7 +23,11 @@ const RestScreenPage = () => {
   const [layoutIndex, setLayoutIndex] = React.useState<number>(1);
 
   const handlePagination = () => {
-    setLayoutIndex(pre => pre + 1);
+    if (layoutIndex < 4) {
+      setLayoutIndex(pre => pre + 1);
+    } else {
+      navigation.navigate('RestScreenLast');
+    }
   };
 
   const renderItem = () => {
@@ -36,9 +40,6 @@ const RestScreenPage = () => {
         return <ComponentRest3 />;
       case 4:
         return <ComponentRest4 />;
-
-      default:
-        break;
     }
   };
 
@@ -80,7 +81,7 @@ const RestScreenPage = () => {
             // onPress={() => {
             //   setLayoutIndex(pre => pre - 1);
             // }}
-            >
+          >
             <Text style={styles.disBtnTxt}>Bỏ qua</Text>
           </TouchableOpacity>
         )}

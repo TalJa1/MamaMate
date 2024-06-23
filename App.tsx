@@ -9,6 +9,7 @@ import MenstrualcyclePage from './pages/MenstrualcyclePage';
 import MedicalhistoryPage from './pages/MedicalhistoryPage';
 import MedicationusedPage from './pages/MedicationusedPage';
 import RestScreenPage from './pages/RestScreenPage';
+import RestScreenLastPage from './pages/RestScreenLastPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,11 @@ const App = () => {
           name="RestScreen"
           options={{headerShown: false}}
           component={RestScreenPage}
+        />
+        <Stack.Screen
+          name="RestScreenLast"
+          options={{headerShown: false}}
+          component={RestScreenLastPage}
         />
       </Stack.Navigator>
     </NavigationContainer>
