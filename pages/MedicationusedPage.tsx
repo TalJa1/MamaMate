@@ -79,7 +79,7 @@ const MedicationusedPage = () => {
       CustomView={renderView()}
       isDiscard={true}
       value={medicineName === '' ? 0 : 5}
-      nextPage="Medicalused"
+      nextPage="RestScreen"
     />
   );
 };

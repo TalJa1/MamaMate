@@ -8,6 +8,7 @@ import MethodinputPage from './pages/MethodinputPage';
 import MenstrualcyclePage from './pages/MenstrualcyclePage';
 import MedicalhistoryPage from './pages/MedicalhistoryPage';
 import MedicationusedPage from './pages/MedicationusedPage';
+import RestScreenPage from './pages/RestScreenPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ const App = () => {
           component={OnboardingPage}
           options={{headerShown: false}}
         />
+        {/* Question screens */}
         <Stack.Screen
           name="Question"
           options={{headerShown: false}}
@@ -49,6 +51,12 @@ const App = () => {
           name="Medicalused"
           options={{headerShown: false}}
           component={MedicationusedPage}
+        />
+        {/* Rest screen */}
+        <Stack.Screen
+          name="RestScreen"
+          options={{headerShown: false}}
+          component={RestScreenPage}
         />
       </Stack.Navigator>
     </NavigationContainer>
