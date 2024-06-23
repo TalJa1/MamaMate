@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
@@ -18,7 +19,6 @@ const {width, height} = Dimensions.get('screen');
 const MedicalhistoryPage = () => {
   const [diseaseName, setDiseaseName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
-  console.log(image);
 
   const renderView = () => {
     return (
@@ -28,20 +28,30 @@ const MedicalhistoryPage = () => {
             <TouchableOpacity
               style={styles.ImageStyle}
               onPress={async () => {
-                setImage([]);
-                const result: any = await launchImageLibrary({
-                  mediaType: 'photo',
-                  selectionLimit: 4,
-                });
-                for (let i = 0; i < result.assets.length; i++) {
-                  setImage(pre => {
-                    return [...pre, result.assets[i].uri];
+                try {
+                  setImage([]);
+                  const result: any = await launchImageLibrary({
+                    mediaType: 'photo',
+                    selectionLimit: 8,
                   });
+                  if (result.assets.length > 0) {
+                    for (let i = 0; i < result.assets.length; i++) {
+                      setImage(pre => {
+                        return [...pre, result.assets[i].uri];
+                      });
+                    }
+                  }
+                } catch (error) {
+                  console.log(error);
                 }
               }}>
               <Image
                 style={styles.ImageStyle}
-                source={require('../assets/Icons/image.png')}
+                source={
+                  image.length === 0
+                    ? require('../assets/Icons/image.png')
+                    : require('../assets/Icons/edit.png')
+                }
               />
             </TouchableOpacity>
             <TextInput
@@ -53,11 +63,11 @@ const MedicalhistoryPage = () => {
               value={diseaseName}
             />
           </View>
-          <View style={styles.viewImg}>
+          <ScrollView horizontal style={styles.viewImg}>
             {image?.map((v, i) => (
               <Image key={i} style={styles.imgShow} source={{uri: v}} />
             ))}
-          </View>
+          </ScrollView>
           <TouchableOpacity style={styles.btnAdd}>
             <Text style={styles.inputTxtBtn}>Thêm</Text>
             <Text style={styles.inputIcon}>+</Text>
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
   },
   btnAdd: {
     flexDirection: 'row',
-    alignItems: 'baseline',
+    alignItems: 'center',
     columnGap: 20,
     marginVertical: 30,
   },
@@ -108,25 +118,23 @@ const styles = StyleSheet.create({
   },
   SectionStyle: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   ImageStyle: {
     position: 'absolute',
     right: 8,
-    height: 28,
-    width: 28,
+    height: 25,
+    width: 25,
     zIndex: 1,
   },
   viewImg: {
-    marginTop: 20,
-    flexDirection: 'row',
-    columnGap: 10,
+    marginTop: 25,
   },
   imgShow: {
     height: 115,
     width: 115,
     borderRadius: 10,
+    marginLeft: 10,
   },
 });
 
