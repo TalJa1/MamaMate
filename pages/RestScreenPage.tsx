@@ -11,21 +11,21 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ComponentRest1 from '../components/ComponentRest1';
+import ComponentRest2 from '../components/ComponentRest2';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
 const RestScreenPage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [layoutIndex, setLayoutIndex] = React.useState<number>(1);
 
   const handlePagination = () => {
-    navigation.navigate('');
+    setLayoutIndex(pre => pre + 1);
   };
 
   const handleDiscardPagination = () => {
-    navigation.navigate('');
+    setLayoutIndex(pre => pre - 1);
   };
 
   const renderItem = () => {
@@ -33,7 +33,7 @@ const RestScreenPage = () => {
       case 1:
         return <ComponentRest1 />;
       case 2:
-        return <ComponentRest1 />;
+        return <ComponentRest2 />;
       case 3:
         return <ComponentRest1 />;
       case 4:
