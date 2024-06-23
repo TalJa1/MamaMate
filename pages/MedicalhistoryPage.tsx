@@ -6,6 +6,7 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
@@ -20,13 +21,20 @@ const MedicalhistoryPage = () => {
     return (
       <View>
         <View style={styles.container}>
-          <TextInput
-            placeholder="Tên bệnh"
-            onChangeText={setDiseaseName}
-            placeholderTextColor={'#E5CFEF61'}
-            style={styles.textInput}
-            value={diseaseName}
-          />
+          <View style={styles.SectionStyle}>
+            <TouchableOpacity
+              style={styles.ImageStyle}
+              onPress={() => console.log('image')}>
+              <Image source={require('../assets/Icons/image.png')} />
+            </TouchableOpacity>
+            <TextInput
+              placeholder="Tên bệnh"
+              onChangeText={setDiseaseName}
+              placeholderTextColor={'#E5CFEF61'}
+              style={styles.textInput}
+              value={diseaseName}
+            />
+          </View>
           <TouchableOpacity style={styles.btnAdd}>
             <Text style={styles.inputTxtBtn}>Thêm</Text>
             <Text style={styles.inputIcon}>+</Text>
@@ -74,6 +82,18 @@ const styles = StyleSheet.create({
     color: '#E5CFEF61',
     fontSize: 25,
     fontWeight: '200',
+  },
+  SectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ImageStyle: {
+    position: 'absolute',
+    right: 10,
+    height: 28,
+    width: 28,
+    zIndex: 1,
   },
 });
 
