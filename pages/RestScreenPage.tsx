@@ -13,6 +13,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ComponentRest1 from '../components/ComponentRest1';
 import ComponentRest2 from '../components/ComponentRest2';
 import ComponentRest3 from '../components/ComponentRest3';
+import ComponentRest4 from '../components/ComponentRest4';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -25,10 +26,6 @@ const RestScreenPage = () => {
     setLayoutIndex(pre => pre + 1);
   };
 
-  const handleDiscardPagination = () => {
-    setLayoutIndex(pre => pre - 1);
-  };
-
   const renderItem = () => {
     switch (layoutIndex) {
       case 1:
@@ -38,7 +35,7 @@ const RestScreenPage = () => {
       case 3:
         return <ComponentRest3 />;
       case 4:
-        return <ComponentRest1 />;
+        return <ComponentRest4 />;
 
       default:
         break;
@@ -58,7 +55,11 @@ const RestScreenPage = () => {
         <TouchableOpacity
           style={styles.backBtnOpa}
           onPress={() => {
-            navigation.goBack();
+            if (layoutIndex > 1) {
+              setLayoutIndex(pre => pre - 1);
+            } else {
+              navigation.goBack();
+            }
           }}>
           <Image
             style={styles.backBtn}
@@ -70,15 +71,16 @@ const RestScreenPage = () => {
 
       <View style={styles.btnGrp}>
         {layoutIndex === 1 ? (
-          <TouchableOpacity
-            style={styles.disBtn}
-            onPress={handleDiscardPagination}>
+          <TouchableOpacity style={styles.disBtn}>
             <Text style={styles.disBtnTxt}>Tính lại</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={styles.disBtn}
-            onPress={handleDiscardPagination}>
+            // onPress={() => {
+            //   setLayoutIndex(pre => pre - 1);
+            // }}
+            >
             <Text style={styles.disBtnTxt}>Bỏ qua</Text>
           </TouchableOpacity>
         )}
