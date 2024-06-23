@@ -1,7 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const {width, height} = Dimensions.get('screen');
 
 const MenstrualcyclePage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,8 +38,8 @@ const MenstrualcyclePage = () => {
       title="Chu kỳ kinh nguyệt trung bình?"
       CustomView={renderView()}
       isDiscard={true}
-      // value={choice}
-      nextPage=""
+      value={5}
+      nextPage="Medicalhistory"
     />
   );
 };
@@ -40,7 +49,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     columnGap: 10,
+    width: width,
   },
   dayTxt: {
     color: '#E5CFEF',
@@ -51,7 +62,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     columnGap: 10,
-    // alignItems: 'center',
   },
   chosendayTxt: {
     width: 20,

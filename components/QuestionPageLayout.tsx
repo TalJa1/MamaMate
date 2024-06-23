@@ -7,6 +7,8 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import React, {ReactNode} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -51,7 +53,10 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={-200}
+      style={styles.container}>
       <View style={styles.upperview}>
         <TouchableOpacity
           style={styles.backBtnOpa}
@@ -93,7 +98,7 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
           )}
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

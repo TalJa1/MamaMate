@@ -6,6 +6,7 @@ import QuestionPage from './pages/QuestionPage';
 import Question2Page from './pages/Question2Page';
 import MethodinputPage from './pages/MethodinputPage';
 import MenstrualcyclePage from './pages/MenstrualcyclePage';
+import MedicalhistoryPage from './pages/MedicalhistoryPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,11 @@ const App = () => {
           name="Menstrualcycle"
           options={{headerShown: false}}
           component={MenstrualcyclePage}
+        />
+        <Stack.Screen
+          name="Medicalhistory"
+          options={{headerShown: false}}
+          component={MedicalhistoryPage}
         />
       </Stack.Navigator>
     </NavigationContainer>
