@@ -12,6 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ComponentRest1 from '../components/ComponentRest1';
 import ComponentRest2 from '../components/ComponentRest2';
+import ComponentRest3 from '../components/ComponentRest3';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -35,7 +36,7 @@ const RestScreenPage = () => {
       case 2:
         return <ComponentRest2 />;
       case 3:
-        return <ComponentRest1 />;
+        return <ComponentRest3 />;
       case 4:
         return <ComponentRest1 />;
 
