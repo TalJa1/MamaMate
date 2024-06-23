@@ -3,23 +3,18 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  Dimensions,
-  TouchableOpacity,
   Image,
+  TouchableOpacity,
+  TextInput,
   ScrollView,
 } from 'react-native';
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const {width, height} = Dimensions.get('screen');
-
-const MedicalhistoryPage = () => {
-  const [diseaseName, setDiseaseName] = React.useState<string>('');
+const MedicationusedPage = () => {
+  const [medicineName, setMedicineName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
-
   const renderView = () => {
     return (
       <View>
@@ -56,11 +51,11 @@ const MedicalhistoryPage = () => {
             </TouchableOpacity>
             <TextInput
               editable={false}
-              placeholder="Tên bệnh"
-              onChangeText={setDiseaseName}
+              placeholder="Tên thuốc"
+              onChangeText={setMedicineName}
               placeholderTextColor={'#E5CFEF61'}
               style={styles.textInput}
-              value={diseaseName}
+              value={medicineName}
             />
           </View>
           <ScrollView horizontal style={styles.viewImg}>
@@ -80,10 +75,10 @@ const MedicalhistoryPage = () => {
   return (
     <QuestionPageLayout
       image="pillow"
-      title="Mẹ có tiền sử bệnh lý nào không ạ?"
+      title="Các loại thuốc mẹ đang sử dụng?"
       CustomView={renderView()}
       isDiscard={true}
-      value={diseaseName === '' ? 0 : 5}
+      value={medicineName === '' ? 0 : 5}
       nextPage="Medicalused"
     />
   );
@@ -139,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MedicalhistoryPage;
+export default MedicationusedPage;

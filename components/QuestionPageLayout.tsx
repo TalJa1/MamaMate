@@ -52,6 +52,10 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
     }
   };
 
+  const handleDiscardPagination = () => {
+    navigation.navigate(nextPage);
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -79,7 +83,9 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
         <View style={styles.mainContent}>{CustomView}</View>
         <View style={styles.btnGrp}>
           {isDiscard === true ? (
-            <TouchableOpacity style={styles.disBtn}>
+            <TouchableOpacity
+              style={styles.disBtn}
+              onPress={handleDiscardPagination}>
               <Text style={styles.disBtnTxt}>Bỏ qua</Text>
             </TouchableOpacity>
           ) : (
