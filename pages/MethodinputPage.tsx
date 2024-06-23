@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 type MethodInputParams = {
   value: number;
