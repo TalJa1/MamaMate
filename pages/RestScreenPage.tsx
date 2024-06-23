@@ -86,7 +86,7 @@ const RestScreenPage = () => {
           </TouchableOpacity>
         )}
         <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
-          <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+          <Text style={styles.nextBtnTxt}>Tiếp tục</Text>
         </TouchableOpacity>
       </View>
     </View>
