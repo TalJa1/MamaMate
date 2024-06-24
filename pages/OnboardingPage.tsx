@@ -8,13 +8,22 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {vh, vw} from '../styles/stylesheet';
+import {
+  bathSVG,
+  childSVG,
+  momAndDoctorSVG,
+  momAndchildSVG,
+  yogaSVG,
+} from '../assets/svgXml';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
 
 interface CarouselItems {
@@ -48,29 +57,22 @@ const OnboardingPage = () => {
     switch (currentIndex) {
       case 1:
         return (
-          <Image
-            style={styles.momAndchild}
-            source={require('../assets/momAndchild.png')}
-          />
+          <View style={styles.momAndchild}>
+            {momAndchildSVG(vw(50), vh(30))}
+          </View>
         );
       case 2:
-        return (
-          <Image style={styles.yoga} source={require('../assets/yoga.png')} />
-        );
+        return <View style={styles.yoga}>{yogaSVG(vw(90), vh(30))}</View>;
       case 3:
-        return (
-          <Image style={styles.bath} source={require('../assets/bath.png')} />
-        );
+        return <View style={styles.bath}>{bathSVG(vw(90), vh(35))}</View>;
       case 4:
-        return (
-          <Image style={styles.child} source={require('../assets/child.png')} />
-        );
+        return <View style={styles.child}>{childSVG(vw(100), vh(37))}</View>;
       default:
-        return <Image source={require('../assets/IsolationMode.png')} />;
+        return <View>{momAndDoctorSVG(vw(80), vh(20))}</View>;
     }
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.upperview}>{renderContent()}</View>
       <View style={styles.lowerview}>
         <FlatList
@@ -104,7 +106,7 @@ const OnboardingPage = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -115,8 +117,8 @@ const styles = StyleSheet.create({
   },
   upperview: {
     flex: 0.6,
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     width: width,
     zIndex: 2,
   },
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     rowGap: 16,
     width: width,
     paddingHorizontal: 40,
-    marginTop: 100,
+    marginTop: vh(12),
   },
   carousel: {
     height: 130,
@@ -173,29 +175,24 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#A0A0A0',
   },
+
   momAndchild: {
     position: 'relative',
-    top: 60,
-    height: height / 2.9,
-    width: width / 1.9,
+    top: vh(8),
   },
   yoga: {
     position: 'relative',
-    top: 55,
-    width: width,
-    height: height / 3.5,
+    top: vh(8),
   },
   bath: {
     position: 'relative',
-    top: 60,
-    width: width / 1.1,
-    height: height / 2.8,
+    top: vh(8),
   },
   child: {
-    position: 'relative',
-    top: 55,
+    position: 'absolute',
+    top: 0,
     width: width,
-    height: height / 2.5,
+    height: vh(40),
   },
 });
 

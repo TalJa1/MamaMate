@@ -78,28 +78,28 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
           </View>
           <View style={styles.mainContent}>{CustomView}</View>
         </ScrollView>
-      </View>
-      <View style={styles.btnGrp}>
-        {isDiscard === true ? (
-          <TouchableOpacity
-            style={styles.disBtn}
-            onPress={handleDiscardPagination}>
-            <Text style={styles.disBtnTxt}>Bỏ qua</Text>
-          </TouchableOpacity>
-        ) : (
-          <></>
-        )}
-        {(value && value > 0) || value === -1 ? (
-          <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
-            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={[styles.nextBtn, {backgroundColor: 'gray'}]}
-            disabled>
-            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-          </TouchableOpacity>
-        )}
+        <View style={styles.btnGrp}>
+          {isDiscard === true ? (
+            <TouchableOpacity
+              style={styles.disBtn}
+              onPress={handleDiscardPagination}>
+              <Text style={styles.disBtnTxt}>Bỏ qua</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+          {(value && value > 0) || value === -1 ? (
+            <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
+              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={[styles.nextBtn, {backgroundColor: 'gray'}]}
+              disabled>
+              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </ScrollView>
   );
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     top: 40,
   },
   lowerview: {
-    height: height - 120 - 140,
+    height: height - 120,
     alignItems: 'center',
     backgroundColor: '#221E3D',
     borderTopLeftRadius: 30,
@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     width: width,
   },
   btnGrp: {
-    height: 140,
     width: width,
     backgroundColor: '#221E3D',
     alignItems: 'center',
+    paddingBottom: 30,
     rowGap: 10,
   },
   bottomGrp: {
