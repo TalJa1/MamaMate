@@ -8,11 +8,14 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import React, {ReactNode} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageSource} from '../services/imageHelper';
+import {vh, vw} from '../styles/stylesheet';
+import {backIconSVG} from '../assets/svgXml';
 
 const {width, height} = Dimensions.get('window');
 
@@ -55,53 +58,54 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.upperview}>
-        <TouchableOpacity
-          style={styles.backBtnOpa}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Image
-            style={styles.backBtn}
-            source={require('../assets/Icons/backIcon.png')}
-          />
-        </TouchableOpacity>
-        <View style={styles.titleImgContainer}>
-          <Image source={getImageSource(image)} />
-        </View>
-      </View>
-      <View style={styles.lowerview}>
-        <ScrollView>
-          <View style={styles.bottomGrp}>
-            <Text style={styles.titleTxt}>{title}</Text>
+    <SafeAreaView>
+      <ScrollView style={styles.container}>
+        <View style={styles.upperview}>
+          <TouchableOpacity
+            style={styles.backBtnOpa}
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            {backIconSVG(vh(6), vw(6))}
+          </TouchableOpacity>
+          <View style={styles.titleImgContainer}>
+            <Image source={getImageSource(image)} />
           </View>
-          <View style={styles.mainContent}>{CustomView}</View>
-        </ScrollView>
-        <View style={styles.btnGrp}>
-          {isDiscard === true ? (
-            <TouchableOpacity
-              style={styles.disBtn}
-              onPress={handleDiscardPagination}>
-              <Text style={styles.disBtnTxt}>Bỏ qua</Text>
-            </TouchableOpacity>
-          ) : (
-            <></>
-          )}
-          {(value && value > 0) || value === -1 ? (
-            <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
-              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[styles.nextBtn, {backgroundColor: 'gray'}]}
-              disabled>
-              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-            </TouchableOpacity>
-          )}
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.lowerview}>
+          <ScrollView>
+            <View style={styles.bottomGrp}>
+              <Text style={styles.titleTxt}>{title}</Text>
+            </View>
+            <View style={styles.mainContent}>{CustomView}</View>
+          </ScrollView>
+          <View style={styles.btnGrp}>
+            {isDiscard === true ? (
+              <TouchableOpacity
+                style={styles.disBtn}
+                onPress={handleDiscardPagination}>
+                <Text style={styles.disBtnTxt}>Bỏ qua</Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
+            {(value && value > 0) || value === -1 ? (
+              <TouchableOpacity
+                style={styles.nextBtn}
+                onPress={handlePagination}>
+                <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[styles.nextBtn, {backgroundColor: 'gray'}]}
+                disabled>
+                <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -147,28 +151,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 1,
     position: 'relative',
-    bottom: 30,
+    bottom: vh(2),
   },
   backBtnOpa: {
     zIndex: 2,
+    position: 'relative',
+    left: vw(5),
   },
   titleTxt: {
     width: width,
     fontSize: 20,
     color: '#E5CFEF',
     textAlign: 'center',
-    paddingTop: 10,
-    paddingBottom: 19,
+    paddingVertical: vh(2),
     paddingHorizontal: 30,
     borderBottomWidth: 1,
     fontWeight: '800',
     borderBottomColor: '#3E3C62C4',
   },
   mainContent: {
-    marginTop: 30,
+    marginTop: vh(5),
     width: width,
   },
-
   disBtn: {
     height: 54,
     width: 315,
