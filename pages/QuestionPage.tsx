@@ -7,10 +7,13 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {vw, vh} from '../styles/stylesheet';
+import {backIconSVG, standingYogaSVG} from '../assets/svgXml';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -27,17 +30,14 @@ const QuestionPage = () => {
     }
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.upperview}>
         <View style={styles.backtbtnContainer}>
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
             }}>
-            <Image
-              style={styles.imgBtn}
-              source={require('../assets/Icons/backIcon.png')}
-            />
+            {backIconSVG(vh(6), vw(6))}
           </TouchableOpacity>
         </View>
         <Text style={styles.initText}>
@@ -77,13 +77,10 @@ const QuestionPage = () => {
             onPress={() => navigation.navigate('Question2')}>
             <Text style={styles.nextBtnText}>Tiếp theo</Text>
           </TouchableOpacity>
-          <Image
-            style={styles.img}
-            source={require('../assets/questionsAssets/yoga1.png')}
-          />
+          <View style={styles.img}>{standingYogaSVG(vw(80), vh(40))}</View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -101,12 +98,8 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: 'flex-start',
     position: 'relative',
-    top: 40,
-    paddingLeft: 30,
-  },
-  imgBtn: {
-    width: 30,
-    height: 40,
+    top: vh(5),
+    paddingLeft: vw(5),
   },
   initText: {
     fontSize: 20,
@@ -127,8 +120,6 @@ const styles = StyleSheet.create({
   },
   img: {
     opacity: 0.2,
-    height: 255,
-    width: 310,
   },
   bottomGrp: {
     alignItems: 'center',
@@ -139,7 +130,7 @@ const styles = StyleSheet.create({
     width: width,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    marginTop: 80,
+    marginTop: vh(7),
   },
   nextBtn: {
     position: 'absolute',
