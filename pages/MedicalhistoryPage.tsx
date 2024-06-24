@@ -55,7 +55,7 @@ const MedicalhistoryPage = () => {
               />
             </TouchableOpacity>
             <TextInput
-              editable={false}
+              // editable={false}
               placeholder="Tên bệnh"
               onChangeText={setDiseaseName}
               placeholderTextColor={'#E5CFEF61'}

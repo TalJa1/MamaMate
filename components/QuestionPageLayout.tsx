@@ -7,15 +7,13 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
+  ScrollView,
 } from 'react-native';
 import React, {ReactNode} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageSource} from '../services/imageHelper';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
 interface RenderLayout {
@@ -57,10 +55,7 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={-200}
-      style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.upperview}>
         <TouchableOpacity
           style={styles.backBtnOpa}
@@ -81,52 +76,59 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
           <Text style={styles.titleTxt}>{title}</Text>
         </View>
         <View style={styles.mainContent}>{CustomView}</View>
-        <View style={styles.btnGrp}>
-          {isDiscard === true ? (
-            <TouchableOpacity
-              style={styles.disBtn}
-              onPress={handleDiscardPagination}>
-              <Text style={styles.disBtnTxt}>Bỏ qua</Text>
-            </TouchableOpacity>
-          ) : (
-            <></>
-          )}
-          {(value && value > 0) || value === -1 ? (
-            <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
-              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[styles.nextBtn, {backgroundColor: 'gray'}]}
-              disabled>
-              <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
-            </TouchableOpacity>
-          )}
-        </View>
       </View>
-    </KeyboardAvoidingView>
+      <View style={styles.btnGrp}>
+        {isDiscard === true ? (
+          <TouchableOpacity
+            style={styles.disBtn}
+            onPress={handleDiscardPagination}>
+            <Text style={styles.disBtnTxt}>Bỏ qua</Text>
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
+        {(value && value > 0) || value === -1 ? (
+          <TouchableOpacity style={styles.nextBtn} onPress={handlePagination}>
+            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.nextBtn, {backgroundColor: 'gray'}]}
+            disabled>
+            <Text style={styles.nextBtnTxt}>Tiếp theo</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: height,
     backgroundColor: '#AF90D6',
   },
 
   upperview: {
     position: 'relative',
     alignItems: 'flex-start',
-    flex: 0.25,
+    height: 120,
     top: 40,
   },
   lowerview: {
-    flex: 1.75,
+    height: height - 120 - 140,
     alignItems: 'center',
     backgroundColor: '#221E3D',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     width: width,
+  },
+  btnGrp: {
+    height: 140,
+    width: width,
+    backgroundColor: '#221E3D',
+    alignItems: 'center',
+    rowGap: 10,
   },
   bottomGrp: {
     alignItems: 'center',
@@ -162,13 +164,9 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     marginTop: 30,
+    width: width,
   },
-  btnGrp: {
-    position: 'absolute',
-    bottom: 40,
-    alignItems: 'center',
-    rowGap: 10,
-  },
+
   disBtn: {
     height: 54,
     width: 315,
