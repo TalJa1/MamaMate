@@ -72,10 +72,12 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
         </View>
       </View>
       <View style={styles.lowerview}>
-        <View style={styles.bottomGrp}>
-          <Text style={styles.titleTxt}>{title}</Text>
-        </View>
-        <View style={styles.mainContent}>{CustomView}</View>
+        <ScrollView>
+          <View style={styles.bottomGrp}>
+            <Text style={styles.titleTxt}>{title}</Text>
+          </View>
+          <View style={styles.mainContent}>{CustomView}</View>
+        </ScrollView>
       </View>
       <View style={styles.btnGrp}>
         {isDiscard === true ? (
