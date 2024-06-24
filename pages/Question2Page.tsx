@@ -2,13 +2,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
 
 const Question2Page = () => {
   const [choice, setChoice] = React.useState<number>(0);
   const renderView = () => {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={() => setChoice(1)}>
           <Text
             style={[
@@ -45,7 +45,7 @@ const Question2Page = () => {
             Ngày sinh dự kiến của con
           </Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   };
 

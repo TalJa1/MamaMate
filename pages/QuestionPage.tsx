@@ -77,7 +77,7 @@ const QuestionPage = () => {
             onPress={() => navigation.navigate('Question2')}>
             <Text style={styles.nextBtnText}>Tiếp theo</Text>
           </TouchableOpacity>
-          <View style={styles.img}>{standingYogaSVG(vw(80), vh(40))}</View>
+          <View style={styles.img}>{standingYogaSVG(vw(80), vh(34))}</View>
         </View>
       </View>
     </SafeAreaView>
@@ -120,6 +120,8 @@ const styles = StyleSheet.create({
   },
   img: {
     opacity: 0.2,
+    position: 'absolute',
+    bottom: 0,
   },
   bottomGrp: {
     alignItems: 'center',

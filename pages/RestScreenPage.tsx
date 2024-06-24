@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -46,7 +47,7 @@ const RestScreenPage = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {layoutIndex === 1 ? (
         <View style={styles.imageHalf}>
           <Image source={require('../assets/halfTimetable.png')} />
@@ -88,7 +89,7 @@ const RestScreenPage = () => {
           <Text style={styles.nextBtnTxt}>Tiếp tục</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

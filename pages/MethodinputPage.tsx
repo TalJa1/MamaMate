@@ -9,6 +9,7 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,7 +36,7 @@ const MethodinputPage = () => {
 
   const renderView = () => {
     return value !== 3 ? (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.columnStyle}>
           <Text style={styles.inputTxt}>Ngày</Text>
           <View>
@@ -72,7 +73,7 @@ const MethodinputPage = () => {
             <Text style={styles.timeTxt}>{date.year}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     ) : (
       <View>
         <Text>For 3 only</Text>

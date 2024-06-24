@@ -3,10 +3,10 @@ import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {
   Text,
-  View,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,7 +17,7 @@ const MenstrualcyclePage = () => {
   const [amount, setAmount] = React.useState('01');
   const renderView = () => {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <TouchableOpacity style={styles.inputDay}>
           <Text style={styles.chosendayTxt}>
             {amount === '' ? '' : Array.from(amount)[0]}
@@ -28,7 +28,7 @@ const MenstrualcyclePage = () => {
           </Text>
         </TouchableOpacity>
         <Text style={styles.dayTxt}>ngày</Text>
-      </View>
+      </SafeAreaView>
     );
   };
 

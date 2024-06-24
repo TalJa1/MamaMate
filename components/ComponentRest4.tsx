@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingHorizontal: 30,
+    // rowGap: vh(1),
   },
 
   titleTxt: {
