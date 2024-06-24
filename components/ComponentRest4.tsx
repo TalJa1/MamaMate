@@ -1,19 +1,18 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
+import {mamaMateRedSVG, sleepingChildSVG} from '../assets/svgXml';
+import {vh, vw} from '../styles/stylesheet';
 
 const ComponentRest4 = () => {
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/RestAssets/mamaMate2.png')} />
+      {mamaMateRedSVG(vw(30), vh(10))}
       <Text style={styles.titleTxt}>
         Con sẽ <Text style={styles.titleTxtinline}>"Tốt bụng và dịu dàng"</Text>{' '}
         như bố mẹ mong muốn.
       </Text>
-      <Image
-        style={styles.florImg}
-        source={require('../assets/RestAssets/sleepingChild.png')}
-      />
+      {sleepingChildSVG(vw(80), vh(40))}
       <Text style={styles.titleTxt}>
         Hơn nữa con sẽ cùng mẹ thật khỏe mạnh và hạnh phúc.
       </Text>
@@ -27,7 +26,6 @@ const styles = StyleSheet.create({
   },
 
   titleTxt: {
-    marginTop: 30,
     textAlign: 'center',
     color: '#221E3D',
     fontSize: 20,
@@ -38,9 +36,6 @@ const styles = StyleSheet.create({
     color: '#AA3A3A',
     fontSize: 20,
     fontWeight: '800',
-  },
-  florImg: {
-    marginTop: 40,
   },
 });
 

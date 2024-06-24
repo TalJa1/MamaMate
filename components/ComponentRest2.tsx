@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
+import {vh, vw} from '../styles/stylesheet';
+import {FrameSVG} from '../assets/svgXml';
 
 const ComponentRest2 = () => {
   return (
@@ -9,10 +11,7 @@ const ComponentRest2 = () => {
         Ứng dụng này sẽ giúp bố mẹ cảm thấy yên tâm hơn nếu như được cung cấp
         một số thông tin chi tiết hơn nữa ạ
       </Text>
-      <Image
-        style={styles.mainImage}
-        source={require('../assets/RestAssets/Frame.png')}
-      />
+      {FrameSVG(vw(80), vh(45))}
     </View>
   );
 };
@@ -20,7 +19,7 @@ const ComponentRest2 = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginVertical: 20,
+    rowGap: vh(2),
     paddingHorizontal: 30,
   },
   titleTxt: {
@@ -28,9 +27,6 @@ const styles = StyleSheet.create({
     color: '#221E3D',
     fontWeight: '800',
     fontSize: 20,
-  },
-  mainImage: {
-    marginTop: 50,
   },
 });
 

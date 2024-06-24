@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     top: vh(5),
   },
   mainContent: {
-    marginTop: vh(8),
+    marginTop: vh(6),
     width: width,
     alignItems: 'center',
     justifyContent: 'center',
