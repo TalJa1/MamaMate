@@ -47,14 +47,28 @@ const MethodinputPage = () => {
         <Text style={styles.dashed}>-</Text>
         <View style={styles.columnStyle}>
           <Text style={styles.inputTxt}>Tháng</Text>
-          <TouchableOpacity style={styles.btnOpacity}>
+          <TouchableOpacity
+            style={styles.btnOpacity}
+            onPress={() =>
+              setDate(prevDate => ({
+                ...prevDate,
+                month: '02',
+              }))
+            }>
             <Text style={styles.timeTxt}>{date.month}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.dashed}>-</Text>
         <View style={styles.columnStyle}>
           <Text style={styles.inputTxt}>Năm</Text>
-          <TouchableOpacity style={styles.btnOpacity}>
+          <TouchableOpacity
+            style={styles.btnOpacity}
+            onPress={() =>
+              setDate(prevDate => ({
+                ...prevDate,
+                year: '2024',
+              }))
+            }>
             <Text style={styles.timeTxt}>{date.year}</Text>
           </TouchableOpacity>
         </View>
