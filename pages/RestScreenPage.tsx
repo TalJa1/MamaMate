@@ -14,6 +14,8 @@ import ComponentRest1 from '../components/ComponentRest1';
 import ComponentRest2 from '../components/ComponentRest2';
 import ComponentRest3 from '../components/ComponentRest3';
 import ComponentRest4 from '../components/ComponentRest4';
+import {vh, vw} from '../styles/stylesheet';
+import {backIconSVG} from '../assets/svgXml';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -62,10 +64,7 @@ const RestScreenPage = () => {
               navigation.goBack();
             }
           }}>
-          <Image
-            style={styles.backBtn}
-            source={require('../assets/Icons/backIcon.png')}
-          />
+          {backIconSVG(vw(6), vh(6))}
         </TouchableOpacity>
       </View>
       <View style={styles.mainContent}>{renderItem()}</View>
@@ -106,28 +105,25 @@ const styles = StyleSheet.create({
   },
   upperview: {
     alignItems: 'flex-start',
-    top: 40,
+    top: vh(5),
   },
   mainContent: {
-    marginTop: 80,
+    marginTop: vh(8),
     width: width,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backBtn: {
-    width: 30,
-    height: 40,
-    marginLeft: 20,
-  },
   backBtnOpa: {
     zIndex: 1,
+    position: 'relative',
+    left: vw(6),
   },
   btnGrp: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 30,
     width: width,
     alignItems: 'center',
-    rowGap: 10,
+    rowGap: vh(1),
   },
   disBtn: {
     height: 54,

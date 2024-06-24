@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import React from 'react';
+import {childOnHandSVG} from '../assets/svgXml';
+import {vh, vw} from '../styles/stylesheet';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -35,9 +37,7 @@ const ComponentRest1 = () => {
           </View>
         </View>
       </View>
-      <View style={styles.mainImg}>
-        <Image source={require('../assets/RestAssets/childOnHand.png')} />
-      </View>
+      <View style={styles.mainImg}>{childOnHandSVG(vw(65), vh(40))}</View>
     </View>
   );
 };
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: width,
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: vh(3),
   },
   inputTxt: {
     color: '#221E3D',
@@ -63,8 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   btnOpacity: {
-    height: 70,
-    width: 100,
+    width: width,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -79,12 +78,12 @@ const styles = StyleSheet.create({
     top: 15,
   },
   columnStyle: {
-    rowGap: 13,
+    rowGap: vh(1),
   },
   mainImg: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: vh(1),
   },
 });
 
