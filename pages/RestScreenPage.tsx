@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   btnGrp: {
     position: 'absolute',
-    bottom: 30,
+    bottom: vh(1),
     width: width,
     alignItems: 'center',
     rowGap: vh(1),
