@@ -139,11 +139,11 @@ const styles = StyleSheet.create({
     marginTop: vh(10),
   },
   titleImgContainer: {
+    position: 'relative',
+    top: vh(5),
     width: width,
     alignItems: 'center',
     zIndex: 1,
-    position: 'relative',
-    top: vh(3),
   },
   backBtnOpa: {
     zIndex: 2,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#E5CFEF',
     textAlign: 'center',
-    paddingBottom: vh(2),
+    paddingVertical: vh(2),
     paddingHorizontal: 30,
     borderBottomWidth: 1,
     fontWeight: '800',
