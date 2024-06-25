@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
     flex: 0.5,
   },
   mainContent: {
-    flex: 1.5,
+    flex: 1,
     width: width,
     alignItems: 'center',
     justifyContent: 'center',
     rowGap: vh(2),
   },
   lowerview: {
-    flex: 1.6,
+    flex: 1.5,
     backgroundColor: '#A283C8',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 1,
     position: 'relative',
-    top: vh(5),
+    top: vh(8),
   },
   nextBtn: {
     backgroundColor: '#E5CFEF',
