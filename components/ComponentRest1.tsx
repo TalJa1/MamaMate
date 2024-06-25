@@ -9,52 +9,53 @@ const {width, height} = Dimensions.get('screen');
 
 const ComponentRest1 = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <View>
         <Text style={styles.titleTxt}>Ngày sinh dự kiến của mẹ:</Text>
       </View>
-      <View style={styles.container}>
-        <View style={styles.columnStyle}>
-          <Text style={styles.inputTxt}>Ngày</Text>
-          <View>
+      <View style={styles.bottomGrp}>
+        <View style={styles.datestyle}>
+          <View style={styles.columnStyle}>
+            <Text style={styles.inputTxt}>Ngày</Text>
+            <View>
+              <View style={styles.btnOpacity}>
+                <Text style={styles.timeTxt}>1</Text>
+              </View>
+            </View>
+          </View>
+          <Text style={styles.dashed}>-</Text>
+          <View style={styles.columnStyle}>
+            <Text style={styles.inputTxt}>Tháng</Text>
             <View style={styles.btnOpacity}>
               <Text style={styles.timeTxt}>1</Text>
             </View>
           </View>
-        </View>
-        <Text style={styles.dashed}>-</Text>
-        <View style={styles.columnStyle}>
-          <Text style={styles.inputTxt}>Tháng</Text>
-          <View style={styles.btnOpacity}>
-            <Text style={styles.timeTxt}>1</Text>
+          <Text style={styles.dashed}>-</Text>
+          <View style={styles.columnStyle}>
+            <Text style={styles.inputTxt}>Năm</Text>
+            <View style={styles.btnOpacity}>
+              <Text style={styles.timeTxt}>2021</Text>
+            </View>
           </View>
         </View>
-        <Text style={styles.dashed}>-</Text>
-        <View style={styles.columnStyle}>
-          <Text style={styles.inputTxt}>Năm</Text>
-          <View style={styles.btnOpacity}>
-            <Text style={styles.timeTxt}>2021</Text>
-          </View>
-        </View>
+        <View style={styles.mainImg}>{childOnHandSVG(vw(65), vh(40))}</View>
       </View>
-      <View style={styles.mainImg}>{childOnHandSVG(vw(65), vh(40))}</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {},
   titleTxt: {
     textAlign: 'center',
     color: '#221E3D',
     fontSize: 20,
     fontWeight: '800',
   },
-  container: {
+  datestyle: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: width,
-    alignItems: 'center',
-    marginTop: vh(3),
   },
   inputTxt: {
     color: '#221E3D',
@@ -62,9 +63,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 16,
   },
+  bottomGrp: {
+    marginTop: vh(5),
+  },
   btnOpacity: {
     width: width,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   timeTxt: {
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   dashed: {
     color: '#221E3D',
     position: 'relative',
-    top: 15,
+    top: vh(6),
   },
   columnStyle: {
     rowGap: vh(1),
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
   mainImg: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: vh(1),
   },
 });
 

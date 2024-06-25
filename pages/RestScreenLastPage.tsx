@@ -11,6 +11,8 @@ import {
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {backPinkbuttonSVG} from '../assets/svgXml';
+import {vh, vw} from '../styles/stylesheet';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -31,10 +33,7 @@ const RestScreenLastPage = () => {
           onPress={() => {
             navigation.goBack();
           }}>
-          <Image
-            style={styles.backBtn}
-            source={require('../assets/Icons/backIcon2.png')}
-          />
+          {backPinkbuttonSVG(vw(6), vh(6))}
         </TouchableOpacity>
         <View style={styles.titleImgContainer}>
           <Image source={require('../assets/RestAssets/sesameSeeds.png')} />
@@ -44,10 +43,7 @@ const RestScreenLastPage = () => {
         <View style={styles.mainContent}>
           <Text style={styles.titleTxt}>Hiện tại con giống như một:</Text>
           <Text style={styles.desTxt}>“HẠT VỪNG”</Text>
-          <Image
-            style={styles.heartStyle}
-            source={require('../assets/heart.png')}
-          />
+          <Image source={require('../assets/heart.png')} />
           <View>
             <Text>Cân nặng: {babySize.weight}kg</Text>
             <Text>Chiều cao: {babySize.height}cm</Text>
@@ -70,23 +66,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#221E3D',
     width: width,
   },
-  imageHalf: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
   upperview: {
     alignItems: 'flex-start',
-    top: 40,
-    flex: 0.4,
+    flex: 0.5,
   },
   mainContent: {
-    flex: 1.6,
-    // marginTop: 120,
+    flex: 1.5,
     width: width,
     alignItems: 'center',
     justifyContent: 'center',
-    rowGap: 10,
+    rowGap: vh(2),
   },
   lowerview: {
     flex: 1.6,
@@ -94,28 +83,24 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
-  backBtn: {
-    width: 30,
-    height: 40,
-    marginLeft: 20,
-  },
   backBtnOpa: {
     zIndex: 1,
+    position: 'relative',
+    top: vh(3),
+    left: vw(8),
   },
   btnGrp: {
     position: 'absolute',
-    bottom: 40,
+    bottom: vh(6),
     width: width,
     alignItems: 'center',
-    rowGap: 10,
   },
   titleImgContainer: {
     width: width,
-    justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
     position: 'relative',
-    bottom: 0,
+    top: vh(5),
   },
   nextBtn: {
     backgroundColor: '#E5CFEF',
@@ -125,7 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   nextBtnTxt: {
     fontSize: 16,
     fontWeight: '700',
@@ -141,9 +125,6 @@ const styles = StyleSheet.create({
     color: '#221E3D',
     fontWeight: '800',
     fontSize: 24,
-  },
-  heartStyle: {
-    marginVertical: 10,
   },
 });
 

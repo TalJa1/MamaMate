@@ -48,14 +48,14 @@ const RestScreenPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {layoutIndex === 1 ? (
-        <View style={styles.imageHalf}>
-          <Image source={require('../assets/halfTimetable.png')} />
-        </View>
-      ) : (
-        <></>
-      )}
       <View style={styles.upperview}>
+        {layoutIndex === 1 ? (
+          <View style={styles.imageHalf}>
+            <Image source={require('../assets/halfTimetable.png')} />
+          </View>
+        ) : (
+          <></>
+        )}
         <TouchableOpacity
           style={styles.backBtnOpa}
           onPress={() => {
@@ -106,18 +106,18 @@ const styles = StyleSheet.create({
   },
   upperview: {
     alignItems: 'flex-start',
-    top: vh(5),
+    height: vh(10),
   },
   mainContent: {
-    marginTop: vh(6),
+    marginTop: vh(3),
     width: width,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   backBtnOpa: {
     zIndex: 1,
     position: 'relative',
-    left: vw(6),
+    top: vh(3),
+    left: vw(8),
   },
   btnGrp: {
     position: 'absolute',

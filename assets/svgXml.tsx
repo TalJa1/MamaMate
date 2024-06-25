@@ -11,6 +11,15 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const backPinkbuttonSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.742 10.5H24V13.5H5.742L13.788 21.546L11.667 23.667L0 12L11.667 0.333008L13.788 2.45401L5.742 10.5Z" fill="#AF90D6" style="fill:#AF90D6;fill:color(display-p3 0.6863 0.5647 0.8392);fill-opacity:1;"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const sleepingChildSVG = (w?: any, h?: any) => {
   const xml = `<svg width="286" height="254" viewBox="0 0 286 254" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_73_2678)">
