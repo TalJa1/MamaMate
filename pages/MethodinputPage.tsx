@@ -9,8 +9,8 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  SafeAreaView,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -27,7 +27,6 @@ const MethodinputPage = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'MethodInput'>>();
   const {value} = route.params;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [date, setDate] = React.useState({
     day: 'DD',
     month: 'MM',

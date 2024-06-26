@@ -8,7 +8,6 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';
@@ -22,6 +21,7 @@ import {
   momAndchildSVG,
   yogaSVG,
 } from '../assets/svgXml';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const {width} = Dimensions.get('window');
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};

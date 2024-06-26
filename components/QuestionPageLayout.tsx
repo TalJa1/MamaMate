@@ -8,7 +8,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
 } from 'react-native';
 import React, {ReactNode} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -16,6 +15,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageSource} from '../services/imageHelper';
 import {vh, vw} from '../styles/stylesheet';
 import {backIconSVG} from '../assets/svgXml';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 

@@ -2,7 +2,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
-import {Text, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Question2Page = () => {
   const [choice, setChoice] = React.useState<number>(0);

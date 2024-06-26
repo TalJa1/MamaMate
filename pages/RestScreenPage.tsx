@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -17,6 +16,7 @@ import ComponentRest3 from '../components/ComponentRest3';
 import ComponentRest4 from '../components/ComponentRest4';
 import {vh, vw} from '../styles/stylesheet';
 import {backIconSVG} from '../assets/svgXml';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
