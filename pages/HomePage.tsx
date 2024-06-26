@@ -1,12 +1,15 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text} from 'react-native';
+import {ScrollView, StyleSheet, Text} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {vh, vw} from '../styles/stylesheet';
 
 const HomePage = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>HomePage</Text>
+      <ScrollView>
+        <Text style={styles.firstTxt}>Tuần thai hiện tại:</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -14,5 +17,15 @@ const HomePage = () => {
 export default HomePage;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingHorizontal: vw(3),
+    backgroundColor: '#221E3D',
+    height: vh(100),
+    paddingTop: vh(1),
+  },
+  firstTxt: {
+    fontSize: 20,
+    fontWeight: 700,
+    color: 'white',
+  },
 });

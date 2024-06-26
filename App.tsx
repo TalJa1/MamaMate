@@ -30,105 +30,107 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   const TabNavigator = () => {
     return (
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          // tabBarLabel: '',
-          tabBarActiveTintColor: '#E5CFEF',
-          tabBarShowLabel: false,
-          tabBarStyle: {
-            borderTopLeftRadius: 26,
-            borderTopRightRadius: 26,
-            backgroundColor: '#000000',
-            height: vh(9),
-          },
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={HomePage}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color, focused, size}) => {
-              return focused ? (
-                <View style={[styles.container, {width: size}]}>
-                  {homeIconSVG(vw(6), vh(6), color)}
-                  <View style={[styles.dotStyle, {backgroundColor: color}]} />
-                </View>
-              ) : (
-                <View>{homeIconSVG(vw(6), vh(6), color)}</View>
-              );
+      <View style={styles.tabnavigationStyle}>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            tabBarActiveTintColor: '#E5CFEF',
+            tabBarShowLabel: false,
+            tabBarStyle: {
+              borderTopColor: '#000000',
+              borderTopLeftRadius: 26,
+              borderTopRightRadius: 26,
+              backgroundColor: '#000000',
+              height: vh(9),
             },
-          }}
-        />
-        <Tab.Screen
-          name="Date"
-          component={HomePage}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color, focused, size}) => {
-              return focused ? (
-                <View style={[styles.container, {width: size}]}>
-                  {dateIconSVG(vw(6), vh(6), color)}
-                  <View style={[styles.dotStyle, {backgroundColor: color}]} />
-                </View>
-              ) : (
-                <View>{dateIconSVG(vw(6), vh(6), color)}</View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="Time"
-          component={HomePage}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color, focused, size}) => {
-              return focused ? (
-                <View style={[styles.container, {width: size}]}>
-                  {timeIconSVG(vw(6), vh(6), color)}
-                  <View style={[styles.dotStyle, {backgroundColor: color}]} />
-                </View>
-              ) : (
-                <View>{timeIconSVG(vw(6), vh(6), color)}</View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="Data"
-          component={HomePage}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color, focused, size}) => {
-              return focused ? (
-                <View style={[styles.container, {width: size}]}>
-                  {dataIconSVG(vw(6), vh(6), color)}
-                  <View style={[styles.dotStyle, {backgroundColor: color}]} />
-                </View>
-              ) : (
-                <View>{dataIconSVG(vw(6), vh(6), color)}</View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={HomePage}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color, focused, size}) => {
-              return focused ? (
-                <View style={[styles.container, {width: size}]}>
-                  {settingsIconSVG(vw(6), vh(6), color)}
-                  <View style={[styles.dotStyle, {backgroundColor: color}]} />
-                </View>
-              ) : (
-                <View>{settingsIconSVG(vw(6), vh(6), color)}</View>
-              );
-            },
-          }}
-        />
-      </Tab.Navigator>
+          }}>
+          <Tab.Screen
+            name="Home"
+            component={HomePage}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, focused, size}) => {
+                return focused ? (
+                  <View style={[styles.container, {width: size}]}>
+                    {homeIconSVG(vw(6), vh(6), color)}
+                    <View style={[styles.dotStyle, {backgroundColor: color}]} />
+                  </View>
+                ) : (
+                  <View>{homeIconSVG(vw(6), vh(6), color)}</View>
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Date"
+            component={HomePage}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, focused, size}) => {
+                return focused ? (
+                  <View style={[styles.container, {width: size}]}>
+                    {dateIconSVG(vw(6), vh(6), color)}
+                    <View style={[styles.dotStyle, {backgroundColor: color}]} />
+                  </View>
+                ) : (
+                  <View>{dateIconSVG(vw(6), vh(6), color)}</View>
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Time"
+            component={HomePage}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, focused, size}) => {
+                return focused ? (
+                  <View style={[styles.container, {width: size}]}>
+                    {timeIconSVG(vw(6), vh(6), color)}
+                    <View style={[styles.dotStyle, {backgroundColor: color}]} />
+                  </View>
+                ) : (
+                  <View>{timeIconSVG(vw(6), vh(6), color)}</View>
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Data"
+            component={HomePage}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, focused, size}) => {
+                return focused ? (
+                  <View style={[styles.container, {width: size}]}>
+                    {dataIconSVG(vw(6), vh(6), color)}
+                    <View style={[styles.dotStyle, {backgroundColor: color}]} />
+                  </View>
+                ) : (
+                  <View>{dataIconSVG(vw(6), vh(6), color)}</View>
+                );
+              },
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={HomePage}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({color, focused, size}) => {
+                return focused ? (
+                  <View style={[styles.container, {width: size}]}>
+                    {settingsIconSVG(vw(6), vh(6), color)}
+                    <View style={[styles.dotStyle, {backgroundColor: color}]} />
+                  </View>
+                ) : (
+                  <View>{settingsIconSVG(vw(6), vh(6), color)}</View>
+                );
+              },
+            }}
+          />
+        </Tab.Navigator>
+      </View>
     );
   };
   return (
@@ -205,4 +207,5 @@ const styles = StyleSheet.create({
     width: 7,
     borderRadius: 7,
   },
+  tabnavigationStyle: {backgroundColor: '#221E3D', flex: 1},
 });
