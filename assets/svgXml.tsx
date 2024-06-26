@@ -11,6 +11,23 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const dateIconSVG = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.5161 1.3335V6.66683M8.51613 1.3335V6.66683M23.8262 13.3335H1.20591M23.8262 13.3335C23.5486 5.72386 20.7215 3.3335 12.5161 3.3335C4.31074 3.3335 1.4836 5.72386 1.20591 13.3335M23.8262 13.3335C23.8419 13.7613 23.8495 14.2056 23.8495 14.6668C23.8495 23.3335 21.1828 26.0002 12.5161 26.0002C3.84947 26.0002 1.1828 23.3335 1.1828 14.6668C1.1828 14.2056 1.1903 13.7613 1.20591 13.3335" stroke=${color} style="stroke:#EEE4FF;stroke:color(display-p3 0.9349 0.8934 1.0000);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const homeIconSVG = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.18273 6.33337C7.13119 4.38491 9.30745 2.89202 10.7794 1.98787C11.8522 1.32891 13.1799 1.32891 14.2527 1.98788C15.7247 2.89202 17.9009 4.38491 19.8494 6.33337C24.0739 10.5579 23.8494 13 23.8494 17C23.8494 18.8798 23.7022 20.4651 23.5461 21.6176C23.3819 22.8301 22.3243 23.6667 21.1007 23.6667H19.1827C17.71 23.6667 16.5161 22.4728 16.5161 21V18.3334C16.5161 17.2725 16.0946 16.2551 15.3445 15.5049C14.5943 14.7548 13.5769 14.3334 12.5161 14.3334C11.4552 14.3334 10.4378 14.7548 9.68764 15.5049C8.93749 16.2551 8.51607 17.2725 8.51607 18.3334V21C8.51607 22.4728 7.32216 23.6667 5.8494 23.6667H3.93147C2.70782 23.6667 1.65026 22.8301 1.48604 21.6176C1.32996 20.4651 1.18274 18.8798 1.18274 17C1.18274 13 0.958205 10.5579 5.18273 6.33337Z" stroke=${color} style="stroke:#EEE4FF;stroke:color(display-p3 0.9349 0.8934 1.0000);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const backPinkbuttonSVG = (w?: any, h?: any) => {
   const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.742 10.5H24V13.5H5.742L13.788 21.546L11.667 23.667L0 12L11.667 0.333008L13.788 2.45401L5.742 10.5Z" fill="#AF90D6" style="fill:#AF90D6;fill:color(display-p3 0.6863 0.5647 0.8392);fill-opacity:1;"/>
