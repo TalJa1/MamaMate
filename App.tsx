@@ -14,7 +14,13 @@ import MedicationusedPage from './pages/MedicationusedPage';
 import RestScreenPage from './pages/RestScreenPage';
 import RestScreenLastPage from './pages/RestScreenLastPage';
 import HomePage from './pages/HomePage';
-import {dateIconSVG, homeIconSVG} from './assets/svgXml';
+import {
+  dataIconSVG,
+  dateIconSVG,
+  homeIconSVG,
+  settingsIconSVG,
+  timeIconSVG,
+} from './assets/svgXml';
 import {vh, vw} from './styles/stylesheet';
 import {StyleSheet, View} from 'react-native';
 
@@ -34,7 +40,7 @@ const App = () => {
             borderTopLeftRadius: 26,
             borderTopRightRadius: 26,
             backgroundColor: '#000000',
-            height: vh(7),
+            height: vh(9),
           },
         }}>
         <Tab.Screen
@@ -79,11 +85,11 @@ const App = () => {
             tabBarIcon: ({color, focused, size}) => {
               return focused ? (
                 <View style={[styles.container, {width: size}]}>
-                  {homeIconSVG(vw(6), vh(6), color)}
+                  {timeIconSVG(vw(6), vh(6), color)}
                   <View style={[styles.dotStyle, {backgroundColor: color}]} />
                 </View>
               ) : (
-                <View>{homeIconSVG(vw(6), vh(6), color)}</View>
+                <View>{timeIconSVG(vw(6), vh(6), color)}</View>
               );
             },
           }}
@@ -96,11 +102,11 @@ const App = () => {
             tabBarIcon: ({color, focused, size}) => {
               return focused ? (
                 <View style={[styles.container, {width: size}]}>
-                  {homeIconSVG(vw(6), vh(6), color)}
+                  {dataIconSVG(vw(6), vh(6), color)}
                   <View style={[styles.dotStyle, {backgroundColor: color}]} />
                 </View>
               ) : (
-                <View>{homeIconSVG(vw(6), vh(6), color)}</View>
+                <View>{dataIconSVG(vw(6), vh(6), color)}</View>
               );
             },
           }}
@@ -113,11 +119,11 @@ const App = () => {
             tabBarIcon: ({color, focused, size}) => {
               return focused ? (
                 <View style={[styles.container, {width: size}]}>
-                  {homeIconSVG(vw(6), vh(6), color)}
+                  {settingsIconSVG(vw(6), vh(6), color)}
                   <View style={[styles.dotStyle, {backgroundColor: color}]} />
                 </View>
               ) : (
-                <View>{homeIconSVG(vw(6), vh(6), color)}</View>
+                <View>{settingsIconSVG(vw(6), vh(6), color)}</View>
               );
             },
           }}
