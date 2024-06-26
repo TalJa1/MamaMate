@@ -24,3 +24,14 @@ export const getTitleSource = (index: number) => {
       return '';
   }
 };
+
+export const getHomeImageSource = (imageName: string) => {
+  switch (imageName) {
+    case 'nutrition':
+      return require('../assets/nutrition.png');
+    case 'workout':
+      return require('../assets/workout.png');
+    case 'familydiscussion':
+      return require('../assets/familydiscussion.png');
+  }
+};
