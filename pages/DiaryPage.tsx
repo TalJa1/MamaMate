@@ -52,8 +52,21 @@ const DiaryPage: React.FC = () => {
         <CalendarList
           theme={{
             calendarBackground: '#221E3D',
+            dayTextColor: '#ffffff',
+            todayTextColor: '#221E3D',
+            monthTextColor: '#96C1DE',
+            todayBackgroundColor: '#E5CFEF',
+            textDayFontSize: 18,
+            textDayFontWeight: '400',
           }}
           firstDay={1}
+          markedDates={{
+            '2024-06-26': {color: '#AF90D6', startingDay: true},
+            '2024-06-27': {color: '#AF90D6'},
+            '2024-06-28': {color: '#AF90D6'},
+            '2024-06-29': {color: '#AF90D6', endingDay: true},
+          }}
+          markingType="period"
         />
       </View>
     </SafeAreaView>
