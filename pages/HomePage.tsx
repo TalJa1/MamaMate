@@ -19,16 +19,9 @@ import {
   getHomeImageNotiSource,
 } from '../services/imageHelper';
 import weekNoti from '../data/weekNoti.json';
-import {useFocusEffect} from '@react-navigation/native';
 
 const HomePage = () => {
   const [currentWeek, setCurrentWeek] = React.useState<number>(1);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      StatusBar.setBackgroundColor('#221E3D');
-    }, []),
-  );
 
   return (
     <SafeAreaView style={styles.container}>
