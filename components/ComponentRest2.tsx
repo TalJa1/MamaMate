@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
-import {vh, vw} from '../styles/stylesheet';
-import {FrameSVG} from '../assets/svgXml';
+import {vh} from '../styles/stylesheet';
 
 const ComponentRest2 = () => {
   return (
@@ -11,7 +10,7 @@ const ComponentRest2 = () => {
         Ứng dụng này sẽ giúp bố mẹ cảm thấy yên tâm hơn nếu như được cung cấp
         một số thông tin chi tiết hơn nữa ạ
       </Text>
-      {FrameSVG(vw(80), vh(45))}
+      <Image source={require('../assets/Frame.png')} />
     </View>
   );
 };

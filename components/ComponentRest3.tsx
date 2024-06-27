@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import {vh, vw} from '../styles/stylesheet';
-import {mamaMateRedSVG, mamaWithFlorSVG} from '../assets/svgXml';
+import {mamaMateRedSVG} from '../assets/svgXml';
 
 const ComponentRest3 = () => {
   return (
@@ -14,7 +14,9 @@ const ComponentRest3 = () => {
           Mamamate sẽ giúp mẹ và con khỏe mạnh thôi mà!
         </Text>
       </View>
-      <View>{mamaWithFlorSVG(vw(80), vh(40))}</View>
+      <View>
+        <Image source={require('../assets/mamaWithFlor.png')} />
+      </View>
     </View>
   );
 };

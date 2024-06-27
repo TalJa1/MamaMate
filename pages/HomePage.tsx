@@ -102,6 +102,26 @@ const HomePage = () => {
             {pregnancySVG(100, 100)}
           </View>
         </View>
+        <View style={styles.tabSchedule}>
+          <View style={styles.tabScheduleTop}>
+            <Text style={styles.tabScheduleTopTxt}>Lịch khám trong tuần</Text>
+            <TouchableOpacity>
+              <Text style={styles.tabScheduleTopTxtBtn}>Xem thêm{'>'} </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.tabScheduleBottom}>
+            <View style={styles.tabScheduleBottomImg}>
+              <Image source={require('../assets/medicalTool.png')} />
+            </View>
+            <View style={styles.tabScheduleBottomTxtContainer}>
+              <Text style={styles.tabScheduleBottomTxt}>
+                Xét nghiệm sinh hóa máu trong tam cá nguyệt thứ 2: AFP, hcG,
+                uE3, inhbinA
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View></View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -216,8 +236,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   plusStyle: {
-    height: 30,
-    width: 30,
+    height: 35,
+    width: 35,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -229,8 +249,54 @@ const styles = StyleSheet.create({
   momFeelingright: {
     width: vw(45),
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
     columnGap: vw(2),
   },
+  tabSchedule: {
+    flexDirection: 'column',
+    width: vw(90),
+    height: 120,
+    marginVertical: vh(2),
+    backgroundColor: '#3F5066',
+    borderRadius: 20,
+    justifyContent: 'space-evenly',
+  },
+  tabScheduleTop: {
+    flexDirection: 'row',
+    width: vw(90),
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  tabScheduleBottom: {
+    flexDirection: 'row',
+    width: vw(90),
+    columnGap: vw(2),
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  tabScheduleTopTxt: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  tabScheduleTopTxtBtn: {
+    color: '#FFFFFF80',
+    fontWeight: '400',
+    fontSize: 12,
+  },
+  tabScheduleBottomTxt: {
+    flexWrap: 'wrap',
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#FFFFFF',
+  },
+  tabScheduleBottomTxtContainer: {
+    width: vw(70),
+  },
+  tabScheduleBottomImg: {
+    width: vw(20),
+    alignItems: 'center',
+  },
+  
 });
