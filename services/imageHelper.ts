@@ -35,3 +35,12 @@ export const getHomeImageSource = (imageName: string) => {
       return require('../assets/familydiscussion.png');
   }
 };
+
+export const getHomeImageNotiSource = (imageName: string) => {
+  switch (imageName) {
+    case 'iconEyeClose':
+      return require('../assets/iconEyeClose.png');
+    case 'iconPregnant':
+      return require('../assets/iconPregnant.png');
+  }
+};

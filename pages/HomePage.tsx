@@ -7,19 +7,25 @@ import {
   TouchableOpacity,
   View,
   Image,
+  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {vh, vw} from '../styles/stylesheet';
 import {fetusSVG, plusSVG, pregnancySVG} from '../assets/svgXml';
 import homeChoices from '../data/homeChoices.json';
-import {getHomeImageSource} from '../services/imageHelper';
+import {
+  getHomeImageSource,
+  getHomeImageNotiSource,
+} from '../services/imageHelper';
+import weekNoti from '../data/weekNoti.json';
 
 const HomePage = () => {
   const [currentWeek, setCurrentWeek] = React.useState<number>(1);
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#221E3D" />
       <ScrollView>
         <Text style={styles.firstTxt}>Tuần thai hiện tại:</Text>
         <ScrollView horizontal>
@@ -121,7 +127,27 @@ const HomePage = () => {
             </View>
           </View>
         </View>
-        <View></View>
+        <View style={styles.notiContainer}>
+          <Image source={require('../assets/yellowBell.png')} />
+          <Text style={styles.notiContainerTxt}>
+            Lưu ý quan trọng cho tuần này
+          </Text>
+        </View>
+        <View style={styles.notiDataContainerGrp}>
+          {weekNoti.map((v: any, i: number) => (
+            <View key={i} style={styles.notiDataContainer}>
+              <View style={styles.notiDataContainerTxt}>
+                <Text style={styles.txtNoti}>{v.title}</Text>
+              </View>
+              <View style={styles.notiDataContainerImg}>
+                <Image
+                  style={styles.image}
+                  source={getHomeImageNotiSource(v.img)}
+                />
+              </View>
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -138,7 +164,7 @@ const styles = StyleSheet.create({
   },
   firstTxt: {
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: '700',
     color: 'white',
     paddingLeft: vw(2),
   },
@@ -255,22 +281,19 @@ const styles = StyleSheet.create({
   },
   tabSchedule: {
     flexDirection: 'column',
-    width: vw(90),
     height: 120,
     marginVertical: vh(2),
     backgroundColor: '#3F5066',
-    borderRadius: 20,
+    borderRadius: 30,
     justifyContent: 'space-evenly',
   },
   tabScheduleTop: {
     flexDirection: 'row',
-    width: vw(90),
     justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   tabScheduleBottom: {
     flexDirection: 'row',
-    width: vw(90),
     columnGap: vw(2),
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -298,5 +321,47 @@ const styles = StyleSheet.create({
     width: vw(20),
     alignItems: 'center',
   },
-  
+  notiContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    // marginVertical: vh(1),
+  },
+  notiContainerTxt: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 18,
+  },
+  notiDataContainerGrp: {
+    marginVertical: vh(3),
+    width: vw(100) - vw(6),
+    rowGap: vh(2),
+  },
+  notiDataContainer: {
+    flexDirection: 'row',
+    height: 100,
+    backgroundColor: '#AF90D63B',
+    borderRadius: 16,
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+  },
+  notiDataContainerTxt: {
+    width: vw(60),
+    justifyContent: 'center',
+    paddingLeft: vw(2),
+  },
+  notiDataContainerImg: {
+    width: vw(30),
+  },
+  image: {
+    position: 'absolute',
+    right: 0,
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  txtNoti: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 16,
+  },
 });

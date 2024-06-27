@@ -135,7 +135,7 @@ const App = () => {
   };
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
+      <Stack.Navigator initialRouteName="Main">
         {/* Main */}
         <Stack.Screen
           name="Main"
