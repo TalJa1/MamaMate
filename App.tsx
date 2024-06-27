@@ -23,6 +23,7 @@ import {
 } from './assets/svgXml';
 import {vh, vw} from './styles/stylesheet';
 import {StyleSheet, View} from 'react-native';
+import DiaryPage from './pages/DiaryPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,8 +63,8 @@ const App = () => {
             }}
           />
           <Tab.Screen
-            name="Date"
-            component={HomePage}
+            name="Diary"
+            component={DiaryPage}
             options={{
               headerShown: false,
               tabBarIcon: ({color, focused, size}) => {
@@ -135,8 +136,8 @@ const App = () => {
   };
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Onboarding">
-        {/* Main */}
+      <Stack.Navigator initialRouteName="Main">
+        {/* Main for showing all main content of the application */}
         <Stack.Screen
           name="Main"
           component={TabNavigator}
