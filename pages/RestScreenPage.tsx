@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -48,6 +49,7 @@ const RestScreenPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#96C1DE" />
       <View style={styles.upperview}>
         {layoutIndex === 1 ? (
           <View style={styles.imageHalf}>

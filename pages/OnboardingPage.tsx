@@ -8,6 +8,7 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';
@@ -73,6 +74,7 @@ const OnboardingPage = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#AF90D6" />
       <View style={styles.upperview}>{renderContent()}</View>
       <View style={styles.lowerview}>
         <FlatList
