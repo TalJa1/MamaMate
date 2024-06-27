@@ -12,10 +12,17 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {vh, vw} from '../styles/stylesheet';
 import {CalendarList} from 'react-native-calendars';
 import LocaleConfig from '../services/localeConfig';
+import {useFocusEffect} from '@react-navigation/native';
 
 const DiaryPage = () => {
   const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
   const [isMonth, setIsMonth] = React.useState(true);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBackgroundColor('#19162E');
+    }, []),
+  );
 
   React.useEffect(() => {
     LocaleConfig;
