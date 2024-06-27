@@ -336,10 +336,12 @@ const styles = StyleSheet.create({
     marginVertical: vh(3),
     width: vw(100) - vw(6),
     rowGap: vh(2),
+    alignItems: 'center',
   },
   notiDataContainer: {
     flexDirection: 'row',
-    height: 100,
+    height: 94,
+    width: vw(90),
     backgroundColor: '#AF90D63B',
     borderRadius: 16,
     justifyContent: 'space-around',
