@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -42,34 +43,58 @@ const DiaryPage: React.FC = () => {
             position="right"
           />
         </View>
-        <View style={styles.daysOfMonth}>
-          {weekDays.map((day, index) => (
-            <DayOfWeek key={index} day={day} />
-          ))}
-        </View>
+        {isMonth ? (
+          <View style={styles.daysOfMonth}>
+            {weekDays.map((day, index) => (
+              <DayOfWeek key={index} day={day} />
+            ))}
+          </View>
+        ) : (
+          <ScrollView horizontal>
+            {Array.from({length: 41}, (_, index) => (
+              <TouchableOpacity key={index} style={[styles.currentWeekGrp]}>
+                <Text style={styles.currentWeekGrpTxt}>{index + 1}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
       </View>
-      <View>
-        <CalendarList
-          theme={{
-            calendarBackground: '#221E3D',
-            dayTextColor: '#ffffff',
-            todayTextColor: '#221E3D',
-            monthTextColor: '#96C1DE',
-            todayBackgroundColor: '#E5CFEF',
-            textDayFontSize: 18,
-            textDayFontWeight: '400',
-          }}
-          firstDay={1}
-          markedDates={{
-            '2024-06-26': {color: '#AF90D6', startingDay: true},
-            '2024-06-27': {color: '#AF90D6'},
-            '2024-06-28': {color: '#AF90D6'},
-            '2024-06-29': {color: '#AF90D6', endingDay: true},
-          }}
-          markingType="period"
-        />
-      </View>
+      <View>{isMonth ? <CalendarRender /> : <WeekContent />}</View>
     </SafeAreaView>
+  );
+};
+
+const WeekContent = () => {
+  return (
+    <ScrollView>
+      <View>
+        <Text>T</Text>
+      </View>
+    </ScrollView>
+  );
+};
+
+const CalendarRender = () => {
+  return (
+    <CalendarList
+      theme={{
+        calendarBackground: '#221E3D',
+        dayTextColor: '#ffffff',
+        todayTextColor: '#221E3D',
+        monthTextColor: '#96C1DE',
+        todayBackgroundColor: '#E5CFEF',
+        textDayFontSize: 18,
+        textDayFontWeight: '400',
+      }}
+      firstDay={1}
+      markedDates={{
+        '2024-06-26': {color: '#AF90D6', startingDay: true},
+        '2024-06-27': {color: '#AF90D6'},
+        '2024-06-28': {color: '#AF90D6'},
+        '2024-06-29': {color: '#AF90D6', endingDay: true},
+      }}
+      markingType="period"
+    />
   );
 };
 
@@ -126,22 +151,20 @@ const styles = StyleSheet.create({
   },
   diaryMode: {
     backgroundColor: '#19162E',
-    height: vh(15),
+    height: 130,
     overflow: 'hidden',
     paddingHorizontal: vw(3),
-    paddingVertical: vh(3),
+    paddingTop: vh(2),
+    rowGap: vh(1),
   },
   switchMode: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   daysOfMonth: {
     flexDirection: 'row',
-    width: vw(100),
-    position: 'absolute',
-    justifyContent: 'space-evenly',
-    bottom: vh(2),
+    justifyContent: 'space-around',
   },
   modeBtn: {
     height: vh(5),
@@ -155,5 +178,21 @@ const styles = StyleSheet.create({
     color: '#E0E0E0',
     fontWeight: '600',
     fontSize: 18,
+    height: 44,
+    textAlignVertical: 'center',
+  },
+  currentWeekGrp: {
+    height: 44,
+    width: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    marginRight: vw(2),
+    backgroundColor: '#322C56',
+  },
+  currentWeekGrpTxt: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '400',
   },
 });
