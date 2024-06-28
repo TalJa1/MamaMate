@@ -44,3 +44,20 @@ export const getHomeImageNotiSource = (imageName: string) => {
       return require('../assets/iconPregnant.png');
   }
 };
+
+export const getTrackingImageSource = (imageName: string) => {
+  switch (imageName) {
+    case 'weight':
+      return require('../assets/weight.png');
+    case 'belly':
+      return require('../assets/belly.png');
+    case 'smilingFace':
+      return require('../assets/smilingFace.png');
+    case 'identityCard':
+      return require('../assets/identityCard.png');
+    case 'hambarger':
+      return require('../assets/hambarger.png');
+    case 'medicalTool':
+      return require('../assets/medicalTool.png');
+  }
+};
