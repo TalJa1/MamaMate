@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   Image,
-  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -19,13 +18,14 @@ import {
   getHomeImageNotiSource,
 } from '../services/imageHelper';
 import weekNoti from '../data/weekNoti.json';
+import useStatusBar from '../services/customHook';
 
 const HomePage = () => {
   const [currentWeek, setCurrentWeek] = React.useState<number>(1);
+  useStatusBar('#221E3D');
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#221E3D" />
       <ScrollView>
         <Text style={styles.firstTxt}>Tuần thai hiện tại:</Text>
         <ScrollView horizontal>

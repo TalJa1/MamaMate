@@ -3,7 +3,6 @@
 import React from 'react';
 import {
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -27,7 +26,6 @@ const DiaryPage: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#19162E" />
       <View style={styles.diaryMode}>
         <View style={styles.switchMode}>
           <ModeButton

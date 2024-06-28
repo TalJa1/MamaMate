@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -17,8 +16,8 @@ import ComponentRest3 from '../components/ComponentRest3';
 import ComponentRest4 from '../components/ComponentRest4';
 import {vh, vw} from '../styles/stylesheet';
 import {backIconSVG} from '../assets/svgXml';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
+import {SafeAreaView} from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
@@ -46,10 +45,10 @@ const RestScreenPage = () => {
         return <ComponentRest4 />;
     }
   };
+  useStatusBar('#96C1DE');
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#96C1DE" />
       <View style={styles.upperview}>
         {layoutIndex === 1 ? (
           <View style={styles.imageHalf}>

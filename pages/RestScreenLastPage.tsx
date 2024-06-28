@@ -6,7 +6,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -14,6 +13,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {backPinkbuttonSVG} from '../assets/svgXml';
 import {vh, vw} from '../styles/stylesheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -26,9 +26,10 @@ const RestScreenLastPage = () => {
     weight: 0.1,
   });
 
+  useStatusBar('#221E3D');
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#221E3D" />
       <View style={styles.upperview}>
         <TouchableOpacity
           style={styles.backBtnOpa}

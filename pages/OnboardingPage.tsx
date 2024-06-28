@@ -22,7 +22,8 @@ import {
   momAndchildSVG,
   yogaSVG,
 } from '../assets/svgXml';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 
 const {width} = Dimensions.get('window');
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
@@ -72,9 +73,10 @@ const OnboardingPage = () => {
         return <View>{momAndDoctorSVG(vw(80), vh(20))}</View>;
     }
   };
+
+  useStatusBar('#AF90D6');
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#AF90D6" />
       <View style={styles.upperview}>{renderContent()}</View>
       <View style={styles.lowerview}>
         <FlatList
