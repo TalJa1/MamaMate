@@ -1,11 +1,24 @@
 /* eslint-disable prettier/prettier */
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
 import {vh, vw} from '../styles/stylesheet';
 import {getTrackingImageSource} from '../services/imageHelper';
 import LinearGradient from 'react-native-linear-gradient';
+
+interface TrackingFieldModel {
+  img: string;
+  label: string;
+}
 
 const TrackingPage = () => {
   useStatusBar('#221E3D');
@@ -18,26 +31,92 @@ const TrackingPage = () => {
           <TrackingField img="belly" label="Vòng bụng" />
           <TrackingField img="smilingFace" label="Tinh thần" />
         </View>
+        <View style={styles.gradientFieldContainer}>
+          <LinearGradient
+            style={styles.gradientField}
+            colors={['#96C1DE', '#081E2A']}>
+            <View style={styles.gradientFieldImgContainer}>
+              <Image source={require('../assets/pregnancyandHeart.png')} />
+            </View>
+            <View style={styles.gradientFieldTxTContainer}>
+              <Text style={styles.gradientFieldTxTAlbum}>Album ảnh</Text>
+              <Text style={styles.gradientFieldTxTDes}>
+                Hãy tạo một danh sách những điều bạn muốn thực hiện và chia sẻ
+                cùng người đồng hành nhé
+              </Text>
+            </View>
+          </LinearGradient>
+        </View>
+        <View style={styles.trackingTopField}>
+          <TrackingField img="hambarger" label="Bữa ăn" />
+          <TrackingField img="medicalTool" label="Bệnh án" />
+          <TrackingField img="identityCard" label="Cẩm nang" />
+        </View>
+        <View style={styles.gradientFieldContainer}>
+          <LinearGradient
+            style={styles.gradientField}
+            colors={['#081E2A', '#96C1DE']}>
+            <View style={[styles.gradientFieldTxTContainer, {width: vw(55)}]}>
+              <Text
+                style={[
+                  styles.gradientFieldTxTAlbum,
+                  {textAlign: 'left', paddingLeft: vw(2)},
+                ]}>
+                Danh sách ước muốn
+              </Text>
+              <Text
+                style={[
+                  styles.gradientFieldTxTDes,
+                  {textAlign: 'left', paddingLeft: vw(2)},
+                ]}>
+                Hãy tạo một danh sách những điều bạn muốn thực hiện và chia sẻ
+                cùng người đồng hành nhé
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.gradientFieldImgContainer,
+                {width: vw(35), alignItems: 'flex-end'},
+              ]}>
+              <Image source={require('../assets/hashtagAndHeart.png')} />
+            </View>
+          </LinearGradient>
+        </View>
+        <View style={styles.trackingTopField}>
+          <TouchableOpacity style={styles.trackingFieldContainer}>
+            <LinearGradient
+              colors={['#AF90D6', '#5C4B70']}
+              style={[
+                styles.trackingFieldImgContainer,
+                {
+                  flexDirection: 'row',
+                  width: vw(55),
+                  overflow: 'hidden',
+                  justifyContent: 'space-between',
+                },
+              ]}>
+              <Image source={require('../assets/insideChild.png')} />
+              <Image source={require('../assets/clock.png')} />
+            </LinearGradient>
+            <Text style={styles.trackingFieldTxT}>Chuyển động của bé</Text>
+          </TouchableOpacity>
+          <TrackingField img="contractions" label="Cơn gò" />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-interface TrackingFieldModel {
-  img: string;
-  label: string;
-}
-
 const TrackingField: React.FC<TrackingFieldModel> = ({img, label}) => {
   return (
-    <View style={styles.trackingFieldContainer}>
+    <TouchableOpacity style={styles.trackingFieldContainer}>
       <LinearGradient
         colors={['#AF90D6', '#5C4B70']}
         style={styles.trackingFieldImgContainer}>
         <Image source={getTrackingImageSource(img)} />
       </LinearGradient>
       <Text style={styles.trackingFieldTxT}>{label}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -54,11 +133,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textAlign: 'center',
+    marginBottom: vh(3),
   },
   trackingFieldContainer: {
-    width: vw(25),
-    alignSelf: 'center',
-    justifyContent: 'center',
+    alignSelf: 'auto',
+    alignItems: 'center',
   },
   trackingFieldImgContainer: {
     height: 87,
@@ -71,10 +150,44 @@ const styles = StyleSheet.create({
     color: '#EAE1EE',
     fontSize: 18,
     fontWeight: '400',
+    textAlign: 'center',
   },
   trackingTopField: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     width: vw(100),
+  },
+  gradientField: {
+    height: 145,
+    width: vw(90),
+    borderRadius: 10,
+    overflow: 'hidden',
+    flexDirection: 'row',
+  },
+  gradientFieldContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: vh(2),
+  },
+  gradientFieldImgContainer: {
+    width: vw(40),
+  },
+  gradientFieldTxTContainer: {
+    width: vw(50),
+    paddingRight: vw(3),
+    justifyContent: 'center',
+    rowGap: vh(1),
+  },
+  gradientFieldTxTAlbum: {
+    textAlign: 'right',
+    color: '#EAE1EE',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  gradientFieldTxTDes: {
+    textAlign: 'right',
+    color: '#EAE1EE',
+    fontSize: 14,
+    fontWeight: '400',
   },
 });

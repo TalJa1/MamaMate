@@ -59,5 +59,7 @@ export const getTrackingImageSource = (imageName: string) => {
       return require('../assets/hambarger.png');
     case 'medicalTool':
       return require('../assets/medicalTool.png');
+    case 'contractions':
+      return require('../assets/contractions.png');
   }
 };
