@@ -15,6 +15,7 @@ import RestScreenPage from './pages/RestScreenPage';
 import RestScreenLastPage from './pages/RestScreenLastPage';
 import HomePage from './pages/HomePage';
 import {
+  backButtonWithoutArrowSVG,
   dataIconSVG,
   dateIconSVG,
   homeIconSVG,
@@ -22,9 +23,10 @@ import {
   timeIconSVG,
 } from './assets/svgXml';
 import {vh, vw} from './styles/stylesheet';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import DiaryPage from './pages/DiaryPage';
 import TrackingPage from './pages/TrackingPage';
+import WeightTrackingPage from './pages/Tracking/WeightTrackingPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -138,6 +140,29 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
+        {/* Tracking Group */}
+        <Stack.Screen
+          name="WeightTracking"
+          component={WeightTrackingPage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Cân nặng',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#221E3D',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         {/* Main for showing all main content of the application */}
         <Stack.Screen
           name="Main"

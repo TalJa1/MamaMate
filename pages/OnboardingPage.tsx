@@ -8,7 +8,6 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import React from 'react';
 import carousel from '../data/carousel.json';

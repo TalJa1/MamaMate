@@ -14,20 +14,33 @@ import useStatusBar from '../services/customHook';
 import {vh, vw} from '../styles/stylesheet';
 import {getTrackingImageSource} from '../services/imageHelper';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface TrackingFieldModel {
   img: string;
   label: string;
+  onPress?: () => void;
 }
 
 const TrackingPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const handleNavigation = (page: string) => {
+    navigation.navigate(page);
+  };
+
   useStatusBar('#221E3D');
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={styles.titleTxT}>Bộ đo</Text>
         <View style={styles.trackingTopField}>
-          <TrackingField img="weight" label="Cân nặng" />
+          <TrackingField
+            img="weight"
+            label="Cân nặng"
+            onPress={() => handleNavigation('WeightTracking')}
+          />
           <TrackingField img="belly" label="Vòng bụng" />
           <TrackingField img="smilingFace" label="Tinh thần" />
         </View>
@@ -107,9 +120,9 @@ const TrackingPage = () => {
   );
 };
 
-const TrackingField: React.FC<TrackingFieldModel> = ({img, label}) => {
+const TrackingField: React.FC<TrackingFieldModel> = ({img, label, onPress}) => {
   return (
-    <TouchableOpacity style={styles.trackingFieldContainer}>
+    <TouchableOpacity style={styles.trackingFieldContainer} onPress={onPress}>
       <LinearGradient
         colors={['#AF90D6', '#5C4B70']}
         style={styles.trackingFieldImgContainer}>

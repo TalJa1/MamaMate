@@ -11,6 +11,15 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const backButtonWithoutArrowSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.1667 1.58325L1.75 11.9999L12.1667 22.4166" stroke="#997CBD" style="stroke:#997CBD;stroke:color(display-p3 0.6000 0.4863 0.7412);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const iconEyeCloseSVG = (w?: any, h?: any) => {
   const xml = `<svg width="114" height="94" viewBox="0 0 114 94" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <mask id="mask0_508_352" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="114" height="94">
