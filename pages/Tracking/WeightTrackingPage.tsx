@@ -1,25 +1,31 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable quotes */
-import {StyleSheet, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import useStatusBar from '../../services/customHook';
-import {BarChart} from 'react-native-chart-kit';
-import {vw} from '../../styles/stylesheet';
+import {vh, vw} from '../../styles/stylesheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
+import BarChartComponent from '../../components/BarChartComponent';
 
 const data = {
   labels: ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
   datasets: [
     {
-      data: [40, 50, 50, 50, 70, 80, 0, 0, 0, 0],
+      data: [40, 50, 50, 50, 70, 0, 0, 0, 0, 0],
       colors: [
         () => `#AF90D6`,
         () => `#AF90D6`,
         () => `#AF90D6`,
         () => `#AF90D6`,
-        () => `#AF90D6`,
-        () => `#997CBD`,
+        () => `#96C1DE`,
       ],
     },
   ],
@@ -28,7 +34,8 @@ const data = {
 const chartConfig = {
   backgroundGradientFrom: '#221E3D',
   backgroundGradientTo: '#221E3D',
-  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  fillShadowGradientOpacity: 1,
+  color: () => `#997CBD`,
   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   barPercentage: 0.5,
   useShadowColorFromDataset: false,
@@ -42,26 +49,45 @@ const WeightTrackingPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <DayMonthSwitchComponent isMonth={isMonth} setIsMonth={setIsMonth} />
-      {isMonth ? (
-        <View>
-          <BarChart
-            data={data}
-            width={vw(100)}
-            height={220}
-            yAxisLabel=""
-            yAxisSuffix=""
-            chartConfig={chartConfig}
-            verticalLabelRotation={0}
-            fromZero
-            showValuesOnTopOfBars={false}
-            withInnerLines={false}
-            showBarTops={false}
-          />
-        </View>
-      ) : (
-        <></>
-      )}
+      <ScrollView>
+        {isMonth ? (
+          <BarChartComponent data={data} chartConfig={chartConfig} />
+        ) : (
+          <></>
+        )}
+        {renderMomInfo()}
+      </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const renderMomInfo = () => {
+  return (
+    <View>
+      <View style={styles.updateBtnContainer}>
+        <TouchableOpacity style={styles.updateBtn}>
+          <Text style={styles.updateBtnTxT}>Cập nhật</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.dataContainer}>
+        <View style={styles.dataContainerGrp}>
+          <Text style={styles.dataContainerTitle}>Trước bầu</Text>
+          <Text style={styles.dataContainerDes}>50 kg</Text>
+        </View>
+        <View style={styles.dataContainerGrp}>
+          <Text style={[styles.dataContainerTitle, {color: '#96C1DE'}]}>
+            Hiện tại
+          </Text>
+          <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
+            60 kg
+          </Text>
+        </View>
+        <View style={styles.dataContainerGrp}>
+          <Text style={styles.dataContainerTitle}>Mong muốn</Text>
+          <Text style={styles.dataContainerDes}>65 kg</Text>
+        </View>
+      </View>
+    </View>
   );
 };
 
@@ -71,5 +97,43 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#221E3D',
     flex: 1,
+  },
+  updateBtnContainer: {
+    width: vw(100),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: vh(3),
+  },
+  updateBtn: {
+    width: vw(90),
+    height: 54,
+    borderRadius: 30,
+    justifyContent: 'center',
+    backgroundColor: '#EAE1EE',
+  },
+  updateBtnTxT: {
+    textAlign: 'center',
+  },
+  dataContainer: {
+    flexDirection: 'row',
+    width: vw(100),
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  dataContainerGrp: {
+    width: vw(33),
+    rowGap: vh(2),
+  },
+  dataContainerTitle: {
+    color: '#EAE1EE',
+    fontSize: 16,
+    fontWeight: '400',
+    textAlign: 'center',
+  },
+  dataContainerDes: {
+    textAlign: 'center',
+    color: '#EAE1EE',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });
