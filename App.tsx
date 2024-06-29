@@ -27,6 +27,7 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import DiaryPage from './pages/DiaryPage';
 import TrackingPage from './pages/TrackingPage';
 import WeightTrackingPage from './pages/Tracking/WeightTrackingPage';
+import ChildMovementPAge from './pages/Tracking/ChildMovementPAge';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -155,6 +156,28 @@ const App = () => {
             },
             headerStyle: {
               backgroundColor: '#221E3D',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="ChildMovement"
+          component={ChildMovementPAge}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Chuyển động của bé',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#19162E',
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>

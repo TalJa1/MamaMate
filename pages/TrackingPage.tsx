@@ -96,7 +96,9 @@ const TrackingPage = () => {
           </LinearGradient>
         </View>
         <View style={styles.trackingTopField}>
-          <TouchableOpacity style={styles.trackingFieldContainer}>
+          <TouchableOpacity
+            style={styles.trackingFieldContainer}
+            onPress={() => handleNavigation('ChildMovement')}>
             <LinearGradient
               colors={['#AF90D6', '#5C4B70']}
               style={[
