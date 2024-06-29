@@ -1,59 +1,67 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import useStatusBar from '../../services/customHook';
-import {LineChart} from 'react-native-chart-kit';
+import {BarChart} from 'react-native-chart-kit';
 import {vw} from '../../styles/stylesheet';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
+
+const data = {
+  labels: ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
+  datasets: [
+    {
+      data: [40, 50, 50, 50, 70, 80, 0, 0, 0, 0],
+      colors: [
+        () => `#AF90D6`,
+        () => `#AF90D6`,
+        () => `#AF90D6`,
+        () => `#AF90D6`,
+        () => `#AF90D6`,
+        () => `#997CBD`,
+      ],
+    },
+  ],
+};
+
+const chartConfig = {
+  backgroundGradientFrom: '#221E3D',
+  backgroundGradientTo: '#221E3D',
+  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false,
+  barRadius: 10,
+};
 
 const WeightTrackingPage = () => {
+  const [isMonth, setIsMonth] = React.useState<boolean>(true);
   useStatusBar('#221E3D');
 
   return (
-    <View style={styles.container}>
-      <LineChart
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-              ],
-            },
-          ],
-        }}
-        width={vw(100)} // from react-native
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
-        yAxisInterval={1} // optional, defaults to 1
-        chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: '#ffa726',
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <DayMonthSwitchComponent isMonth={isMonth} setIsMonth={setIsMonth} />
+      {isMonth ? (
+        <View>
+          <BarChart
+            data={data}
+            width={vw(100)}
+            height={220}
+            yAxisLabel=""
+            yAxisSuffix=""
+            chartConfig={chartConfig}
+            verticalLabelRotation={0}
+            fromZero
+            showValuesOnTopOfBars={false}
+            withInnerLines={false}
+            showBarTops={false}
+          />
+        </View>
+      ) : (
+        <></>
+      )}
+    </SafeAreaView>
   );
 };
 
