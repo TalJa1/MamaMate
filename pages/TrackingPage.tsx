@@ -63,7 +63,7 @@ const TrackingPage = () => {
         <View style={styles.trackingTopField}>
           <TrackingField img="hambarger" label="Bữa ăn" />
           <TrackingField img="medicalTool" label="Bệnh án" />
-          <TrackingField img="identityCard" label="Cẩm nang" />
+          <TrackingField img="identityCard" label="Cẩm nang" onPress={() => handleNavigation('HandBook')}/>
         </View>
         <View style={styles.gradientFieldContainer}>
           <LinearGradient

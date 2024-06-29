@@ -29,6 +29,7 @@ import TrackingPage from './pages/TrackingPage';
 import WeightTrackingPage from './pages/Tracking/WeightTrackingPage';
 import ChildMovementPAge from './pages/Tracking/ChildMovementPAge';
 import ContractionsPage from './pages/Tracking/ContractionsPage';
+import HandBookPage from './pages/Tracking/HandBookPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -193,6 +194,28 @@ const App = () => {
           options={({navigation}) => ({
             headerShadowVisible: false,
             headerTitle: 'Cơn gò',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#19162E',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="HandBook"
+          component={HandBookPage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Cẩm nang mẹ bầu',
             headerTitleAlign: 'center',
             headerTitleStyle: {
               color: '#EAE1EE',

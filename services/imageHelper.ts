@@ -63,3 +63,20 @@ export const getTrackingImageSource = (imageName: string) => {
       return require('../assets/contractions.png');
   }
 };
+
+export const getHandBookImg = (imageName: string) => {
+  switch (imageName) {
+    case 'childDevelopment':
+      return require('../assets/handbook/childDevelopment.png');
+    case 'commonDisease':
+      return require('../assets/handbook/commonDisease.png');
+    case 'givingBirthJourney':
+      return require('../assets/handbook/givingBirthJourney.png');
+    case 'period':
+      return require('../assets/handbook/period.png');
+    case 'smartPregnant':
+      return require('../assets/handbook/smartPregnant.png');
+    case 'workOut':
+      return require('../assets/handbook/workOut.png');
+  }
+};
