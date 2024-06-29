@@ -115,7 +115,11 @@ const TrackingPage = () => {
             </LinearGradient>
             <Text style={styles.trackingFieldTxT}>Chuyển động của bé</Text>
           </TouchableOpacity>
-          <TrackingField img="contractions" label="Cơn gò" />
+          <TrackingField
+            img="contractions"
+            label="Cơn gò"
+            onPress={() => handleNavigation('Contractions')}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
