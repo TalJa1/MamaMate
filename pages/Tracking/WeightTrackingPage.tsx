@@ -14,6 +14,7 @@ import {vh, vw} from '../../styles/stylesheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
+import LineChartComponent from '../../components/LineChartComponent';
 
 const data = {
   labels: ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
@@ -42,6 +43,24 @@ const chartConfig = {
   barRadius: 10,
 };
 
+const lineData = {
+  labels: ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
+  datasets: [
+    {
+      data: [15, 30, 50, 50, 70, 0, 0, 0, 0, 0],
+    },
+  ],
+};
+
+const lineChartConfig = {
+  backgroundGradientFrom: '#221E3D',
+  backgroundGradientTo: '#221E3D',
+  fillShadowGradientOpacity: 1,
+  color: () => `#EAE1EE`,
+  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  useShadowColorFromDataset: false,
+};
+
 const WeightTrackingPage = () => {
   const [isMonth, setIsMonth] = React.useState<boolean>(true);
   useStatusBar('#221E3D');
@@ -53,7 +72,7 @@ const WeightTrackingPage = () => {
         {isMonth ? (
           <BarChartComponent data={data} chartConfig={chartConfig} />
         ) : (
-          <></>
+          <LineChartComponent data={lineData} chartConfig={lineChartConfig} />
         )}
         {renderMomInfo()}
       </ScrollView>
