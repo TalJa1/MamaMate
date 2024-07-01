@@ -127,6 +127,14 @@ const HandBookDetailPage = () => {
                 {selectedItem.detail.content}
               </Text>
             </View>
+            <View style={styles.modalBottomBtnGrp}>
+              <TouchableOpacity style={styles.modalBottomBtnLeft}>
+                <Text style={styles.modalBottomBtnTxT}>Chia sẻ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalBottomBtnRight}>
+                <Text style={styles.modalBottomBtnTxT}>Lưu</Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
         </Modal>
       )}
@@ -312,5 +320,31 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     flex: 1,
     width: '100%',
+  },
+  modalBottomBtnGrp: {
+    flexDirection: 'row',
+    columnGap: vw(4),
+    justifyContent: 'center',
+  },
+  modalBottomBtnLeft: {
+    width: vw(50),
+    backgroundColor: '#EAE1EE',
+    height: 54,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
+  modalBottomBtnRight: {
+    width: vw(30),
+    backgroundColor: '#96C1DE',
+    height: 54,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
+  modalBottomBtnTxT: {
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });
