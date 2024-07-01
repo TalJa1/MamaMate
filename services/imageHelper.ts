@@ -66,17 +66,19 @@ export const getTrackingImageSource = (imageName: string) => {
 
 export const getHandBookImg = (imageName: string) => {
   switch (imageName) {
-    case 'childDevelopment':
+    case 'Sự phát triển của thai nhi':
       return require('../assets/handbook/childDevelopment.png');
-    case 'commonDisease':
+    case 'Các bệnh thường gặp':
       return require('../assets/handbook/commonDisease.png');
-    case 'givingBirthJourney':
+    case 'Hành trang đi sinh':
       return require('../assets/handbook/givingBirthJourney.png');
-    case 'period':
+    case 'Các giai đoạn mang bầu':
       return require('../assets/handbook/period.png');
-    case 'smartPregnant':
+    case 'Thai giáo thông minh':
       return require('../assets/handbook/smartPregnant.png');
-    case 'workOut':
+    case 'Bài tập thể chất cho mẹ bầu':
       return require('../assets/handbook/workOut.png');
+    case 'Cải thiện tâm trạng của mẹ':
+      return require('../assets/handbook/givingBirthJourney.png');
   }
 };
