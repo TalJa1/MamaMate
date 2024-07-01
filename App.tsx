@@ -30,6 +30,7 @@ import WeightTrackingPage from './pages/Tracking/WeightTrackingPage';
 import ChildMovementPAge from './pages/Tracking/ChildMovementPAge';
 import ContractionsPage from './pages/Tracking/ContractionsPage';
 import HandBookPage from './pages/Tracking/HandBookPage';
+import HandBookDetailPage from './pages/Tracking/HandBookDetailPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -231,6 +232,11 @@ const App = () => {
               </TouchableOpacity>
             ),
           })}
+        />
+        <Stack.Screen
+          name="HandBookDetail"
+          component={HandBookDetailPage}
+          options={{headerShown: false}}
         />
         {/* Main for showing all main content of the application */}
         <Stack.Screen

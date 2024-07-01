@@ -82,3 +82,16 @@ export const getHandBookImg = (imageName: string) => {
       return require('../assets/handbook/givingBirthJourney.png');
   }
 };
+
+export const getHandBookImgDetail = (index: number) => {
+  switch (index) {
+    case 0:
+      return require('../assets/handbook/unsplash.png');
+    case 1:
+      return require('../assets/handbook/unsplash2.png');
+    case 2:
+      return require('../assets/handbook/detailTopImage.png');
+    default:
+      break;
+  }
+};

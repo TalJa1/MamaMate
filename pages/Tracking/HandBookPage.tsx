@@ -1,5 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import useStatusBar from '../../services/customHook';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -8,10 +15,17 @@ import {Searchbar} from 'react-native-paper';
 import {searchingSVG} from '../../assets/svgXml';
 import {handbookData} from '../../services/renderData';
 import {getHandBookImg} from '../../services/imageHelper';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const HandBookPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [searchQuery, setSearchQuery] = React.useState('');
   useStatusBar('#19162E');
+
+  const handleNavigation = (index: number) => {
+    navigation.navigate('HandBookDetail', {id: index});
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,7 +41,10 @@ const HandBookPage = () => {
       </View>
       <ScrollView style={styles.scrollviewContainer}>
         {handbookData.map((v, i) => (
-          <TouchableOpacity key={i} style={styles.scrollviewItem}>
+          <TouchableOpacity
+            key={i}
+            style={styles.scrollviewItem}
+            onPress={() => handleNavigation(i)}>
             <Image
               style={styles.scrollviewItemImg}
               source={getHandBookImg(v)}
@@ -66,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#493E904D',
   },
   scrollviewContainer: {
-    marginVertical: vh(2),
+    paddingTop: vh(2),
     width: vw(100),
   },
   scrollviewItem: {
