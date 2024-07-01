@@ -13,7 +13,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../services/typeProps';
 import {vh, vw} from '../../styles/stylesheet';
 import {renderHandBookTitle} from '../../services/renderData';
-import {backButtonWithoutArrowSVG} from '../../assets/svgXml';
+import {backButtonWithoutArrowSVG, cancelSVG} from '../../assets/svgXml';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getHandBookImgDetail} from '../../services/imageHelper';
@@ -26,6 +26,7 @@ import {
   smartPrenatalCare,
   stagesOfPregnancy,
 } from '../../data/handbook/hanbookData';
+import Modal from 'react-native-modal';
 
 type HandBookDetailRouteProp = RouteProp<RootStackParamList, 'HandBookDetail'>;
 interface Detail {
@@ -46,6 +47,14 @@ const HandBookDetailPage = () => {
   const [renderData, setRenderData] = React.useState<RenderDataItem[]>([]);
   const route = useRoute<HandBookDetailRouteProp>();
   const {id} = route.params;
+  const [isModalVisible, setModalVisible] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState<RenderDataItem | null>(
+    null,
+  );
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   React.useEffect(() => {
     switch (id) {
@@ -79,10 +88,48 @@ const HandBookDetailPage = () => {
     navigation.goBack();
   };
 
+  const handleItemPress = (item: RenderDataItem) => {
+    setSelectedItem(item);
+    toggleModal();
+  };
+
   return (
     <View style={styles.container}>
       {headerRenderView(id, handleNavigation)}
-      <ScrollView>{renderContent(renderData)}</ScrollView>
+      <ScrollView>{renderContent(renderData, handleItemPress)}</ScrollView>
+      {selectedItem && (
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          style={styles.modal}>
+          <ScrollView style={styles.modalContent}>
+            <View style={styles.modalTitleGrp}>
+              <Text style={styles.modalTitle}>{selectedItem.title}</Text>
+              <TouchableOpacity onPress={toggleModal}>
+                {cancelSVG(vw(4), vh(3), '#AF90D6')}
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalImgContainer}>
+              <Image
+                style={styles.modalImg}
+                source={getHandBookImgDetail(selectedItem.img)}
+              />
+            </View>
+            <View
+              style={{
+                padding: vh(2),
+              }}>
+              <Text style={styles.modalDescription}>
+                {selectedItem.detail.desTitle}:
+              </Text>
+              <Text style={styles.modalMain}>{selectedItem.detail.main}</Text>
+              <Text style={styles.modalContentText}>
+                {selectedItem.detail.content}
+              </Text>
+            </View>
+          </ScrollView>
+        </Modal>
+      )}
     </View>
   );
 };
@@ -104,11 +151,17 @@ const headerRenderView = (id: number, navigate: () => void) => {
   );
 };
 
-const renderContent = (data: RenderDataItem[]) => {
+const renderContent = (
+  data: RenderDataItem[],
+  onPress: (item: RenderDataItem) => void,
+) => {
   return (
     <View style={styles.renderCntScrollView}>
       {data.map((v, i) => (
-        <TouchableOpacity key={i} style={styles.renderCntContainer}>
+        <TouchableOpacity
+          key={i}
+          style={styles.renderCntContainer}
+          onPress={() => onPress(v)}>
           <View style={styles.renderCntImgContainer}>
             <Image
               style={styles.renderCntImg}
@@ -199,5 +252,65 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     resizeMode: 'cover',
+  },
+  // For Modal
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: '#382E75',
+    borderTopLeftRadius: vh(2),
+    borderTopRightRadius: vh(2),
+  },
+  modalTitleGrp: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: vh(2),
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#EAE1EE',
+    flex: 1,
+    paddingRight: vw(2),
+  },
+  modalDescription: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#EAE1EE',
+    marginVertical: vh(1),
+  },
+  modalMain: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#EAE1EE',
+    marginVertical: vh(1),
+  },
+  modalContentText: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#CDCDCD',
+  },
+  closeButton: {
+    marginTop: vh(2),
+    alignSelf: 'center',
+    backgroundColor: '#007AFF',
+    paddingVertical: vh(1),
+    paddingHorizontal: vw(4),
+    borderRadius: vh(1),
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontSize: vh(2),
+  },
+  modalImgContainer: {
+    width: vw(100),
+    height: 200,
+  },
+  modalImg: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: '100%',
   },
 });
