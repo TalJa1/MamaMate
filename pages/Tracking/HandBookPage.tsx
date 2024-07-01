@@ -45,10 +45,12 @@ const HandBookPage = () => {
             key={i}
             style={styles.scrollviewItem}
             onPress={() => handleNavigation(i)}>
-            <Image
-              style={styles.scrollviewItemImg}
-              source={getHandBookImg(v)}
-            />
+            <View style={styles.scrollviewItemImgContainer}>
+              <Image
+                style={styles.scrollviewItemImg}
+                source={getHandBookImg(v)}
+              />
+            </View>
             <Text style={styles.scrollviewTxT}>{v}</Text>
           </TouchableOpacity>
         ))}
@@ -96,7 +98,13 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'center',
   },
+  scrollviewItemImgContainer: {
+    width: vw(90),
+    height: 140,
+  },
   scrollviewItemImg: {
-    // width: vw(90),
+    width: '100%',
+    flex: 1,
+    resizeMode: 'cover',
   },
 });
