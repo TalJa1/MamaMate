@@ -16,9 +16,16 @@ import {renderHandBookTitle} from '../../services/renderData';
 import {backButtonWithoutArrowSVG} from '../../assets/svgXml';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import givingBirthJourney from '../../data/handbook/givingBirthJourney.json';
 import {getHandBookImgDetail} from '../../services/imageHelper';
-// import useStatusBar from '../../services/customHook';
+import {
+  commonPregnancyConditions,
+  fetalDevelopment,
+  givingBirthJourney,
+  improveMood,
+  physicalExercise,
+  smartPrenatalCare,
+  stagesOfPregnancy,
+} from '../../data/handbook/hanbookData';
 
 type HandBookDetailRouteProp = RouteProp<RootStackParamList, 'HandBookDetail'>;
 interface Detail {
@@ -43,25 +50,25 @@ const HandBookDetailPage = () => {
   React.useEffect(() => {
     switch (id) {
       case 0:
-        setRenderData([]);
+        setRenderData(stagesOfPregnancy);
         break;
       case 1:
-        setRenderData([]);
+        setRenderData(smartPrenatalCare);
         break;
       case 2:
-        setRenderData([]);
+        setRenderData(commonPregnancyConditions);
         break;
       case 3:
-        setRenderData([]);
+        setRenderData(fetalDevelopment);
         break;
       case 4:
         setRenderData(givingBirthJourney);
         break;
       case 5:
-        setRenderData([]);
+        setRenderData(improveMood);
         break;
       case 6:
-        setRenderData([]);
+        setRenderData(physicalExercise);
         break;
       default:
         break;
@@ -75,7 +82,7 @@ const HandBookDetailPage = () => {
   return (
     <View style={styles.container}>
       {headerRenderView(id, handleNavigation)}
-      <ScrollView>{renderContent(id, renderData)}</ScrollView>
+      <ScrollView>{renderContent(renderData)}</ScrollView>
     </View>
   );
 };
@@ -97,7 +104,7 @@ const headerRenderView = (id: number, navigate: () => void) => {
   );
 };
 
-const renderContent = (key: number, data: RenderDataItem[]) => {
+const renderContent = (data: RenderDataItem[]) => {
   return (
     <View style={styles.renderCntScrollView}>
       {data.map((v, i) => (
@@ -164,11 +171,11 @@ const styles = StyleSheet.create({
     width: vw(90),
     backgroundColor: '#382E75',
     paddingHorizontal: vw(4),
-    paddingTop: vh(1),
+    paddingTop: vh(2),
     borderRadius: 10,
   },
   renderCntTxTContainer: {
-    paddingVertical: vh(2),
+    paddingVertical: vh(1),
     rowGap: vh(1),
   },
   renderCntTitle: {
