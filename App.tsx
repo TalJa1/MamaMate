@@ -31,6 +31,7 @@ import ChildMovementPAge from './pages/Tracking/ChildMovementPAge';
 import ContractionsPage from './pages/Tracking/ContractionsPage';
 import HandBookPage from './pages/Tracking/HandBookPage';
 import HandBookDetailPage from './pages/Tracking/HandBookDetailPage';
+import MealPage from './pages/Tracking/Meal/MealPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -145,6 +146,28 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         {/* Tracking Group */}
+        <Stack.Screen
+          name="Meal"
+          component={MealPage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Dinh dưỡng',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#19162E',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         <Stack.Screen
           name="WeightTracking"
           component={WeightTrackingPage}
