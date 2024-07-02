@@ -22,6 +22,8 @@ import {
 } from '../../../assets/svgXml';
 import {vh, vw} from '../../../styles/stylesheet';
 import BarChartComponent from '../../../components/BarChartComponent';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface RenderNutrition {
   icon: any;
@@ -63,6 +65,8 @@ const chartConfig = {
 };
 
 const MealPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   const [nutritionData, setNutritionData] = React.useState<RenderNutrition[]>([
     {
@@ -179,7 +183,9 @@ const MealPage = () => {
               <View style={styles.suggestGrpTxtContainer}>
                 <Text style={styles.suggestGrpTxT}>Gợi ý dinh dưỡng</Text>
               </View>
-              <TouchableOpacity style={styles.suggestGrpBtn}>
+              <TouchableOpacity
+                style={styles.suggestGrpBtn}
+                onPress={() => navigation.navigate('Suggestion')}>
                 <Text style={styles.suggestGrpBtnTxT}>Xem</Text>
               </TouchableOpacity>
             </View>

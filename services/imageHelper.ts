@@ -95,3 +95,23 @@ export const getHandBookImgDetail = (index: number) => {
       break;
   }
 };
+
+export const tabsData = [
+  {icon: require('../assets/Meal/apple.png'), label: 'Trái cây'},
+  {icon: require('../assets/Meal/leafygreen.png'), label: 'Rau'},
+  {icon: require('../assets/Meal/cutofmeat.png'), label: 'Thịt'},
+  {icon: require('../assets/Meal/shrimp.png'), label: 'Hải sản'},
+  {icon: require('../assets/Meal/3d.png'), label: 'Đồ uống'},
+  {icon: require('../assets/Meal/beans.png'), label: 'Ngũ cốc'},
+  {icon: require('../assets/Meal/popcorn.png'), label: 'Ăn vặt'},
+  {icon: require('../assets/Meal/cannedfood.png'), label: 'TPCN'},
+];
+
+export const getSuggestionImg = (imageName: string) => {
+  switch (imageName) {
+    case 'Sữa bầu':
+      return require('../assets/Meal/cansofMilk.png');
+    case 'Tôm':
+      return require('../assets/Meal/tom.png');
+  }
+};
