@@ -95,18 +95,6 @@ export const getHandBookImgDetail = (index: number) => {
       break;
   }
 };
-
-export const tabsData = [
-  {icon: require('../assets/Meal/apple.png'), label: 'Trái cây'},
-  {icon: require('../assets/Meal/leafygreen.png'), label: 'Rau'},
-  {icon: require('../assets/Meal/cutofmeat.png'), label: 'Thịt'},
-  {icon: require('../assets/Meal/shrimp.png'), label: 'Hải sản'},
-  {icon: require('../assets/Meal/3d.png'), label: 'Đồ uống'},
-  {icon: require('../assets/Meal/beans.png'), label: 'Ngũ cốc'},
-  {icon: require('../assets/Meal/popcorn.png'), label: 'Ăn vặt'},
-  {icon: require('../assets/Meal/cannedfood.png'), label: 'TPCN'},
-];
-
 export const getSuggestionImg = (imageName: string) => {
   switch (imageName) {
     case 'Sữa bầu':
@@ -115,3 +103,25 @@ export const getSuggestionImg = (imageName: string) => {
       return require('../assets/Meal/tom.png');
   }
 };
+
+export const getSuggestionCatergoryImg = (catergory: string) => {
+  switch (catergory) {
+    case 'Trái cây':
+      return require('../assets/Meal/apple.png');
+    case 'Rau':
+      return require('../assets/Meal/leafygreen.png');
+    case 'Thịt':
+      return require('../assets/Meal/cutofmeat.png');
+    case 'Hải sản':
+      return require('../assets/Meal/shrimp.png');
+    case 'Đồ uống':
+      return require('../assets/Meal/3d.png');
+    case 'Ngũ cốc':
+      return require('../assets/Meal/beans.png');
+    case 'Ăn vặt':
+      return require('../assets/Meal/popcorn.png');
+    case 'TPCN':
+      return require('../assets/Meal/cannedfood.png');
+  }
+};
+

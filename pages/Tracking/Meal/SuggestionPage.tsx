@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
   Image,
+  ImageSourcePropType,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,10 +13,30 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Searchbar} from 'react-native-paper';
 import useStatusBar from '../../../services/customHook';
 import {vh, vw} from '../../../styles/stylesheet';
-import {nextIconSVG, searchingSVG} from '../../../assets/svgXml';
-import {getSuggestionImg, tabsData} from '../../../services/imageHelper';
+import {
+  checkIconSVG,
+  nextIconSVG,
+  saveIconSVG,
+  searchingSVG,
+  wishlistIconSVG,
+  xIconSVG,
+} from '../../../assets/svgXml';
+import {
+  getSuggestionCatergoryImg,
+  getSuggestionImg,
+} from '../../../services/imageHelper';
 import LinearGradient from 'react-native-linear-gradient';
 import {suggestionRenderData} from '../../../data/meal/suggestionData';
+import {mealSuggestionData, tabsData} from '../../../services/renderData';
+
+interface BottomTabsData {
+  icon: ImageSourcePropType;
+  label: string;
+}
+
+interface RenderBottomTabsData {
+  data: BottomTabsData[];
+}
 
 const SuggestionPage = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -55,6 +76,27 @@ const SuggestionPage = () => {
             {nextIconSVG(vw(3), vh(2), '#AF90D6')}
           </View>
           {renderPrivateSuggestion()}
+          <View style={styles.sugestionGrp}>
+            <View style={styles.sugestionGrpLeft}>
+              <Image
+                source={require('../../../assets/Meal/fullSittingYoga.png')}
+              />
+              <Text style={styles.sugestionTxT}>Vận động</Text>
+            </View>
+            {nextIconSVG(vw(3), vh(2), '#AF90D6')}
+          </View>
+          <View style={styles.yogaGrp}>
+            <View style={styles.yogaGrpTxTContainer}>
+              <Text style={styles.yogaGrpTxT}>
+                Các bài tập nhẹ như Yoga, Pilates, rất quan trọng để giữ cho bản
+                thân khỏe mạnh
+              </Text>
+            </View>
+            <View style={styles.yogaGrpImg}>
+              <Image source={require('../../../assets/Meal/sittingYoga.png')} />
+            </View>
+          </View>
+          {renderBottomTabs({data: mealSuggestionData})}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -80,7 +122,7 @@ const renderTabs = () => {
 
 const renderPrivateSuggestion = () => {
   return (
-    <View>
+    <View style={{rowGap: vh(2)}}>
       {suggestionRenderData.map((item, index) => (
         <View key={index} style={styles.suggestionItem}>
           <Image
@@ -88,15 +130,48 @@ const renderPrivateSuggestion = () => {
             style={styles.suggestionImage}
           />
           <View style={styles.suggestionTextContainer}>
-            <Text style={styles.suggestionTitle}>{item.title}</Text>
+            <View style={styles.suggestionTitleGrp}>
+              <Text style={styles.suggestionTitle}>{item.title}</Text>
+              <View style={styles.suggestionTitleSVGGrp}>
+                {wishlistIconSVG(vw(6), vh(3))}
+                {saveIconSVG(vw(6), vh(3))}
+              </View>
+            </View>
             <View style={styles.suggestionKcalContainer}>
+              <Image
+                style={styles.suggestionImageCatergory}
+                source={getSuggestionCatergoryImg(item.catergory)}
+              />
               <Text style={styles.suggestionKcal}>{item.kcal}</Text>
               <Text style={styles.suggestionCapacity}>{item.capacity}</Text>
+            </View>
+            <View style={styles.checkXGrp}>
+              <View style={styles.checkXGrpItem}>
+                {checkIconSVG(vw(4), vh(2))}
+                <Text>Nên ăn</Text>
+              </View>
+              <View style={styles.checkXGrpItem}>
+                {xIconSVG(vw(4), vh(2))}
+                <Text>Không nên</Text>
+              </View>
             </View>
           </View>
         </View>
       ))}
     </View>
+  );
+};
+
+const renderBottomTabs = ({data}: RenderBottomTabsData) => {
+  return (
+    <ScrollView horizontal style={styles.bottomTabsGrp}>
+      {data.map((v, i) => (
+        <View key={i} style={styles.bottomTabsItem}>
+          <Image style={styles.bottomTabsImg} source={v.icon} />
+          <Text style={styles.bottomTabsTxT}>{v.label}</Text>
+        </View>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -186,7 +261,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: vw(100),
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingHorizontal: vw(7),
   },
   sugestionGrpLeft: {
     flexDirection: 'row',
@@ -204,7 +280,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAE1EE',
     borderRadius: 16,
     padding: vh(2),
-    marginBottom: vh(2),
     alignItems: 'center',
   },
   suggestionImage: {
@@ -212,16 +287,15 @@ const styles = StyleSheet.create({
     height: vw(20),
     borderRadius: 10,
     resizeMode: 'cover',
-    marginRight: 10,
+    marginRight: vw(3),
   },
   suggestionTextContainer: {
     flex: 1,
-    justifyContent: 'center',
+    rowGap: vh(1),
   },
   suggestionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
   },
   suggestionKcal: {
     fontSize: 14,
@@ -233,5 +307,78 @@ const styles = StyleSheet.create({
   },
   suggestionKcalContainer: {
     flexDirection: 'row',
+    columnGap: vw(2),
+    alignItems: 'center',
+  },
+  suggestionImageCatergory: {
+    width: vw(4),
+    height: vw(4),
+    resizeMode: 'cover',
+  },
+  checkXGrp: {
+    flexDirection: 'row',
+    columnGap: vw(8),
+  },
+  checkXGrpItem: {
+    flexDirection: 'row',
+    alignSelf: 'auto',
+    alignItems: 'center',
+    columnGap: vw(2),
+  },
+  suggestionTitleSVGGrp: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: vw(3),
+  },
+  suggestionTitleGrp: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  yogaGrp: {
+    width: vw(90),
+    height: 83,
+    backgroundColor: '#E56877',
+    borderRadius: 16,
+    flexDirection: 'row',
+    overflow: 'hidden',
+  },
+  yogaGrpTxTContainer: {
+    width: vw(65),
+    justifyContent: 'center',
+    paddingLeft: vw(2),
+  },
+  yogaGrpImg: {
+    width: vw(25),
+    alignItems: 'flex-end',
+  },
+  yogaGrpTxT: {
+    color: '#EAE1EE',
+    fontWeight: '400',
+    fontSize: 14,
+  },
+  bottomTabsGrp: {
+    flexDirection: 'row',
+    marginBottom: vh(3),
+    paddingLeft: vw(5),
+  },
+  bottomTabsItem: {
+    height: 140,
+    width: 130,
+    backgroundColor: '#A283C833',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: vw(3),
+  },
+  bottomTabsImg: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  bottomTabsTxT: {
+    color: '#FFFFFF',
+    fontWeight: '400',
+    fontSize: 14,
   },
 });
