@@ -13,23 +13,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Searchbar} from 'react-native-paper';
 import useStatusBar from '../../../services/customHook';
 import {vh, vw} from '../../../styles/stylesheet';
-import {
-  checkIconSVG,
-  nextIconSVG,
-  saveIconSVG,
-  searchingSVG,
-  wishlistIconSVG,
-  xIconSVG,
-} from '../../../assets/svgXml';
-import {
-  getSuggestionCatergoryImg,
-  getSuggestionImg,
-} from '../../../services/imageHelper';
+import {nextIconSVG, searchingSVG} from '../../../assets/svgXml';
+
 import LinearGradient from 'react-native-linear-gradient';
 import {suggestionRenderData} from '../../../data/meal/suggestionData';
 import {mealSuggestionData, tabsData} from '../../../services/renderData';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import TabsMealSuggestionComponent from '../../../components/TabsMealSuggestionConponent';
 
 interface BottomTabsData {
   icon: ImageSourcePropType;
@@ -79,7 +70,9 @@ const SuggestionPage = () => {
             </View>
             {nextIconSVG(vw(3), vh(2), '#AF90D6')}
           </View>
-          {renderPrivateSuggestion()}
+          <TabsMealSuggestionComponent
+            suggestionRenderData={suggestionRenderData}
+          />
           <View style={styles.sugestionGrp}>
             <View style={styles.sugestionGrpLeft}>
               <Image
@@ -124,48 +117,6 @@ const renderTabs = (navigation: NativeStackNavigationProp<any>) => {
           </LinearGradient>
           <Text style={styles.tabLabel}>{item.label}</Text>
         </TouchableOpacity>
-      ))}
-    </View>
-  );
-};
-
-const renderPrivateSuggestion = () => {
-  return (
-    <View style={{rowGap: vh(2)}}>
-      {suggestionRenderData.map((item, index) => (
-        <View key={index} style={styles.suggestionItem}>
-          <Image
-            source={getSuggestionImg(item.title)}
-            style={styles.suggestionImage}
-          />
-          <View style={styles.suggestionTextContainer}>
-            <View style={styles.suggestionTitleGrp}>
-              <Text style={styles.suggestionTitle}>{item.title}</Text>
-              <View style={styles.suggestionTitleSVGGrp}>
-                {wishlistIconSVG(vw(6), vh(3))}
-                {saveIconSVG(vw(6), vh(3))}
-              </View>
-            </View>
-            <View style={styles.suggestionKcalContainer}>
-              <Image
-                style={styles.suggestionImageCatergory}
-                source={getSuggestionCatergoryImg(item.catergory)}
-              />
-              <Text style={styles.suggestionKcal}>{item.kcal}</Text>
-              <Text style={styles.suggestionCapacity}>{item.capacity}</Text>
-            </View>
-            <View style={styles.checkXGrp}>
-              <View style={styles.checkXGrpItem}>
-                {checkIconSVG(vw(4), vh(2))}
-                <Text>Nên ăn</Text>
-              </View>
-              <View style={styles.checkXGrpItem}>
-                {xIconSVG(vw(4), vh(2))}
-                <Text>Không nên</Text>
-              </View>
-            </View>
-          </View>
-        </View>
       ))}
     </View>
   );

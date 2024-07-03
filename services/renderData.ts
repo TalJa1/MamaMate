@@ -65,11 +65,11 @@ export const fruitData = [
     suggest: [
       {
         label: 'Mang thai',
-        icon: xIconSVG(vw(5), vh(5)),
+        icon: xIconSVG(vw(5), vh(3)),
       },
       {
         label: 'Không nên',
-        icon: xIconSVG(vw(5), vh(5)),
+        icon: xIconSVG(vw(5), vh(3)),
       },
     ],
   },
@@ -81,11 +81,59 @@ export const fruitData = [
     suggest: [
       {
         label: 'Nên ăn',
-        icon: checkIconSVG(vw(5), vh(5)),
+        icon: checkIconSVG(vw(5), vh(3)),
       },
       {
         label: 'Mới sinh',
-        icon: checkIconSVG(vw(5), vh(5)),
+        icon: checkIconSVG(vw(5), vh(3)),
+      },
+    ],
+  },
+  {
+    title: 'Xoài',
+    kcal: '48 kcal',
+    capacity: '100 ml',
+    catergory: 'Trái cây',
+    suggest: [
+      {
+        label: 'Nên ăn',
+        icon: checkIconSVG(vw(5), vh(3)),
+      },
+      {
+        label: 'Lưu ý',
+        icon: waringIconSVG(vw(5), vh(3)),
+      },
+    ],
+  },
+  {
+    title: 'Dưa hấu',
+    kcal: '48 kcal',
+    capacity: '100 ml',
+    catergory: 'Trái cây',
+    suggest: [
+      {
+        label: 'Nên ăn',
+        icon: checkIconSVG(vw(5), vh(3)),
+      },
+      {
+        label: 'Không nên',
+        icon: xIconSVG(vw(5), vh(3)),
+      },
+    ],
+  },
+  {
+    title: 'Mít',
+    kcal: '48 kcal',
+    capacity: '100 ml',
+    catergory: 'Trái cây',
+    suggest: [
+      {
+        label: 'Nên ăn',
+        icon: checkIconSVG(vw(5), vh(3)),
+      },
+      {
+        label: 'Lưu ý',
+        icon: waringIconSVG(vw(5), vh(3)),
       },
     ],
   },

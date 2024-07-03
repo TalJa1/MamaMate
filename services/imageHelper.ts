@@ -101,6 +101,16 @@ export const getSuggestionImg = (imageName: string) => {
       return require('../assets/Meal/cansofMilk.png');
     case 'Tôm':
       return require('../assets/Meal/tom.png');
+    case 'Đu đủ xanh':
+      return require('../assets/Meal/duduxanh.png');
+    case 'Cam':
+      return require('../assets/Meal/cam.png');
+    case 'Xoài':
+      return require('../assets/Meal/xoai.png');
+    case 'Dưa hấu':
+      return require('../assets/Meal/duahau.png');
+    case 'Mít':
+      return require('../assets/Meal/mit.png');
   }
 };
 
@@ -124,4 +134,3 @@ export const getSuggestionCatergoryImg = (catergory: string) => {
       return require('../assets/Meal/cannedfood.png');
   }
 };
-

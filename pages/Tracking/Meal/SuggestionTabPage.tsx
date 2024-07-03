@@ -18,6 +18,8 @@ import {vh, vw} from '../../../styles/stylesheet';
 import LinearGradient from 'react-native-linear-gradient';
 import {tabsData} from '../../../services/renderData';
 import {mealCautionData} from '../../../services/renderData';
+import {fruitData} from '../../../services/renderData';
+import TabsMealSuggestionComponent from '../../../components/TabsMealSuggestionConponent';
 
 type RootStackParamList = {
   SuggestionTab: {label: string};
@@ -41,7 +43,12 @@ const SuggestionTabPage: React.FC<Props> = ({route}) => {
   const {label} = route.params;
   const [currentLabel, setCurrentLabel] = React.useState<string>(label);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [renderData, setRenderData] = React.useState<any>([]);
   useStatusBar('#19162E');
+
+  React.useEffect(() => {
+    setRenderData(fruitData);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,7 +63,13 @@ const SuggestionTabPage: React.FC<Props> = ({route}) => {
         />
         {renderTabs(currentLabel, setCurrentLabel)}
       </View>
-      <ScrollView>{renderCaution({data: mealCautionData})}</ScrollView>
+      <ScrollView>
+        {renderCaution({data: mealCautionData})}
+        <View
+          style={{width: vw(100), alignItems: 'center', marginVertical: vh(1)}}>
+          <TabsMealSuggestionComponent suggestionRenderData={renderData} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
