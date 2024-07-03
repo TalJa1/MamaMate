@@ -165,22 +165,21 @@ const renderGrpData = (data: SuggestItem, title: string, name: string) => {
       <View>
         {data.label === 'Không nên' ? (
           <Text style={{color: '#CDCDCD', fontWeight: '400', fontSize: 16}}>
-            {name} chín có chứa mủ có khả năng gây ra các cơn co thắt sớm. Điều
-            này không chỉ gây đau bụng mà còn có thể gây nguy hiểm cho em bé.
-            Bằng mọi giá phải tránh ăn {name} vì nó làm tăng nguy cơ gây chuyển
-            dạ sớm và trong trường hợp xấu nhất là sẩy thai.
+            {name} có chứa mủ có khả năng gây ra các cơn co thắt sớm. Điều này
+            không chỉ gây đau bụng mà còn có thể gây nguy hiểm cho em bé. Bằng
+            mọi giá phải tránh ăn {name} vì nó làm tăng nguy cơ gây chuyển dạ
+            sớm và trong trường hợp xấu nhất là sẩy thai.
           </Text>
         ) : data.label === 'Nên ăn' ? (
           <Text style={{color: '#CDCDCD', fontWeight: '400', fontSize: 16}}>
             Theo các chuyên gia, bà bầu ăn {name} khi mang thai là điều hoàn
-            toàn ổn vì loại trái cây này cung cúp nhiều chất dinh dưỡng.
+            toàn ổn vì cung cúp nhiều chất dinh dưỡng.
           </Text>
         ) : (
           <Text style={{color: '#CDCDCD', fontWeight: '400', fontSize: 16}}>
             Từ trước đến nay chưa có bất kỳ nghiên cứu nào chỉ ra bà mẹ sau sinh
-            không được ăn {name}. Theo các chuyên gia dinh dưỡng, dù trái cây có
-            tính | nóng nhưng nếu biết cách ăn thì vẫn tận dụng được lợi ích
-            tốt.
+            không được ăn {name}. Theo các chuyên gia dinh dưỡng, dù có tính |
+            nóng nhưng nếu biết cách ăn thì vẫn tận dụng được lợi ích tốt.
           </Text>
         )}
       </View>
