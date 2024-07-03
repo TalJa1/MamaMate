@@ -11,6 +11,16 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const waringIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="24" height="24" rx="4" fill="#997CBD" style="fill:#997CBD;fill:color(display-p3 0.6000 0.4863 0.7412);fill-opacity:1;"/>
+<path d="M12 18.99V19M12 5V16" stroke="#221E3D" style="stroke:#221E3D;stroke:color(display-p3 0.1352 0.1188 0.2402);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const xIconSVG = (w?: any, h?: any) => {
   const xml = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="14" height="14" rx="4" fill="#AA3A3A" style="fill:#AA3A3A;fill:color(display-p3 0.6667 0.2275 0.2275);fill-opacity:1;"/>

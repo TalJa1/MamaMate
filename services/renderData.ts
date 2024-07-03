@@ -1,4 +1,7 @@
 /* eslint-disable prettier/prettier */
+import {checkIconSVG, waringIconSVG, xIconSVG} from '../assets/svgXml';
+import {vh, vw} from '../styles/stylesheet';
+
 export const handbookData = [
   'Các giai đoạn mang bầu',
   'Thai giáo thông minh',
@@ -45,4 +48,45 @@ export const tabsData = [
   {icon: require('../assets/Meal/beans.png'), label: 'Ngũ cốc'},
   {icon: require('../assets/Meal/popcorn.png'), label: 'Ăn vặt'},
   {icon: require('../assets/Meal/cannedfood.png'), label: 'TPCN'},
+];
+
+export const mealCautionData = [
+  {icon: checkIconSVG(vw(5), vh(5)), label: 'Nên ăn'},
+  {icon: xIconSVG(vw(5), vh(5)), label: 'Không nên ăn'},
+  {icon: waringIconSVG(vw(5), vh(5)), label: 'Lưu ý'},
+];
+
+export const fruitData = [
+  {
+    title: 'Đu đủ xanh',
+    kcal: '48 kcal',
+    capacity: '100 ml',
+    catergory: 'Trái cây',
+    suggest: [
+      {
+        label: 'Mang thai',
+        icon: xIconSVG(vw(5), vh(5)),
+      },
+      {
+        label: 'Không nên',
+        icon: xIconSVG(vw(5), vh(5)),
+      },
+    ],
+  },
+  {
+    title: 'Cam',
+    kcal: '48 kcal',
+    capacity: '100 ml',
+    catergory: 'Trái cây',
+    suggest: [
+      {
+        label: 'Nên ăn',
+        icon: checkIconSVG(vw(5), vh(5)),
+      },
+      {
+        label: 'Mới sinh',
+        icon: checkIconSVG(vw(5), vh(5)),
+      },
+    ],
+  },
 ];

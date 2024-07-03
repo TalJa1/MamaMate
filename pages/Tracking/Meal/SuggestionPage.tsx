@@ -28,6 +28,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {suggestionRenderData} from '../../../data/meal/suggestionData';
 import {mealSuggestionData, tabsData} from '../../../services/renderData';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface BottomTabsData {
   icon: ImageSourcePropType;
@@ -39,6 +41,8 @@ interface RenderBottomTabsData {
 }
 
 const SuggestionPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [searchQuery, setSearchQuery] = React.useState('');
   useStatusBar('#19162E');
   return (
@@ -54,7 +58,7 @@ const SuggestionPage = () => {
         />
       </View>
       <ScrollView>
-        <View>{renderTabs()}</View>
+        <View>{renderTabs(navigation)}</View>
         <View style={styles.infoGrp}>
           <View style={styles.milkGrp}>
             <View style={styles.milkGrpTxTContainer}>
@@ -103,11 +107,16 @@ const SuggestionPage = () => {
   );
 };
 
-const renderTabs = () => {
+const renderTabs = (navigation: NativeStackNavigationProp<any>) => {
   return (
     <View style={styles.tabsContainer}>
       {tabsData.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.tabItem}>
+        <TouchableOpacity
+          key={index}
+          style={styles.tabItem}
+          onPress={() =>
+            navigation.navigate('SuggestionTab', {label: item.label})
+          }>
           <LinearGradient
             colors={['#AF90D6', '#5C4B70']}
             style={styles.tabIconWrapper}>
@@ -360,7 +369,7 @@ const styles = StyleSheet.create({
   bottomTabsGrp: {
     flexDirection: 'row',
     marginBottom: vh(3),
-    paddingLeft: vw(5),
+    marginHorizontal: vw(5),
   },
   bottomTabsItem: {
     height: 140,
