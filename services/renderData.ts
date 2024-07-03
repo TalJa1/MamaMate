@@ -62,6 +62,7 @@ export const fruitData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Trái cây',
+    img: require('../assets/Meal/duduxanh.png'),
     suggest: [
       {
         label: 'Mang thai',
@@ -78,6 +79,7 @@ export const fruitData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Trái cây',
+    img: require('../assets/Meal/cam.png'),
     suggest: [
       {
         label: 'Nên ăn',
@@ -94,6 +96,7 @@ export const fruitData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Trái cây',
+    img: require('../assets/Meal/xoai.png'),
     suggest: [
       {
         label: 'Nên ăn',
@@ -110,6 +113,7 @@ export const fruitData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Trái cây',
+    img: require('../assets/Meal/duahau.png'),
     suggest: [
       {
         label: 'Nên ăn',
@@ -126,6 +130,7 @@ export const fruitData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Trái cây',
+    img: require('../assets/Meal/mit.png'),
     suggest: [
       {
         label: 'Nên ăn',

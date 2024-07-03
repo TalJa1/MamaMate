@@ -1,14 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, ImageSourcePropType} from 'react-native';
 import {vh, vw} from '../styles/stylesheet';
 
 // Import your SVG components and functions
 
-import {
-  getSuggestionImg,
-  getSuggestionCatergoryImg,
-} from '../services/imageHelper';
+import {getSuggestionCatergoryImg} from '../services/imageHelper';
 import {saveIconSVG, wishlistIconSVG} from '../assets/svgXml';
 
 interface SuggestItem {
@@ -21,6 +18,7 @@ interface SuggestionItem {
   catergory: string;
   kcal: string;
   capacity: string;
+  img: ImageSourcePropType;
   suggest: SuggestItem[];
 }
 
@@ -35,10 +33,7 @@ const TabsMealSuggestionComponent: React.FC<
     <View style={{rowGap: vh(2)}}>
       {suggestionRenderData.map((item, index) => (
         <View key={index} style={styles.suggestionItem}>
-          <Image
-            source={getSuggestionImg(item.title)}
-            style={styles.suggestionImage}
-          />
+          <Image source={item.img} style={styles.suggestionImage} />
           <View style={styles.suggestionTextContainer}>
             <View style={styles.suggestionTitleGrp}>
               <Text style={styles.suggestionTitle}>{item.title}</Text>
