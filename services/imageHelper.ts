@@ -134,3 +134,24 @@ export const getSuggestionCatergoryImg = (catergory: string) => {
       return require('../assets/Meal/cannedfood.png');
   }
 };
+
+export const getMoodProgressIcon = (percent: number) => {
+  let imageSource;
+  let backgroundColor;
+
+  if (percent <= 30) {
+    imageSource = require('../assets/Mood/pouting-face.png');
+    backgroundColor = '#FF1F11BF';
+  } else if (percent < 50) {
+    imageSource = require('../assets/Mood/disappointed-face.png');
+    backgroundColor = '#FF5C00BF';
+  } else if (percent === 50) {
+    imageSource = require('../assets/Mood/smiling-face-with-halo.png');
+    backgroundColor = '#3686FFBF';
+  } else if (percent > 50) {
+    imageSource = require('../assets/Mood/smiling-face-with-heart-eyes.png');
+    backgroundColor = '#3CE862BF';
+  }
+
+  return {imageSource, backgroundColor};
+};

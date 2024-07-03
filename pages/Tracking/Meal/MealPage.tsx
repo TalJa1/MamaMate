@@ -132,7 +132,10 @@ const MealPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <PregnancyCurrentWeekComponent />
+        <PregnancyCurrentWeekComponent
+          currentWeek={currentWeek}
+          setCurrentWeek={setCurrentWeek}
+        />
         <View>
           <View style={styles.infoGrp}>
             <View style={styles.milkGrp}>

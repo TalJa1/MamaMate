@@ -11,6 +11,21 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const playButtonSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.166504 21.0121C0.166504 9.51311 9.51737 0.166748 20.9998 0.166748C32.4823 0.166748 41.8332 9.51311 41.8332 21.0121C41.8332 32.4871 32.4823 41.8334 20.9998 41.8334C9.51737 41.8334 0.166504 32.4871 0.166504 21.0121ZM28.6414 23.1206C28.8626 22.8995 29.1441 22.5578 29.2045 22.4774C29.5262 22.0553 29.6871 21.5327 29.6871 21.0121C29.6871 20.4272 29.5061 19.8845 29.1643 19.4424C29.1362 19.4144 29.0814 19.3546 29.0099 19.2768C28.8761 19.1312 28.6841 18.9222 28.5006 18.7389C26.8517 16.9701 22.5483 14.0757 20.296 13.1913C19.9541 13.0527 19.0894 12.7492 18.6269 12.7291C18.1845 12.7291 17.7622 12.8296 17.36 13.0306C16.8573 13.3119 16.4551 13.7541 16.2339 14.2767C16.0931 14.6385 15.8719 15.7239 15.8719 15.744C15.6507 16.9299 15.5301 18.8595 15.5301 20.99C15.5301 23.0221 15.6507 24.8693 15.8317 26.0753C15.8367 26.0802 15.854 26.1665 15.8809 26.3005C15.9626 26.7078 16.1328 27.5565 16.3144 27.9043C16.7568 28.7485 17.6215 29.2711 18.5465 29.2711H18.6269C19.2302 29.251 20.4971 28.7284 20.4971 28.7083C22.6287 27.8239 26.8316 25.0703 28.5208 23.2412L28.6414 23.1206Z" fill="url(#paint0_linear_729_792)" fill-opacity="0.8" style=""/>
+<defs>
+<linearGradient id="paint0_linear_729_792" x1="-15.5693" y1="-5.76592" x2="36.1933" y2="39.1735" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.04" style="stop-color:white;stop-opacity:0.04;"/>
+<stop offset="1" stop-color="#788DB2" style="stop-color:#788DB2;stop-color:color(display-p3 0.4714 0.5519 0.6969);stop-opacity:1;"/>
+</linearGradient>
+</defs>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const waringIconSVG = (w?: any, h?: any) => {
   const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="24" height="24" rx="4" fill="#997CBD" style="fill:#997CBD;fill:color(display-p3 0.6000 0.4863 0.7412);fill-opacity:1;"/>

@@ -10,10 +10,14 @@ import {
 import React from 'react';
 import {nextIconSVG} from '../assets/svgXml';
 import {vh, vw} from '../styles/stylesheet';
+interface PregnancyCurrentWeekComponentProps {
+  currentWeek: number;
+  setCurrentWeek: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const PregnancyCurrentWeekComponent = () => {
-  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
-
+const PregnancyCurrentWeekComponent: React.FC<
+  PregnancyCurrentWeekComponentProps
+> = ({currentWeek, setCurrentWeek}) => {
   return (
     <View>
       <View style={styles.topScrollViewLabelGrp}>
