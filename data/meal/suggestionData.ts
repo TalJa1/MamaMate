@@ -8,6 +8,7 @@ export const suggestionRenderData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'TPCN',
+    img: require('../../assets/Meal/cansofMilk.png'),
     suggest: [
       {
         label: 'Nên ăn',
@@ -24,6 +25,7 @@ export const suggestionRenderData = [
     kcal: '48 kcal',
     capacity: '100 ml',
     catergory: 'Hải sản',
+    img: require('../../assets/Meal/tom.png'),
     suggest: [
       {
         label: 'Nên ăn',
