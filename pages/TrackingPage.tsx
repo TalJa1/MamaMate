@@ -42,7 +42,11 @@ const TrackingPage = () => {
             onPress={() => handleNavigation('WeightTracking')}
           />
           <TrackingField img="belly" label="Vòng bụng" />
-          <TrackingField img="smilingFace" label="Tinh thần" />
+          <TrackingField
+            img="smilingFace"
+            label="Tinh thần"
+            onPress={() => navigation.navigate('Mood')}
+          />
         </View>
         <View style={styles.gradientFieldContainer}>
           <LinearGradient

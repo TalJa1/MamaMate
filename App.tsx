@@ -34,6 +34,7 @@ import HandBookDetailPage from './pages/Tracking/HandBookDetailPage';
 import MealPage from './pages/Tracking/Meal/MealPage';
 import SuggestionPage from './pages/Tracking/Meal/SuggestionPage';
 import SuggestionTabPage from './pages/Tracking/Meal/SuggestionTabPage';
+import MoodPage from './pages/Tracking/Feeling/MoodPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -148,6 +149,28 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         {/* Tracking Group */}
+        <Stack.Screen
+          name="Mood"
+          component={MoodPage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Tâm trạng',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#19162E',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         <Stack.Screen
           name="SuggestionTab"
           component={SuggestionTabPage as React.ComponentType<any>}
