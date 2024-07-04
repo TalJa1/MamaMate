@@ -35,6 +35,7 @@ import MealPage from './pages/Tracking/Meal/MealPage';
 import SuggestionPage from './pages/Tracking/Meal/SuggestionPage';
 import SuggestionTabPage from './pages/Tracking/Meal/SuggestionTabPage';
 import MoodPage from './pages/Tracking/Feeling/MoodPage';
+import WishListPage from './pages/Tracking/Wishlist/WishListPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -149,6 +150,28 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
         {/* Tracking Group */}
+        <Stack.Screen
+          name="WishList"
+          component={WishListPage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Ước muốn',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#19162E',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         <Stack.Screen
           name="Mood"
           component={MoodPage}

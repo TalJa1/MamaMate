@@ -77,7 +77,11 @@ const TrackingPage = () => {
             onPress={() => handleNavigation('HandBook')}
           />
         </View>
-        <View style={styles.gradientFieldContainer}>
+        <TouchableOpacity
+          style={styles.gradientFieldContainer}
+          onPress={() => {
+            navigation.navigate('WishList');
+          }}>
           <LinearGradient
             style={styles.gradientField}
             colors={['#081E2A', '#96C1DE']}>
@@ -106,7 +110,7 @@ const TrackingPage = () => {
               <Image source={require('../assets/hashtagAndHeart.png')} />
             </View>
           </LinearGradient>
-        </View>
+        </TouchableOpacity>
         <View style={styles.trackingTopField}>
           <TouchableOpacity
             style={styles.trackingFieldContainer}
