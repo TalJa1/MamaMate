@@ -1,11 +1,4 @@
 /* eslint-disable prettier/prettier */
-import {
-  disappointedFaceIconSVG,
-  faceWithHaloIconSVG,
-  heartEyeIconSVG,
-  poutingFaceIconSVG,
-} from '../assets/svgXml';
-import {vh, vw} from '../styles/stylesheet';
 
 export const getImageSource = (imageName: string) => {
   switch (imageName) {
@@ -167,12 +160,12 @@ export const getMoodProgressIcon = (percent: number) => {
 export const getMoodCardImg = (catergory: string) => {
   switch (catergory) {
     case 'pouting':
-      return poutingFaceIconSVG(vw(10), vh(5));
+      return require('../assets/Mood/pouting-face.png');
     case 'disappointed':
-      return disappointedFaceIconSVG(vw(10), vh(5));
+      return require('../assets/Mood/disappointed-face.png');
     case 'halo':
-      return faceWithHaloIconSVG(vw(10), vh(5));
+      return require('../assets/Mood/smiling-face-with-halo.png');
     case 'heart-eyes':
-      return heartEyeIconSVG(vw(10), vh(5));
+      return require('../assets/Mood/smiling-face-with-heart-eyes.png');
   }
 };

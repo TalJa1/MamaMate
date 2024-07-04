@@ -25,6 +25,7 @@ import BarChartComponent from '../../../components/BarChartComponent';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import PregnancyCurrentWeekComponent from '../../../components/PregnancyCurrentWeekComponent';
+import {formattedDate} from '../../../services/dayTimeService';
 
 interface RenderNutrition {
   icon: any;
@@ -118,14 +119,6 @@ const MealPage = () => {
       kcal: 320,
     },
   ]);
-  const today = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'numeric',
-  };
-  const formattedDate = `Hôm nay, ${today
-    .toLocaleDateString('vi-VN', options)
-    .replace('/', ' tháng ')}`;
 
   useStatusBar('#19162E');
 

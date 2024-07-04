@@ -71,3 +71,21 @@ export const getVietnamDayOfWeek = (): string => {
   }
   throw new Error('Unexpected dayOfWeek type');
 };
+
+const today = new Date();
+
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
+
+const options: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  month: 'numeric',
+};
+
+export const formattedDate = `Hôm nay, ${today
+  .toLocaleDateString('vi-VN', options)
+  .replace('/', ' tháng ')}`;
+
+export const formattedTomorrow = `Ngày mai, ${tomorrow
+  .toLocaleDateString('vi-VN', options)
+  .replace('/', ' tháng ')}`;

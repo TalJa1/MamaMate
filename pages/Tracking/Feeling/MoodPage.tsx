@@ -123,7 +123,12 @@ const MoodPage = () => {
             <View style={styles.cardContentContainer}>
               <View style={styles.cardHeaderContainer}>
                 <View style={styles.cardHeaderLeftGrp}>
-                  <View>{getMoodCardImg('disappointed')}</View>
+                  <View>
+                    <Image
+                      style={{width: 35, height: 35, resizeMode: 'contain'}}
+                      source={getMoodCardImg('disappointed')}
+                    />
+                  </View>
                   <View style={styles.cardHeaderTitle}>
                     <Text
                       style={{

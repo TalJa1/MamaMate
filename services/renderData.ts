@@ -161,3 +161,25 @@ export const moodSuggestionData = [
     des: 'Vận động',
   },
 ];
+
+export const wishListTodayData = [
+  {
+    title: 'Thèm ăn cóc dầm muốt ớt',
+    isCheck: true,
+    user: 'bocuakit',
+    img: require('../assets/WishList/father.png'),
+  },
+  {
+    title: 'Hết sữa bầu rồi, @dicuakit tan làm mua cho 2 mẹ con nhé <3',
+    isCheck: false,
+    user: 'dìcủakit',
+    img: require('../assets/WishList/aunt.png'),
+  },
+];
+
+export const wishListTomorrowData = [
+  {
+    title: 'Đi khám định kỳ cùng 2 mẹ con',
+    isCheck: true,
+  },
+];
