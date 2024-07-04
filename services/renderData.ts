@@ -183,3 +183,27 @@ export const wishListTomorrowData = [
     isCheck: true,
   },
 ];
+
+export const seenWishListData = [
+  {
+    user: 'dìcủakit',
+    img: require('../assets/WishList/aunt.png'),
+    postTime: '2024-07-04T07:15:00Z',
+    isAnswer: true,
+    isReject: true,
+  },
+  {
+    user: 'bànội',
+    img: require('../assets/WishList/grandma.png'),
+    postTime: '2024-07-03T07:20:00Z',
+    isAnswer: false,
+    isReject: false,
+  },
+  {
+    user: 'bốcủakít',
+    img: require('../assets/WishList/father.png'),
+    postTime: '2024-07-02T07:20:00Z',
+    isAnswer: false,
+    isReject: false,
+  },
+];

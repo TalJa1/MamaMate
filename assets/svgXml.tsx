@@ -11,6 +11,34 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const removeIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.00016 4.00003C3.00016 8.8823 1.85938 15.6667 8.00016 15.6667C14.1409 15.6667 13.0002 8.8823 13.0002 4.00003M1.3335 4.00003H14.6668M10.5002 4.00003V3.1667C10.5002 1.6875 9.13574 1.50003 8.00016 1.50003C6.86458 1.50003 5.50016 1.6875 5.50016 3.1667V4.00003" stroke="#8B8B8B" style="stroke:#8B8B8B;stroke:color(display-p3 0.5451 0.5451 0.5451);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const noIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="9.15527e-05" width="20" height="20" rx="4" fill="#AA3A3A" style="fill:#AA3A3A;fill:color(display-p3 0.6667 0.2275 0.2275);fill-opacity:1;"/>
+<path d="M13.3332 6.66676L6.6665 13.3334M6.66651 6.66676L13.3332 13.3334" stroke="#EAE1EE" style="stroke:#EAE1EE;stroke:color(display-p3 0.9176 0.8824 0.9333);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const yesIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect y="6.10352e-05" width="20" height="20" rx="4" fill="#82BA5F" style="fill:#82BA5F;fill:color(display-p3 0.5087 0.7299 0.3731);fill-opacity:1;"/>
+<path d="M14.1669 7.50006L8.33353 13.3334L5.8335 10.8334" stroke="#221E3D" style="stroke:#221E3D;stroke:color(display-p3 0.1352 0.1188 0.2402);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const icon99SVG = (w?: any, h?: any) => {
   const xml = `<svg width="31" height="25" viewBox="0 0 31 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M17.3263 7.2C17.3263 5.13333 18.0131 3.4 19.3867 2C20.7603 0.666667 22.4773 -7.45075e-07 24.5378 -5.64947e-07C26.4733 -3.95736e-07 28.0342 0.633333 29.2205 1.9C30.4068 3.23334 31 5.03334 31 7.3C31 11.0333 29.8137 14.4667 27.4411 17.6C25.006 20.8 22.0715 23.2667 18.6375 25L17.139 21.5C18.7623 20.4333 20.2608 19.1333 21.6344 17.6C22.9456 16.1333 23.9446 14.4333 24.6314 12.5C23.9446 12.7 23.289 12.8 22.6647 12.8C21.1037 12.8 19.8238 12.2667 18.8248 11.2C17.8258 10.1333 17.3263 8.8 17.3263 7.2ZM0.187313 7.2C0.187313 5.13333 0.874123 3.4 2.24774 2C3.62135 0.666666 5.33837 -2.24341e-06 7.39879 -2.06328e-06C9.33434 -1.89407e-06 10.8953 0.633331 12.0816 1.9C13.2679 3.23333 13.861 5.03334 13.861 7.3C13.861 11.0333 12.6747 14.4667 10.3021 17.6C7.86707 20.8 4.93253 23.2667 1.49849 25L3.0598e-07 21.5C1.62336 20.4333 3.12185 19.1333 4.49547 17.6C5.80665 16.1333 6.80564 14.4333 7.49245 12.5C6.80564 12.7 6.15005 12.8 5.52568 12.8C3.96476 12.8 2.68479 12.2667 1.6858 11.2C0.686809 10.1333 0.187313 8.8 0.187313 7.2Z" fill="white" style="fill:white;fill-opacity:1;"/>

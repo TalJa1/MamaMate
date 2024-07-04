@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+
+// Full method for getting date
 type DateTimeComponent =
   | 'day'
   | 'month'
@@ -72,6 +74,7 @@ export const getVietnamDayOfWeek = (): string => {
   throw new Error('Unexpected dayOfWeek type');
 };
 
+// Get day of week and return in vietnamese
 const today = new Date();
 
 const tomorrow = new Date(today);
@@ -89,3 +92,32 @@ export const formattedDate = `Hôm nay, ${today
 export const formattedTomorrow = `Ngày mai, ${tomorrow
   .toLocaleDateString('vi-VN', options)
   .replace('/', ' tháng ')}`;
+
+// Get and time and compare with now() to return TIME_AGO format
+export const getTimeAgoInVietnamese = (
+  timestamp: string | number | Date,
+): string => {
+  const now = new Date();
+  const postTime = new Date(timestamp);
+  const diffInSeconds = Math.floor((now.getTime() - postTime.getTime()) / 1000);
+
+  const intervals = [
+    {label: 'giây', seconds: 1},
+    {label: 'phút', seconds: 60},
+    {label: 'giờ', seconds: 3600},
+    {label: 'ngày', seconds: 86400},
+    {label: 'tuần', seconds: 604800},
+    {label: 'tháng', seconds: 2592000}, // Approximate month
+    {label: 'năm', seconds: 31536000}, // Approximate year
+  ];
+
+  for (let i = intervals.length - 1; i >= 0; i--) {
+    const interval = intervals[i];
+    const count = Math.floor(diffInSeconds / interval.seconds);
+    if (count >= 1) {
+      return `${count} ${interval.label} trước`;
+    }
+  }
+
+  return 'vừa xong'; // Just now
+};
