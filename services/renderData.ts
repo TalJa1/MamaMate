@@ -143,3 +143,21 @@ export const fruitData = [
     ],
   },
 ];
+
+export const moodSuggestionData = [
+  {
+    img: require('../assets/Mood/sach.png'),
+    title: 'Chia sẻ',
+    des: 'Cải thiện tâm trạng',
+  },
+  {
+    img: require('../assets/Meal/yoga2.png'),
+    title: 'Thiền',
+    des: 'Bình tĩnh',
+  },
+  {
+    img: require('../assets/Mood/donut.png'),
+    title: 'Yoga',
+    des: 'Vận động',
+  },
+];

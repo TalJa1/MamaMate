@@ -1,4 +1,12 @@
 /* eslint-disable prettier/prettier */
+import {
+  disappointedFaceIconSVG,
+  faceWithHaloIconSVG,
+  heartEyeIconSVG,
+  poutingFaceIconSVG,
+} from '../assets/svgXml';
+import {vh, vw} from '../styles/stylesheet';
+
 export const getImageSource = (imageName: string) => {
   switch (imageName) {
     case 'pillow':
@@ -154,4 +162,17 @@ export const getMoodProgressIcon = (percent: number) => {
   }
 
   return {imageSource, backgroundColor};
+};
+
+export const getMoodCardImg = (catergory: string) => {
+  switch (catergory) {
+    case 'pouting':
+      return poutingFaceIconSVG(vw(10), vh(5));
+    case 'disappointed':
+      return disappointedFaceIconSVG(vw(10), vh(5));
+    case 'halo':
+      return faceWithHaloIconSVG(vw(10), vh(5));
+    case 'heart-eyes':
+      return heartEyeIconSVG(vw(10), vh(5));
+  }
 };
