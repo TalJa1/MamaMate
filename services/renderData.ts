@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {checkIconSVG, waringIconSVG, xIconSVG} from '../assets/svgXml';
+import {
+  checkIconSVG,
+  labIconSVG,
+  medicineIconSVG,
+  waringIconSVG,
+  xIconSVG,
+} from '../assets/svgXml';
 import {vh, vw} from '../styles/stylesheet';
 
 export const handbookData = [
@@ -220,5 +226,68 @@ export const messGrpData = [
   {
     mess: 'Mẹ tròn con vuông nhé!',
     img: require('../assets/WishList/fr2.png'),
+  },
+];
+
+export const doctorListData = [
+  {
+    name: 'Trần Thái Linh',
+    department: 'Khoa sản',
+    location: 'Viện Hồng Ngọc',
+    rating: 4.5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Tây Á',
+    rating: 4,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Hồng Ngọc',
+    rating: 5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Nam Á',
+    rating: 5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Minh Nguyệt',
+    rating: 4.5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+];
+
+export const remindData = [
+  {
+    title: 'Uống thuốc sắt',
+    des: '3 viên, Sau ăn 30p',
+    icon: medicineIconSVG(vw(6), vh(3)),
+    time: ['12:30', '18:30'],
+  },
+  {
+    title: 'Uống thuốc sữa bầu',
+    des: 'Hàng ngày',
+    icon: labIconSVG(vw(6), vh(3)),
+    time: ['9:00'],
   },
 ];

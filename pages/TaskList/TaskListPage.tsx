@@ -1,17 +1,58 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/self-closing-comp */
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
 import {formattedDate, getDateTime} from '../../services/dayTimeService';
+import {doctorListData, remindData} from '../../services/renderData';
+import {Rating} from '@kolking/react-native-rating';
+import {clockIconSVG, examinationScheduleIconSVG} from '../../assets/svgXml';
+import ToggleSwitch from 'toggle-switch-react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
+interface RenderReservedDoctor {
+  name: string;
+  department: string;
+  location: string;
+  rating: number;
+  workFrom: string;
+  workTo: string;
+  img: any;
+}
+
+interface RenderReminder {
+  title: string;
+  des: string;
+  icon: any;
+  time: Array<string>;
+}
 
 const TaskListPage = () => {
   const days = Array.from({length: 31}, (_, i) => i + 1);
   const today = getDateTime('day');
   useStatusBar('#19162E');
+
+  const [toggleStates, setToggleStates] = React.useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // Handler function to toggle the state
+  const handleToggle = (key: string) => {
+    setToggleStates(prevState => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -22,15 +63,323 @@ const TaskListPage = () => {
           borderBottomLeftRadius: 20,
           backgroundColor: '#19162E',
         }}></View>
-      <ScrollView style={{paddingVertical: vh(2)}}>
+      <ScrollView style={{paddingTop: vh(2)}}>
         <View style={{paddingHorizontal: vw(5)}}>
           <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
             {formattedDate}
           </Text>
         </View>
         <View>{renderDays(days, Number(today))}</View>
+        <View>
+          {renderReservedDoctor(doctorListData[0], handleToggle, toggleStates)}
+        </View>
+        <View>{renderReminder(remindData, handleToggle, toggleStates)}</View>
+        <View>{renderPregnancyExamination()}</View>
+        <View>{renderTaskBox()}</View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const renderTaskBox = () => {
+  return (
+    <View style={{width: vw(100), alignItems: 'center', marginBottom: 40}}>
+      <TouchableOpacity
+        style={{
+          width: '90%',
+          height: 145,
+          borderRadius: 10,
+          overflow: 'hidden',
+        }}>
+        <Image
+          style={{
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+            opacity: 0.2,
+            position: 'absolute',
+          }}
+          source={require('../../assets/TaskList/taskBackGround.png')}
+        />
+        <View
+          style={{
+            width: '50%',
+            height: '100%',
+            paddingLeft: vw(5),
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+            NHIỆM VỤ
+          </Text>
+          <Text style={{color: '#EAE1EE', fontSize: 14, fontWeight: '400'}}>
+            Những đầu công việc bạn tự đặt ra trong việc chăm sóc mẹ và bé
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const renderPregnancyExamination = () => {
+  return (
+    <View
+      style={{
+        width: vw(100),
+        alignItems: 'center',
+        marginTop: vh(2),
+        marginBottom: vh(2),
+      }}>
+      <TouchableOpacity>
+        <LinearGradient
+          colors={['#B95649', '#FFDADAC7']}
+          style={{
+            width: '90%',
+            height: 145,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderRadius: 10,
+          }}>
+          <View
+            style={{
+              height: '100%',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              paddingLeft: vw(5),
+              width: '50%',
+            }}>
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              XÉT NGHIỆM KHÁM THAI
+            </Text>
+            <Text style={{color: '#EAE1EE', fontSize: 14}}>
+              3 tam ca nguyệt
+            </Text>
+          </View>
+          <Image
+            style={{position: 'absolute', bottom: 0, right: '17%', zIndex: 2}}
+            source={require('../../assets/TaskList/medicalHeart.png')}
+          />
+          <Image source={require('../../assets/TaskList/doctor.png')} />
+        </LinearGradient>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const renderReminder = (
+  data: RenderReminder[],
+  handleToggle: (key: string) => void,
+  toggleStates: {[key: string]: boolean},
+) => {
+  return (
+    <View
+      style={{
+        width: vw(100),
+        alignItems: 'center',
+        rowGap: vh(2),
+        marginTop: vh(2),
+      }}>
+      {data.map((v, i) => (
+        <View
+          key={i}
+          style={{
+            borderWidth: 1,
+            borderColor: '#AD9AB5',
+            width: '90%',
+            padding: 10,
+            borderRadius: 16,
+            rowGap: vh(1),
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  columnGap: vw(2),
+                  alignItems: 'center',
+                }}>
+                {v.icon}
+                <Text
+                  style={{color: '#96C1DE', fontSize: 18, fontWeight: '700'}}>
+                  {v.title}
+                </Text>
+              </View>
+              <ToggleSwitch
+                isOn={toggleStates[`reminderToggle_${i}`] || false}
+                onColor="#EAE1EE"
+                offColor="#EAE1EE"
+                circleColor={'#221E3D'}
+                onToggle={() => handleToggle(`reminderToggle_${i}`)}
+                size="medium"
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}>
+            <View>
+              <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '400'}}>
+                {v.des}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                columnGap: vw(1),
+              }}>
+              {v.time.map((time, ind) => (
+                <View
+                  key={ind}
+                  style={{
+                    backgroundColor: '#997CBD',
+                    borderRadius: 8,
+                    paddingHorizontal: 5,
+                    paddingVertical: 3,
+                  }}>
+                  <Text style={{color: '#EAE1EE', fontSize: 18}}>{time}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+const renderReservedDoctor = (
+  data: RenderReservedDoctor,
+  handleToggle: (key: string) => void,
+  toggleStates: {[key: string]: boolean},
+) => {
+  const doctorKey = 'doctorToggle_0';
+  return (
+    <View style={{paddingHorizontal: vw(5)}}>
+      <View
+        style={{flexDirection: 'row', alignItems: 'center', columnGap: vw(2)}}>
+        <Image
+          style={{width: 40, height: 40, resizeMode: 'contain'}}
+          source={require('../../assets/WishList/father.png')}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{color: '#96C1DE', fontSize: 16, fontWeight: '700'}}>
+            @bốcủakít
+          </Text>
+          <Text style={{color: '#CDCDCD', fontSize: 16, fontWeight: '700'}}>
+            {' '}
+            đã đặt khám
+          </Text>
+        </View>
+      </View>
+      <View style={{width: '100%', marginTop: vh(2)}}>
+        <View
+          style={{
+            borderWidth: 2,
+            borderColor: '#AD9AB5',
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            flexDirection: 'row',
+            columnGap: vw(4),
+          }}>
+          <Image style={{zIndex: -1}} source={data.img} />
+          <View style={{justifyContent: 'space-around'}}>
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              {data.name}
+            </Text>
+            <Text style={styles.txtStyle}>
+              {data.department} - {data.location}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: vw(1),
+              }}>
+              <Rating size={20} rating={data.rating} />
+              <Text
+                style={{
+                  fontSize: 12,
+                  fontWeight: '400',
+                  color: '#CDCDCD',
+                }}>{`${data.rating}`}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: vw(2),
+              }}>
+              {clockIconSVG(vw(6), vh(3))}
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.txtStyle}>{data.workFrom} am</Text>
+                <Text style={styles.txtStyle}> - {data.workTo} pm</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={{
+          backgroundColor: '#382E75',
+          padding: 10,
+          borderBottomLeftRadius: 16,
+          borderBottomRightRadius: 16,
+          rowGap: vh(2),
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{flexDirection: 'row', columnGap: vw(2)}}>
+            {examinationScheduleIconSVG(vw(6), vh(3))}
+            <Text style={{color: '#EAE1EE', fontSize: 16, fontWeight: '700'}}>
+              Lịch khám:
+            </Text>
+          </View>
+          <View>
+            <ToggleSwitch
+              isOn={toggleStates[doctorKey] || false}
+              onColor="#221E3D"
+              offColor="#221E3D"
+              onToggle={() => handleToggle(doctorKey)}
+              size="medium"
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View>
+            <Text style={styles.examScheduleTxt}>Bác sĩ Trần Thái Linh</Text>
+            <Text style={styles.examScheduleTxt}>XN sinh hóa</Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: '#EAE1EE',
+              paddingHorizontal: vw(2),
+              paddingVertical: 5,
+              borderRadius: 8,
+            }}>
+            <Text>16:30</Text>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 };
 
@@ -81,6 +430,16 @@ const styles = StyleSheet.create({
   dayText: {
     color: '#EAE1EE',
     fontSize: 18,
+    fontWeight: '400',
+  },
+  txtStyle: {
+    color: '#C1BED6',
+    fontSize: 12,
+    fontWeight: '400',
+  },
+  examScheduleTxt: {
+    color: '#EAE1EE',
+    fontSize: 14,
     fontWeight: '400',
   },
 });
