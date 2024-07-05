@@ -67,9 +67,31 @@ interface RenderMessGrp {
 
 const WishListPage = () => {
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+  const [seenUserStorage, setSeenUserStorage] = React.useState<
+    RenderSeenUser[]
+  >([]);
   const [watched, setWatched] = React.useState<number>(8);
   const currentMonth = getDateTime('month');
   useStatusBar('#19162E');
+
+  React.useEffect(() => {
+    setSeenUserStorage(seenWishListData);
+  }, []);
+
+  const handleYesClick = (index: number) => {
+    const updatedData = [...seenUserStorage];
+    updatedData[index].isAnswer = true;
+    updatedData[index].isReject = false;
+    setSeenUserStorage(updatedData);
+  };
+
+  const handleNoClick = (index: number) => {
+    const updatedData = [...seenUserStorage];
+    updatedData[index].isAnswer = true;
+    updatedData[index].isReject = true;
+    setSeenUserStorage(updatedData);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -116,7 +138,13 @@ const WishListPage = () => {
                 Đã xem {watched}
               </Text>
             </View>
-            <View>{renderSeenUser(seenWishListData)}</View>
+            <View>
+              {renderSeenUser({
+                data: seenUserStorage,
+                onYesClick: handleYesClick,
+                onNoClick: handleNoClick,
+              })}
+            </View>
             <TouchableOpacity
               style={{
                 backgroundColor: '#EAE1EE',
@@ -397,11 +425,19 @@ const renderDreamedMonth = (month: string) => {
   );
 };
 
-const renderSeenUser = (data: RenderSeenUser[]) => {
+const renderSeenUser = ({
+  data,
+  onYesClick,
+  onNoClick,
+}: {
+  data: RenderSeenUser[];
+  onYesClick: (index: number) => void;
+  onNoClick: (index: number) => void;
+}) => {
   return (
     <View style={{rowGap: vh(2)}}>
       {data.map((v, i) => (
-        <View key={i}>
+        <View key={i} style={{width: vw(90)}}>
           <View
             style={{
               flexDirection: 'row',
@@ -484,10 +520,12 @@ const renderSeenUser = (data: RenderSeenUser[]) => {
                 <></>
               ) : (
                 <View style={{flexDirection: 'row', columnGap: vw(1)}}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => onYesClick(i)}>
                     {yesIconSVG(vw(6), vh(3))}
                   </TouchableOpacity>
-                  <TouchableOpacity>{noIconSVG(vw(6), vh(3))}</TouchableOpacity>
+                  <TouchableOpacity onPress={() => onNoClick(i)}>
+                    {noIconSVG(vw(6), vh(3))}
+                  </TouchableOpacity>
                 </View>
               )}
             </View>

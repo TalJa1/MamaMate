@@ -36,6 +36,7 @@ import SuggestionPage from './pages/Tracking/Meal/SuggestionPage';
 import SuggestionTabPage from './pages/Tracking/Meal/SuggestionTabPage';
 import MoodPage from './pages/Tracking/Feeling/MoodPage';
 import WishListPage from './pages/Tracking/Wishlist/WishListPage';
+import TaskListPage from './pages/TaskList/TaskListPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -109,10 +110,22 @@ const App = () => {
             }}
           />
           <Tab.Screen
-            name="Data"
-            component={HomePage}
-            options={{
-              headerShown: false,
+            name="TaskList"
+            component={TaskListPage}
+            options={() => ({
+              headerShown: true,
+              title: 'Việc cần làm',
+              headerTitleStyle: {color: 'white'},
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#19162E',
+              },
+              headerShadowVisible: false,
+              // headerLeft: () => (
+              //   <TouchableOpacity onPress={() => navigation.goBack()}>
+              //     {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              //   </TouchableOpacity>
+              // ),
               tabBarIcon: ({color, focused, size}) => {
                 return focused ? (
                   <View style={[styles.container, {width: size}]}>
@@ -123,7 +136,7 @@ const App = () => {
                   <View>{dataIconSVG(vw(6), vh(6), color)}</View>
                 );
               },
-            }}
+            })}
           />
           <Tab.Screen
             name="Settings"
@@ -140,6 +153,15 @@ const App = () => {
                   <View>{settingsIconSVG(vw(6), vh(6), color)}</View>
                 );
               },
+              //prevent navigate to uncomplete Page
+              tabBarButton: props => (
+                <TouchableOpacity
+                  {...props}
+                  onPress={e => {
+                    e.preventDefault();
+                  }}
+                />
+              ),
             }}
           />
         </Tab.Navigator>
