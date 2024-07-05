@@ -23,12 +23,15 @@ import {
   getTimeAgoInVietnamese,
 } from '../../../services/dayTimeService';
 import {
+  messGrpData,
   seenWishListData,
   wishListTodayData,
   wishListTomorrowData,
 } from '../../../services/renderData';
 import {
   checkboxSVG,
+  icon66SVG,
+  icon99SVG,
   nextIconSVG,
   noIconSVG,
   removeIconSVG,
@@ -55,6 +58,11 @@ interface RenderSeenUser {
   postTime: string;
   isAnswer: boolean;
   isReject: boolean;
+}
+
+interface RenderMessGrp {
+  mess: string;
+  img: any;
 }
 
 const WishListPage = () => {
@@ -127,8 +135,181 @@ const WishListPage = () => {
         <View style={{marginBottom: vh(2)}}>
           {renderDreamedMonth(currentMonth.toLocaleString())}
         </View>
+        <View style={{marginBottom: vh(2)}}>{renderMessToChild()}</View>
+        <View style={{marginBottom: vh(2)}}>{renderMessGrp(messGrpData)}</View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const renderMessGrp = (data: RenderMessGrp[]) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        marginTop: 40,
+        width: '100%',
+        justifyContent: 'space-around',
+      }}>
+      {data.map((v, i) => (
+        <View
+          key={i}
+          style={{
+            backgroundColor: '#FFB9A6',
+            borderRadius: 20,
+            width: vw(30),
+            height: 140,
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{
+              width: 60,
+              height: 60,
+              resizeMode: 'contain',
+              position: 'absolute',
+              top: -30,
+              zIndex: 2,
+            }}
+            source={v.img}
+          />
+          <View
+            style={{
+              width: '100%',
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              paddingBottom: 15,
+            }}>
+            <Image source={require('../../../assets/WishList/fourleaf.png')} />
+            <Text
+              style={{
+                color: '#221E3D',
+
+                textAlign: 'center',
+              }}>
+              "{v.mess}"
+            </Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+};
+
+const renderMessToChild = () => {
+  return (
+    <View style={{width: '100%', rowGap: vh(1)}}>
+      <Text
+        style={{
+          textAlign: 'center',
+          color: '#EAE1EE',
+          fontSize: 18,
+          fontWeight: '700',
+        }}>
+        Nhắn nhủ tới bé
+      </Text>
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <View style={{width: '80%', height: 180, alignItems: 'center'}}>
+          <View
+            style={{
+              height: 100,
+              width: 100,
+              backgroundColor: '#E2D6CE',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              borderRadius: 20,
+              position: 'absolute',
+              top: 0,
+              zIndex: 2,
+            }}>
+            <Image source={require('../../../assets/WishList/mai.png')} />
+            <Text style={{textAlign: 'center', color: '#AA3A3A'}}>@bácmai</Text>
+          </View>
+          <View
+            style={{
+              borderWidth: 2,
+              borderColor: 'white',
+              width: '100%',
+              height: 130,
+              borderRadius: 20,
+              position: 'absolute',
+              bottom: 0,
+            }}>
+            <View style={{position: 'absolute', top: -15, left: -10}}>
+              {icon66SVG(vw(7), vh(4))}
+            </View>
+            <View style={{position: 'absolute', bottom: -15, right: -10}}>
+              {icon99SVG(vw(7), vh(4))}
+            </View>
+            <View
+              style={{
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: '#997CBD',
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  alignSelf: 'flex-start',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  borderRadius: 25,
+                  columnGap: vw(1),
+                }}>
+                <Image
+                  style={{width: 20, height: 20, resizeMode: 'contain'}}
+                  source={require('../../../assets/WishList/fourleaf.png')}
+                />
+                <Text style={{color: '#221E3D', fontSize: 12}}>20</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: '#997CBD',
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  alignSelf: 'flex-start',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  borderRadius: 25,
+                  columnGap: vw(1),
+                }}>
+                <Image
+                  style={{width: 20, height: 20, resizeMode: 'contain'}}
+                  source={require('../../../assets/WishList/redHeart.png')}
+                />
+                <Text style={{color: '#221E3D', fontSize: 12}}>12</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                paddingTop: vh(1),
+              }}>
+              <View style={{width: '80%'}}>
+                <Text
+                  style={{
+                    color: '#EAE1EE',
+                    fontSize: 14,
+                    fontWeight: '400',
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                  }}>
+                  Bé Kít ngoan, khỏe mạnh không làm mẹ lo lắng nhé con.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 };
 

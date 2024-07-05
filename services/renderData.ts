@@ -207,3 +207,18 @@ export const seenWishListData = [
     isReject: false,
   },
 ];
+
+export const messGrpData = [
+  {
+    mess: 'Mẹ tròn con vuông nhé!',
+    img: require('../assets/WishList/fr1.png'),
+  },
+  {
+    mess: 'Mẹ tròn con vuông nhé!',
+    img: require('../assets/WishList/aunt.png'),
+  },
+  {
+    mess: 'Mẹ tròn con vuông nhé!',
+    img: require('../assets/WishList/fr2.png'),
+  },
+];
