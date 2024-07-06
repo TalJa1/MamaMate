@@ -19,6 +19,8 @@ import {Rating} from '@kolking/react-native-rating';
 import {clockIconSVG, examinationScheduleIconSVG} from '../../assets/svgXml';
 import ToggleSwitch from 'toggle-switch-react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface RenderReservedDoctor {
   name: string;
@@ -38,6 +40,7 @@ interface RenderReminder {
 }
 
 const TaskListPage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const days = Array.from({length: 31}, (_, i) => i + 1);
   const today = getDateTime('day');
   useStatusBar('#19162E');
@@ -74,7 +77,7 @@ const TaskListPage = () => {
           {renderReservedDoctor(doctorListData[0], handleToggle, toggleStates)}
         </View>
         <View>{renderReminder(remindData, handleToggle, toggleStates)}</View>
-        <View>{renderPregnancyExamination()}</View>
+        <View>{renderPregnancyExamination(navigation)}</View>
         <View>{renderTaskBox()}</View>
       </ScrollView>
     </SafeAreaView>
@@ -120,7 +123,9 @@ const renderTaskBox = () => {
   );
 };
 
-const renderPregnancyExamination = () => {
+const renderPregnancyExamination = (
+  navigation: NativeStackNavigationProp<any>,
+) => {
   return (
     <View
       style={{
@@ -129,7 +134,8 @@ const renderPregnancyExamination = () => {
         marginTop: vh(2),
         marginBottom: vh(2),
       }}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('PregnancyExamination')}>
         <LinearGradient
           colors={['#B95649', '#FFDADAC7']}
           style={{

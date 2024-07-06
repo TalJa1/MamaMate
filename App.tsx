@@ -37,6 +37,7 @@ import SuggestionTabPage from './pages/Tracking/Meal/SuggestionTabPage';
 import MoodPage from './pages/Tracking/Feeling/MoodPage';
 import WishListPage from './pages/Tracking/Wishlist/WishListPage';
 import TaskListPage from './pages/TaskList/TaskListPage';
+import PregnancyExaminationPage from './pages/TaskList/PregnancyExaminationPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -171,6 +172,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
+        {/* Task Group */}
+        <Stack.Screen
+          name="PregnancyExamination"
+          component={PregnancyExaminationPage}
+          options={{headerShown: false}}
+        />
         {/* Tracking Group */}
         <Stack.Screen
           name="WishList"
