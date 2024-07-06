@@ -14,10 +14,13 @@ import useStatusBar from '../../services/customHook';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
-import {backButtonWithoutArrowSVG} from '../../assets/svgXml';
+import {
+  addTimelineIconSVG,
+  backButtonWithoutArrowSVG,
+  checkOnlyIconSVG,
+} from '../../assets/svgXml';
 import {vh, vw} from '../../styles/stylesheet';
 import {pregnancyExamData} from '../../services/renderData';
-
 interface CheckItemData {
   isDone: boolean;
   title: string;
@@ -32,32 +35,93 @@ interface RenderCheckList {
 const PregnancyExaminationPage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [examNum, setExamNum] = React.useState<number>(1);
+  const [examData, setExamData] =
+    React.useState<RenderCheckList[]>(pregnancyExamData);
   useStatusBar('#B95649');
+
+  const toggleCheckbox = (triIndex: number, itemIndex: number) => {
+    setExamData(prevData => {
+      const newData = [...prevData];
+      newData[triIndex].data[itemIndex].isDone =
+        !newData[triIndex].data[itemIndex].isDone;
+      return newData;
+    });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View>{renderHeader(navigation, setExamNum, examNum)}</View>
       <ScrollView>
-        <View>{renderCheckList(pregnancyExamData, examNum)}</View>
+        <View>{renderCheckList(examData, examNum, toggleCheckbox)}</View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const renderCheckList = (data: RenderCheckList[], num: number) => {
+const renderCheckList = (
+  data: RenderCheckList[],
+  num: number,
+  toggleCheckbox: (triIndex: number, itemIndex: number) => void,
+) => {
   return (
     <View>
       {data.map((v, i) => (
         <View key={i}>
           {v.trimester === num ? (
-            <View>
+            <View style={{rowGap: vh(2), marginVertical: vh(3)}}>
               {v.data.map((va, ind) => (
-                <View key={ind} style={{flexDirection: 'row'}}>
-                  <View></View>
-                  <View>
-                    <Text>{va.title}</Text>
-                    <Text>{va.date}</Text>
+                <View
+                  key={ind}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    alignSelf: 'flex-start',
+                    width: vw(100),
+                    justifyContent: 'space-around',
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      width: '80%',
+                      columnGap: vw(2),
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => toggleCheckbox(i, ind)}
+                      style={{
+                        backgroundColor: va.isDone ? '#82BA5F' : 'transparent',
+                        borderRadius: 30,
+                        height: 24,
+                        width: 24,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderWidth: va.isDone ? 0 : 1,
+                        borderColor: va.isDone ? '' : '#515151',
+                      }}>
+                      {checkOnlyIconSVG(vw(4), vh(2))}
+                    </TouchableOpacity>
+                    <View>
+                      <Text
+                        style={{
+                          color: '#EAE1EE',
+                          textDecorationLine: va.isDone
+                            ? 'line-through'
+                            : 'none',
+                          opacity: va.isDone ? 0.5 : 1,
+                        }}>
+                        {va.title}
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#96C1DE',
+                          fontSize: 12,
+                          opacity: va.isDone ? 0.5 : 1,
+                        }}>
+                        {va.date}
+                      </Text>
+                    </View>
                   </View>
+                  <View>{addTimelineIconSVG(vw(6), vh(3))}</View>
                 </View>
               ))}
             </View>

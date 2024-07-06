@@ -11,6 +11,24 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const addTimelineIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 12V20M11 16H19M13 1.5V5.5M7 1.5V5.5M7 10.5H1.51733M1.51733 10.5C1.50563 10.8208 1.5 11.154 1.5 11.5C1.5 16.4094 2.64094 18.7517 6 19.6041M1.51733 10.5C1.7256 4.79277 3.84596 3 10 3C15.3679 3 17.6668 4.36399 18.3048 8.5" stroke="#EAE1EE" style="stroke:#EAE1EE;stroke:color(display-p3 0.9176 0.8824 0.9333);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
+export const checkOnlyIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 1.75L4.75008 9.99997L1 6.25" stroke="#221E3D" style="stroke:#221E3D;stroke:color(display-p3 0.1352 0.1188 0.2402);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const labIconSVG = (w?: any, h?: any) => {
   const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7.06282 14.1339C8.83058 12.3662 11.056 13.8237 13.2499 12.6251C15.6767 11.2992 17.2275 11.9242 18.5533 11.4823M10.4727 0.75C9.74049 1.48223 9.74049 2.66942 10.4727 3.40165L21.0793 14.0083C23.0319 15.9609 23.0319 19.1267 21.0793 21.0793C19.1267 23.0319 15.9609 23.0319 14.0083 21.0793L3.40165 10.4727C2.66942 9.74049 1.48223 9.74049 0.75 10.4727" stroke="#96C1DE" style="stroke:#96C1DE;stroke:color(display-p3 0.5882 0.7569 0.8706);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
