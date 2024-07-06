@@ -291,3 +291,127 @@ export const remindData = [
     time: ['9:00'],
   },
 ];
+
+export const pregnancyExamData = [
+  {
+    trimester: 1,
+    data: [
+      {
+        isDone: true,
+        title: 'Xét nghiệm hCG và thử thai tại nhà',
+        date: '24.02.2023',
+      },
+      {
+        isDone: true,
+        title: 'Siêu âm đo độ mờ da gáy',
+        date: '25.02.2023',
+      },
+      {
+        isDone: true,
+        title:
+          'Xét nghiệm sinh hóa máu trong tam cá nguyệt thứ nhất: PAPP-A, Free beta-hCG (FBC)',
+        date: '26.02.2023',
+      },
+      {
+        isDone: true,
+        title: 'Khám tổng quát và xét nghiệm máu',
+        date: '01.03.2023',
+      },
+      {
+        isDone: true,
+        title: 'Xét nghiệm nước tiểu',
+        date: '05.03.2023',
+      },
+      {
+        isDone: true,
+        title: 'Xét nghiệm Rubella IgG và IgM',
+        date: '10.03.2023',
+      },
+      {
+        isDone: true,
+        title: 'Xét nghiệm HIV, viêm gan B, giang mai',
+        date: '15.03.2023',
+      },
+    ],
+  },
+  {
+    trimester: 2,
+    data: [
+      {
+        isDone: false,
+        title: 'Siêu âm đo hình thái thai nhi (Siêu âm 3D/4D)',
+        date: '01.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Xét nghiệm sàng lọc dị tật ống thần kinh (Triple Test)',
+        date: '05.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Xét nghiệm máu và nước tiểu định kỳ',
+        date: '10.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Xét nghiệm glucose để kiểm tra tiểu đường thai kỳ',
+        date: '15.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Khám thai định kỳ và kiểm tra cân nặng, huyết áp',
+        date: '20.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Tiêm phòng uốn ván mũi đầu tiên',
+        date: '25.05.2023',
+      },
+      {
+        isDone: false,
+        title: 'Khám tổng quát và kiểm tra tim thai',
+        date: '30.05.2023',
+      },
+    ],
+  },
+  {
+    trimester: 3,
+    data: [
+      {
+        isDone: false,
+        title: 'Siêu âm kiểm tra sự phát triển của thai nhi',
+        date: '01.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Xét nghiệm máu và nước tiểu định kỳ',
+        date: '05.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Kiểm tra và đo độ giãn nở cổ tử cung',
+        date: '10.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Tiêm phòng uốn ván mũi thứ hai',
+        date: '15.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Kiểm tra tim thai và lượng nước ối',
+        date: '20.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Khám thai định kỳ và theo dõi cân nặng, huyết áp',
+        date: '25.08.2023',
+      },
+      {
+        isDone: false,
+        title: 'Khám tổng quát trước sinh',
+        date: '30.08.2023',
+      },
+    ],
+  },
+];
