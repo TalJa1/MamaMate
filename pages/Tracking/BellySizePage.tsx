@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable quotes */
 import {
   Modal,
   ScrollView,
@@ -17,7 +16,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
-import {barChartData, lineChartData} from '../../services/renderData';
+import {barChartDataBelly, lineChartDataBelly} from '../../services/renderData';
 
 interface DataRender {
   labels: string[];
@@ -46,15 +45,15 @@ const lineChartConfig = {
   useShadowColorFromDataset: false,
 };
 
-const WeightTrackingPage = () => {
+const BellySizePage = () => {
   useStatusBar('#221E3D');
 
   const [isMonth, setIsMonth] = React.useState<boolean>(true);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
-  const [data, setData] = React.useState(barChartData);
-  const [lineData, setLineData] = React.useState(lineChartData);
+  const [data, setData] = React.useState(barChartDataBelly);
+  const [lineData, setLineData] = React.useState(lineChartDataBelly);
   const [selectedWeek, setSelectedWeek] = React.useState<number>(16);
 
   const handleSelectWeek = (week: number) => {
@@ -98,15 +97,15 @@ const WeightTrackingPage = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <Text style={{color: '#322C56', fontWeight: '700', fontSize: 18}}>
-              Nhập cân nặng hiện tại
+              Nhập vòng bụng hiện tại
             </Text>
             {isMonth ? (
               <Text style={styles.modalTxTGrp}>
-                Gần nhất: {data.datasets[0].data[4]}kg
+                Gần nhất: {data.datasets[0].data[4]}cm
               </Text>
             ) : (
               <Text style={styles.modalTxTGrp}>
-                Gần nhất: {lineData.datasets[0].data[14]}kg
+                Gần nhất: {lineData.datasets[0].data[14]}cm
               </Text>
             )}
             <View
@@ -117,7 +116,7 @@ const WeightTrackingPage = () => {
                 justifyContent: 'space-around',
               }}>
               <TouchableOpacity style={styles.btnChangeWeight}>
-                <Text style={styles.modalTxTGrp}>-100gam</Text>
+                <Text style={styles.modalTxTGrp}>-100mm</Text>
               </TouchableOpacity>
               <View
                 style={{
@@ -139,11 +138,11 @@ const WeightTrackingPage = () => {
                     textAlignVertical: 'center',
                     marginLeft: '5%',
                   }}>
-                  kg
+                  mm
                 </Text>
               </View>
               <TouchableOpacity style={styles.btnChangeWeight}>
-                <Text style={styles.modalTxTGrp}>+100gam</Text>
+                <Text style={styles.modalTxTGrp}>+100mm</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -182,7 +181,7 @@ const WeightTrackingPage = () => {
             data={lineData}
             chartConfig={lineChartConfig}
             selectedWeek={selectedWeek}
-            isBelly={false}
+            isBelly={true}
           />
         )}
         <View style={styles.updateBtnContainer}>
@@ -209,7 +208,7 @@ const renderMomInfo = (
       <View style={styles.dataContainer}>
         <View style={styles.dataContainerGrp}>
           <Text style={styles.dataContainerTitle}>Trước bầu</Text>
-          <Text style={styles.dataContainerDes}>50 kg</Text>
+          <Text style={styles.dataContainerDes}>70 cm</Text>
         </View>
         <View style={styles.dataContainerGrp}>
           <Text style={[styles.dataContainerTitle, {color: '#96C1DE'}]}>
@@ -220,27 +219,27 @@ const renderMomInfo = (
               {dataMonth.datasets[0].data[5] === 0
                 ? dataMonth.datasets[0].data[4]
                 : dataMonth.datasets[0].data[5]}{' '}
-              kg
+              cm
             </Text>
           ) : (
             <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
               {dataWeek.datasets[0].data[15] === 0
                 ? dataWeek.datasets[0].data[14]
                 : dataWeek.datasets[0].data[15]}{' '}
-              kg
+              cm
             </Text>
           )}
         </View>
         <View style={styles.dataContainerGrp}>
           <Text style={styles.dataContainerTitle}>Mong muốn</Text>
-          <Text style={styles.dataContainerDes}>65 kg</Text>
+          <Text style={styles.dataContainerDes}>100 cm</Text>
         </View>
       </View>
     </View>
   );
 };
 
-export default WeightTrackingPage;
+export default BellySizePage;
 
 const styles = StyleSheet.create({
   container: {
@@ -302,7 +301,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '90%',
-    backgroundColor: '#96C1DE',
+    backgroundColor: '#EAE1EE',
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 40,

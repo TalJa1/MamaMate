@@ -11,10 +11,11 @@ type Props = {
   data: ChartData;
   chartConfig: AbstractChartConfig;
   selectedWeek: number;
+  isBelly: boolean;
 };
 
 const LineChartComponent = (props: Props) => {
-  const {data, chartConfig, selectedWeek} = props;
+  const {data, chartConfig, selectedWeek, isBelly} = props;
 
   const selectedData: ChartData = {
     labels: data.labels,
@@ -73,7 +74,8 @@ const LineChartComponent = (props: Props) => {
               fontSize: 12,
               fontWeight: '400',
             }}>
-            {data.datasets[0].data[selectedWeek - 1]}kg
+            {data.datasets[0].data[selectedWeek - 1]}
+            {isBelly ? 'cm' : 'kg'}
           </Text>
         </View>
       )}

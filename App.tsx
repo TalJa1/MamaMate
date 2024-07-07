@@ -39,6 +39,7 @@ import MoodPage from './pages/Tracking/Feeling/MoodPage';
 import WishListPage from './pages/Tracking/Wishlist/WishListPage';
 import TaskListPage from './pages/TaskList/TaskListPage';
 import PregnancyExaminationPage from './pages/TaskList/PregnancyExaminationPage';
+import BellySizePage from './pages/Tracking/BellySizePage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -180,6 +181,28 @@ const App = () => {
           options={{headerShown: false}}
         />
         {/* Tracking Group */}
+        <Stack.Screen
+          name="BellySize"
+          component={BellySizePage}
+          options={({navigation}) => ({
+            headerShadowVisible: false,
+            headerTitle: 'Vòng bụng',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#EAE1EE',
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerStyle: {
+              backgroundColor: '#221E3D',
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                {backButtonWithoutArrowSVG(vw(3), vh(3))}
+              </TouchableOpacity>
+            ),
+          })}
+        />
         <Stack.Screen
           name="WishList"
           component={WishListPage}

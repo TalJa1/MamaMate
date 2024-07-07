@@ -41,7 +41,8 @@ const TrackingPage = () => {
             label="Cân nặng"
             onPress={() => handleNavigation('WeightTracking')}
           />
-          <TrackingField img="belly" label="Vòng bụng" />
+          <TrackingField img="belly" label="Vòng bụng"
+          onPress={() => handleNavigation('BellySize')} />
           <TrackingField
             img="smilingFace"
             label="Tinh thần"
