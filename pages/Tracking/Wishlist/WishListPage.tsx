@@ -4,9 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Image,
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -38,8 +41,11 @@ import {
   unCheckboxSVG,
   uncheckGreenSVG,
   watchIconSVG,
+  xIconSVG,
+  xIconWithoutborderSVG,
   yesIconSVG,
 } from '../../../assets/svgXml';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 interface RenderWishListToday {
   title: string;
@@ -66,13 +72,26 @@ interface RenderMessGrp {
 }
 
 const WishListPage = () => {
+  useStatusBar('#19162E');
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   const [seenUserStorage, setSeenUserStorage] = React.useState<
     RenderSeenUser[]
   >([]);
   const [watched, setWatched] = React.useState<number>(8);
+  const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const currentMonth = getDateTime('month');
-  useStatusBar('#19162E');
+  const [text, onChangeText] = React.useState('');
+  const [toggleStates, setToggleStates] = React.useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // Handler function to toggle the state
+  const handleToggle = (key: string) => {
+    setToggleStates(prevState => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
 
   React.useEffect(() => {
     setSeenUserStorage(seenWishListData);
@@ -90,6 +109,79 @@ const WishListPage = () => {
     updatedData[index].isAnswer = true;
     updatedData[index].isReject = true;
     setSeenUserStorage(updatedData);
+  };
+
+  const handleReplyClick = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const renderPopUp = () => {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}>
+        <View style={styles.modalOverlay}>
+          <ScrollView style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Mong muốn</Text>
+              <Pressable onPress={closeModal} style={styles.xIconStyle}>
+                {xIconWithoutborderSVG(vw(6), vh(3))}
+              </Pressable>
+            </View>
+            <View>
+              <Text style={styles.modalContentTxT}>Mong muốn của mẹ</Text>
+              <TextInput
+                style={styles.TxTinput}
+                onChangeText={onChangeText}
+                value={text}
+                placeholder="Mở lòng"
+                placeholderTextColor={'#CDCDCD'}
+              />
+            </View>
+            <View>
+              <Text style={styles.modalContentTxT}>Thời gian</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginVertical: '2%',
+                }}>
+                <ToggleSwitch
+                  isOn={toggleStates.today || false}
+                  onColor="#AF90D6"
+                  offColor="#515151"
+                  onToggle={() => handleToggle('today')}
+                  size="medium"
+                />
+                <Text style={styles.modalTxtDesStyle}>Ngay hôm nay</Text>
+              </View>
+            </View>
+            <View>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                {renderTimePicker('Ngày', '23')}
+                <Text style={styles.datePickerSeparator}>:</Text>
+                {renderTimePicker('Tháng', '07')}
+                <Text style={styles.datePickerSeparator}>:</Text>
+                {renderTimePicker('Năm', '24')}
+              </View>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                {renderTimePicker('Giờ', '16')}
+                <Text style={styles.datePickerSeparator}>:</Text>
+                {renderTimePicker('Phút', '30')}
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
+    );
   };
 
   return (
@@ -143,6 +235,7 @@ const WishListPage = () => {
                 data: seenUserStorage,
                 onYesClick: handleYesClick,
                 onNoClick: handleNoClick,
+                onReplyClick: handleReplyClick,
               })}
             </View>
             <TouchableOpacity
@@ -166,7 +259,142 @@ const WishListPage = () => {
         <View style={{marginBottom: vh(2)}}>{renderMessToChild()}</View>
         <View style={{marginBottom: vh(2)}}>{renderMessGrp(messGrpData)}</View>
       </ScrollView>
+      {renderPopUp()}
     </SafeAreaView>
+  );
+};
+
+const renderTimePicker = (label: string, daytime: string) => {
+  return (
+    <View style={styles.datePickerContainer}>
+      <Text style={styles.datePickerLabel}>{label}</Text>
+      <TouchableOpacity style={styles.datePickerValueContainer}>
+        <Text style={styles.datePickerValue}>{daytime}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const renderSeenUser = ({
+  data,
+  onYesClick,
+  onNoClick,
+  onReplyClick,
+}: {
+  data: RenderSeenUser[];
+  onYesClick: (index: number) => void;
+  onNoClick: (index: number) => void;
+  onReplyClick: () => void;
+}) => {
+  return (
+    <View style={{rowGap: vh(2)}}>
+      {data.map((v, i) => (
+        <View key={i} style={{width: vw(90)}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              columnGap: vw(1),
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: vw(2),
+              }}>
+              <TouchableOpacity>{removeIconSVG(vw(6), vh(3))}</TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  columnGap: vw(2),
+                }}>
+                <Image
+                  style={{width: 50, height: 50, resizeMode: 'contain'}}
+                  source={v.img}
+                />
+                <View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={[styles.seenTxt, {color: '#96C1DE'}]}>
+                      @{v.user}
+                    </Text>
+                    {v.isAnswer ? (
+                      v.isReject ? (
+                        <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
+                          {' '}
+                          từ chối ước muốn
+                        </Text>
+                      ) : (
+                        <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
+                          {' '}
+                          chấp nhận ước muốn
+                        </Text>
+                      )
+                    ) : (
+                      <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
+                        {' '}
+                        muốn tham gia
+                      </Text>
+                    )}
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        color: '#96C1DE',
+                        fontWeight: '200',
+                      }}>
+                      {getTimeAgoInVietnamese(v.postTime)}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                columnGap: vw(1),
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={onReplyClick}
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 9,
+
+                  borderColor: '#96C1DE',
+                  padding: 4,
+                }}>
+                <Text style={{color: '#96C1DE', fontWeight: '400'}}>
+                  Trả lời
+                </Text>
+              </TouchableOpacity>
+              {v.isAnswer ? (
+                <></>
+              ) : (
+                <View style={{flexDirection: 'row', columnGap: vw(1)}}>
+                  <TouchableOpacity onPress={() => onYesClick(i)}>
+                    {yesIconSVG(vw(6), vh(3))}
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => onNoClick(i)}>
+                    {noIconSVG(vw(6), vh(3))}
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
+          {i < data.length - 1 && (
+            <View
+              style={{
+                borderBottomColor: '#96C1DE',
+                borderBottomWidth: 1,
+                borderStyle: 'dashed',
+                marginTop: vh(2),
+              }}></View>
+          )}
+        </View>
+      ))}
+    </View>
   );
 };
 
@@ -425,126 +653,6 @@ const renderDreamedMonth = (month: string) => {
   );
 };
 
-const renderSeenUser = ({
-  data,
-  onYesClick,
-  onNoClick,
-}: {
-  data: RenderSeenUser[];
-  onYesClick: (index: number) => void;
-  onNoClick: (index: number) => void;
-}) => {
-  return (
-    <View style={{rowGap: vh(2)}}>
-      {data.map((v, i) => (
-        <View key={i} style={{width: vw(90)}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              columnGap: vw(1),
-              justifyContent: 'space-between',
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                columnGap: vw(2),
-              }}>
-              <TouchableOpacity>{removeIconSVG(vw(6), vh(3))}</TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  columnGap: vw(2),
-                }}>
-                <Image
-                  style={{width: 50, height: 50, resizeMode: 'contain'}}
-                  source={v.img}
-                />
-                <View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={[styles.seenTxt, {color: '#96C1DE'}]}>
-                      @{v.user}
-                    </Text>
-                    {v.isAnswer ? (
-                      v.isReject ? (
-                        <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
-                          {' '}
-                          từ chối ước muốn
-                        </Text>
-                      ) : (
-                        <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
-                          {' '}
-                          chấp nhận ước muốn
-                        </Text>
-                      )
-                    ) : (
-                      <Text style={[styles.seenTxt, {color: '#CDCDCD'}]}>
-                        {' '}
-                        muốn tham gia
-                      </Text>
-                    )}
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        color: '#96C1DE',
-                        fontWeight: '200',
-                      }}>
-                      {getTimeAgoInVietnamese(v.postTime)}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                columnGap: vw(1),
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  borderWidth: 1,
-                  borderRadius: 9,
-
-                  borderColor: '#96C1DE',
-                  padding: 4,
-                }}>
-                <Text style={{color: '#96C1DE', fontWeight: '400'}}>
-                  Trả lời
-                </Text>
-              </TouchableOpacity>
-              {v.isAnswer ? (
-                <></>
-              ) : (
-                <View style={{flexDirection: 'row', columnGap: vw(1)}}>
-                  <TouchableOpacity onPress={() => onYesClick(i)}>
-                    {yesIconSVG(vw(6), vh(3))}
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onNoClick(i)}>
-                    {noIconSVG(vw(6), vh(3))}
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          </View>
-          {i < data.length - 1 && (
-            <View
-              style={{
-                borderBottomColor: '#96C1DE',
-                borderBottomWidth: 1,
-                borderStyle: 'dashed',
-                marginTop: vh(2),
-              }}></View>
-          )}
-        </View>
-      ))}
-    </View>
-  );
-};
-
 const renderDate = (format: string, isToday: boolean) => {
   return (
     <View style={{paddingHorizontal: vw(3), marginBottom: vh(2)}}>
@@ -755,5 +863,82 @@ const styles = StyleSheet.create({
     color: '#313131',
     fontSize: 18,
     fontWeight: '400',
+  },
+  //Modal
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '100%',
+    backgroundColor: '#221E3D',
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'white',
+  },
+  xIconStyle: {
+    padding: 8,
+  },
+  modalContentTxT: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginBottom: 10,
+  },
+  TxTinput: {
+    borderWidth: 1,
+    borderColor: '#EAE1EE',
+    borderRadius: 5,
+    padding: 10,
+    color: '#EAE1EE',
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  modalTxtDesStyle: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#EAE1EE',
+  },
+  datePickerContainer: {
+    alignItems: 'center',
+  },
+  datePickerLabel: {
+    color: '#8B8B8B',
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  datePickerValueContainer: {
+    borderWidth: 1,
+    borderColor: '#EAE1EE',
+    height: 50,
+    width: 50,
+    borderRadius: 20,
+    padding: 10,
+  },
+  datePickerValue: {
+    color: '#EAE1EE',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  datePickerSeparator: {
+    color: '#8B8B8B',
+    fontSize: 16,
   },
 });

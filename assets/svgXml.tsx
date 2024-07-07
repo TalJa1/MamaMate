@@ -11,6 +11,15 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const xIconWithoutborderSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21.7087 1.2915L1.29199 21.7082M1.29203 1.2915L21.7087 21.7082" stroke="#CDCDCD" style="stroke:#CDCDCD;stroke:color(display-p3 0.8039 0.8039 0.8039);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const addTimelineIconSVG = (w?: any, h?: any) => {
   const xml = `<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15 12V20M11 16H19M13 1.5V5.5M7 1.5V5.5M7 10.5H1.51733M1.51733 10.5C1.50563 10.8208 1.5 11.154 1.5 11.5C1.5 16.4094 2.64094 18.7517 6 19.6041M1.51733 10.5C1.7256 4.79277 3.84596 3 10 3C15.3679 3 17.6668 4.36399 18.3048 8.5" stroke="#EAE1EE" style="stroke:#EAE1EE;stroke:color(display-p3 0.9176 0.8824 0.9333);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
