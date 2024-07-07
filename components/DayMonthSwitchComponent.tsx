@@ -21,11 +21,13 @@ interface ModeButtonProps {
 interface DayMonthSwitchComponentProps {
   isMonth: boolean;
   setIsMonth: (isMonth: boolean) => void;
+  current: number;
 }
 
 const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
   isMonth,
   setIsMonth,
+  current,
 }) => {
   return (
     <SafeAreaView>
@@ -49,7 +51,16 @@ const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
         ) : (
           <ScrollView horizontal>
             {Array.from({length: 41}, (_, index) => (
-              <TouchableOpacity key={index} style={[styles.currentWeekGrp]}>
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.currentWeekGrp,
+                  index + 1 === current
+                    ? {
+                        backgroundColor: '#AA3A3A',
+                      }
+                    : {},
+                ]}>
                 <Text style={styles.currentWeekGrpTxt}>{index + 1}</Text>
               </TouchableOpacity>
             ))}

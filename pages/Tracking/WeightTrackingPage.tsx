@@ -193,7 +193,11 @@ const WeightTrackingPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <DayMonthSwitchComponent isMonth={isMonth} setIsMonth={setIsMonth} />
+      <DayMonthSwitchComponent
+        isMonth={isMonth}
+        setIsMonth={setIsMonth}
+        current={16}
+      />
       <ScrollView>
         {isMonth ? (
           <BarChartComponent data={data} chartConfig={chartConfig} />
