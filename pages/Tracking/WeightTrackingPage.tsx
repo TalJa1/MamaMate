@@ -36,28 +36,6 @@ const chartConfig = {
   barRadius: 10,
 };
 
-const lineData = {
-  labels: [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-  ],
-  datasets: [
-    {
-      data: [15, 30, 50, 50, 70, 0, 0, 0, 0, 0, 0, 0],
-    },
-  ],
-};
-
 const lineChartConfig = {
   backgroundGradientFrom: '#221E3D',
   backgroundGradientTo: '#221E3D',
@@ -97,6 +75,28 @@ const WeightTrackingPage = () => {
     ],
   });
 
+  const [lineData, setLineData] = React.useState({
+    labels: [
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12',
+    ],
+    datasets: [
+      {
+        data: [15, 30, 50, 50, 60, 0, 0, 0, 0, 0, 0, 0],
+      },
+    ],
+  });
+
   const openModal = (index: number) => {
     setSelectedIndex(index);
     setModalVisible(true);
@@ -104,6 +104,14 @@ const WeightTrackingPage = () => {
 
   const handleUpdate = (index: number, value: number) => {
     setData(prevData => {
+      const updatedDatasets = [...prevData.datasets];
+      const updatedData = [...updatedDatasets[0].data];
+      updatedData[index] = value;
+      updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
+
+      return {...prevData, datasets: updatedDatasets};
+    });
+    setLineData(prevData => {
       const updatedDatasets = [...prevData.datasets];
       const updatedData = [...updatedDatasets[0].data];
       updatedData[index] = value;
@@ -125,7 +133,9 @@ const WeightTrackingPage = () => {
             <Text style={{color: '#322C56', fontWeight: '700', fontSize: 18}}>
               Nhập cân nặng hiện tại
             </Text>
-            <Text style={styles.modalTxTGrp}>Gần nhất: </Text>
+            <Text style={styles.modalTxTGrp}>
+              Gần nhất: {data.datasets[0].data[4]}kg
+            </Text>
             <View
               style={{
                 flexDirection: 'row',
@@ -190,7 +200,14 @@ const WeightTrackingPage = () => {
         ) : (
           <LineChartComponent data={lineData} chartConfig={lineChartConfig} />
         )}
-        {renderMomInfo(openModal, data)}
+        <View style={styles.updateBtnContainer}>
+          <TouchableOpacity
+            style={styles.updateBtn}
+            onPress={() => openModal(5)}>
+            <Text style={styles.updateBtnTxT}>Cập nhật</Text>
+          </TouchableOpacity>
+        </View>
+        {renderMomInfo(data, isMonth, lineData)}
         {renderModal()}
       </ScrollView>
     </SafeAreaView>
@@ -198,16 +215,12 @@ const WeightTrackingPage = () => {
 };
 
 const renderMomInfo = (
-  openModal: (index: number) => void,
-  data: DataRender,
+  dataMonth: DataRender,
+  isMonth: boolean,
+  dataWeek: DataRender,
 ) => {
   return (
     <View>
-      <View style={styles.updateBtnContainer}>
-        <TouchableOpacity style={styles.updateBtn} onPress={() => openModal(5)}>
-          <Text style={styles.updateBtnTxT}>Cập nhật</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.dataContainer}>
         <View style={styles.dataContainerGrp}>
           <Text style={styles.dataContainerTitle}>Trước bầu</Text>
@@ -217,12 +230,21 @@ const renderMomInfo = (
           <Text style={[styles.dataContainerTitle, {color: '#96C1DE'}]}>
             Hiện tại
           </Text>
-          <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
-            {data.datasets[0].data[5] === 0
-              ? data.datasets[0].data[4]
-              : data.datasets[0].data[5]}{' '}
-            kg
-          </Text>
+          {isMonth ? (
+            <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
+              {dataMonth.datasets[0].data[5] === 0
+                ? dataMonth.datasets[0].data[4]
+                : dataMonth.datasets[0].data[5]}{' '}
+              kg
+            </Text>
+          ) : (
+            <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
+              {dataWeek.datasets[0].data[5] === 0
+                ? dataWeek.datasets[0].data[4]
+                : dataWeek.datasets[0].data[5]}{' '}
+              kg
+            </Text>
+          )}
         </View>
         <View style={styles.dataContainerGrp}>
           <Text style={styles.dataContainerTitle}>Mong muốn</Text>
