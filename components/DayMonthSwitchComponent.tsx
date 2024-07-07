@@ -22,13 +22,16 @@ interface DayMonthSwitchComponentProps {
   isMonth: boolean;
   setIsMonth: (isMonth: boolean) => void;
   current: number;
+  onSelectWeek: (week: number) => void;
 }
 
 const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
   isMonth,
   setIsMonth,
   current,
+  onSelectWeek,
 }) => {
+  const [isSelected, setIsSelected] = React.useState<number>(0);
   return (
     <SafeAreaView>
       <View style={styles.diaryMode}>
@@ -50,20 +53,47 @@ const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
           <></>
         ) : (
           <ScrollView horizontal>
-            {Array.from({length: 41}, (_, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.currentWeekGrp,
-                  index + 1 === current
-                    ? {
-                        backgroundColor: '#AA3A3A',
-                      }
-                    : {},
-                ]}>
-                <Text style={styles.currentWeekGrpTxt}>{index + 1}</Text>
-              </TouchableOpacity>
-            ))}
+            {Array.from({length: 41}, (_, index) => {
+              const weekNumber = index + 1;
+              const isDisabled = weekNumber > current;
+
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    !isDisabled && onSelectWeek(weekNumber);
+                    setIsSelected(weekNumber);
+                  }}
+                  key={index}
+                  disabled={isDisabled}
+                  style={[
+                    styles.currentWeekGrp,
+                    weekNumber === current
+                      ? {
+                          backgroundColor: '#AA3A3A',
+                        }
+                      : {},
+                    isDisabled
+                      ? {
+                          opacity: 0.5,
+                        }
+                      : {},
+                    isSelected === index + 1 && current !== index + 1
+                      ? {backgroundColor: 'white'}
+                      : {},
+                  ]}>
+                  <Text
+                    style={[
+                      styles.currentWeekGrpTxt,
+                      isDisabled ? {color: '#888'} : {},
+                      isSelected === index + 1 && current !== index + 1
+                        ? {color: '#221E3D'}
+                        : {},
+                    ]}>
+                    {weekNumber}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         )}
       </View>

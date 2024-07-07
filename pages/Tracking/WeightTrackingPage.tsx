@@ -17,6 +17,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
+import {barChartData, lineChartData} from '../../services/renderData';
 
 interface DataRender {
   labels: string[];
@@ -46,56 +47,19 @@ const lineChartConfig = {
 };
 
 const WeightTrackingPage = () => {
-  const [isMonth, setIsMonth] = React.useState<boolean>(true);
   useStatusBar('#221E3D');
 
+  const [isMonth, setIsMonth] = React.useState<boolean>(true);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+  const [data, setData] = React.useState(barChartData);
+  const [lineData, setLineData] = React.useState(lineChartData);
+  const [selectedWeek, setSelectedWeek] = React.useState<number>(16);
 
-  const [data, setData] = React.useState({
-    labels: [
-      '01',
-      '02',
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '09',
-      '10',
-      '11',
-      '12',
-    ],
-    datasets: [
-      {
-        data: [40, 50, 50, 50, 70, 0, 0, 0, 0, 0, 0, 0],
-      },
-    ],
-  });
-
-  const [lineData, setLineData] = React.useState({
-    labels: [
-      '01',
-      '02',
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '09',
-      '10',
-      '11',
-      '12',
-    ],
-    datasets: [
-      {
-        data: [15, 30, 50, 50, 60, 0, 0, 0, 0, 0, 0, 0],
-      },
-    ],
-  });
+  const handleSelectWeek = (week: number) => {
+    setSelectedWeek(week);
+  };
 
   const openModal = (index: number) => {
     setSelectedIndex(index);
@@ -111,6 +75,9 @@ const WeightTrackingPage = () => {
 
       return {...prevData, datasets: updatedDatasets};
     });
+  };
+
+  const handleUpdateLine = (index: number, value: number) => {
     setLineData(prevData => {
       const updatedDatasets = [...prevData.datasets];
       const updatedData = [...updatedDatasets[0].data];
@@ -133,9 +100,15 @@ const WeightTrackingPage = () => {
             <Text style={{color: '#322C56', fontWeight: '700', fontSize: 18}}>
               Nhập cân nặng hiện tại
             </Text>
-            <Text style={styles.modalTxTGrp}>
-              Gần nhất: {data.datasets[0].data[4]}kg
-            </Text>
+            {isMonth ? (
+              <Text style={styles.modalTxTGrp}>
+                Gần nhất: {data.datasets[0].data[4]}kg
+              </Text>
+            ) : (
+              <Text style={styles.modalTxTGrp}>
+                Gần nhất: {lineData.datasets[0].data[14]}kg
+              </Text>
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -177,7 +150,9 @@ const WeightTrackingPage = () => {
               style={styles.modalUpdateBtn}
               onPress={() => {
                 if (selectedIndex !== null) {
-                  handleUpdate(selectedIndex, Number(inputValue));
+                  isMonth
+                    ? handleUpdate(selectedIndex, Number(inputValue))
+                    : handleUpdateLine(selectedIndex, Number(inputValue));
                   setModalVisible(false);
                   setInputValue('');
                   setSelectedIndex(null);
@@ -197,17 +172,22 @@ const WeightTrackingPage = () => {
         isMonth={isMonth}
         setIsMonth={setIsMonth}
         current={16}
+        onSelectWeek={handleSelectWeek}
       />
       <ScrollView>
         {isMonth ? (
           <BarChartComponent data={data} chartConfig={chartConfig} />
         ) : (
-          <LineChartComponent data={lineData} chartConfig={lineChartConfig} />
+          <LineChartComponent
+            data={lineData}
+            chartConfig={lineChartConfig}
+            selectedWeek={selectedWeek}
+          />
         )}
         <View style={styles.updateBtnContainer}>
           <TouchableOpacity
             style={styles.updateBtn}
-            onPress={() => openModal(5)}>
+            onPress={() => (isMonth ? openModal(5) : openModal(15))}>
             <Text style={styles.updateBtnTxT}>Cập nhật</Text>
           </TouchableOpacity>
         </View>
@@ -243,9 +223,9 @@ const renderMomInfo = (
             </Text>
           ) : (
             <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
-              {dataWeek.datasets[0].data[5] === 0
-                ? dataWeek.datasets[0].data[4]
-                : dataWeek.datasets[0].data[5]}{' '}
+              {dataWeek.datasets[0].data[15] === 0
+                ? dataWeek.datasets[0].data[14]
+                : dataWeek.datasets[0].data[15]}{' '}
               kg
             </Text>
           )}

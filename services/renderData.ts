@@ -415,3 +415,42 @@ export const pregnancyExamData = [
     ],
   },
 ];
+
+export const barChartData = {
+  labels: [
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+  ],
+  datasets: [
+    {
+      data: [40, 50, 50, 50, 70, 0, 0, 0, 0, 0, 0, 0],
+    },
+  ],
+};
+
+export const lineChartData = {
+  labels: Array.from({length: 41}, (_, i) =>
+    (i + 1).toString().padStart(2, '0'),
+  ),
+  datasets: [
+    {
+      data: Array(41)
+        .fill(0)
+        .map((_, i) =>
+          i < 15
+            ? [15, 30, 50, 50, 60, 58, 60, 58, 60, 58, 60, 58, 60, 58, 60][i]
+            : 0,
+        ),
+    },
+  ],
+};
