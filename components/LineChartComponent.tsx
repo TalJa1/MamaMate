@@ -56,22 +56,22 @@ const LineChartComponent = (props: Props) => {
             backgroundColor: 'white',
             borderRadius: 5,
             padding: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
+            alignItems: 'flex-start',
           }}>
           <Text
             style={{
-              color: 'blue',
-              fontSize: 12,
+              color: '#96C1DE',
+              fontSize: 14,
+              fontWeight: '700',
               marginRight: 5,
             }}>
-            Week {selectedWeek}:
+            Tuần {selectedWeek}
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: '#221E3D',
               fontSize: 12,
-              fontWeight: 'bold',
+              fontWeight: '400',
             }}>
             {data.datasets[0].data[selectedWeek - 1]}kg
           </Text>
