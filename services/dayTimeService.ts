@@ -47,7 +47,7 @@ export const getDateTime = (
 
 const getVietnameseDayOfWeek = (dayOfWeek: string): string => {
   switch (dayOfWeek) {
-    case 'Chủ nhật':
+    case 'Chủ Nhật':
       return 'CN';
     case 'Thứ hai':
       return 'T2';
