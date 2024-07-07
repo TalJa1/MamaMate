@@ -18,6 +18,13 @@ import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
 
+interface DataRender {
+  labels: string[];
+  datasets: {
+    data: number[];
+  }[];
+}
+
 const chartConfig = {
   backgroundGradientFrom: '#221E3D',
   backgroundGradientTo: '#221E3D',
@@ -183,18 +190,21 @@ const WeightTrackingPage = () => {
         ) : (
           <LineChartComponent data={lineData} chartConfig={lineChartConfig} />
         )}
-        {renderMomInfo(openModal)}
+        {renderMomInfo(openModal, data)}
         {renderModal()}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const renderMomInfo = (openModal: (index: number) => void) => {
+const renderMomInfo = (
+  openModal: (index: number) => void,
+  data: DataRender,
+) => {
   return (
     <View>
       <View style={styles.updateBtnContainer}>
-        <TouchableOpacity style={styles.updateBtn} onPress={() => openModal(6)}>
+        <TouchableOpacity style={styles.updateBtn} onPress={() => openModal(5)}>
           <Text style={styles.updateBtnTxT}>Cập nhật</Text>
         </TouchableOpacity>
       </View>
@@ -208,7 +218,10 @@ const renderMomInfo = (openModal: (index: number) => void) => {
             Hiện tại
           </Text>
           <Text style={[styles.dataContainerDes, {color: '#96C1DE'}]}>
-            60 kg
+            {data.datasets[0].data[5] === 0
+              ? data.datasets[0].data[4]
+              : data.datasets[0].data[5]}{' '}
+            kg
           </Text>
         </View>
         <View style={styles.dataContainerGrp}>

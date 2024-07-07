@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import OnboardingPage from './pages/OnboardingPage';
