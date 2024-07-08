@@ -11,24 +11,7 @@ import React from 'react';
 import {getDiaryWeekData} from '../services/renderData';
 import {getDateTime} from '../services/dayTimeService';
 import {vh, vw} from '../styles/stylesheet';
-
-interface Reservation {
-  weight: number;
-  bellySize: number;
-  type: string;
-  time: string;
-}
-
-interface DiaryEntry {
-  dayOfWeek: string;
-  date: string;
-  status: string;
-  setTime: string;
-  reservation: Reservation;
-  mood: string;
-  tag: string[];
-  note: string;
-}
+import {DiaryEntry} from '../services/typeProps';
 
 const WeekContentComponent = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
