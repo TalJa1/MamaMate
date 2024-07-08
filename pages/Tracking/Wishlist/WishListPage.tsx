@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Image,
   Modal,
@@ -19,6 +18,7 @@ import useStatusBar from '../../../services/customHook';
 import PregnancyCurrentWeekComponent from '../../../components/PregnancyCurrentWeekComponent';
 import LinearGradient from 'react-native-linear-gradient';
 import {vh, vw} from '../../../styles/stylesheet';
+import {Searchbar} from 'react-native-paper';
 import {
   formattedDate,
   formattedTomorrow,
@@ -38,10 +38,10 @@ import {
   nextIconSVG,
   noIconSVG,
   removeIconSVG,
+  searchingSVG,
   unCheckboxSVG,
   uncheckGreenSVG,
   watchIconSVG,
-  xIconSVG,
   xIconWithoutborderSVG,
   yesIconSVG,
 } from '../../../assets/svgXml';
@@ -73,10 +73,12 @@ interface RenderMessGrp {
 
 const WishListPage = () => {
   useStatusBar('#19162E');
+  const [searchQuery, setSearchQuery] = React.useState('');
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   const [seenUserStorage, setSeenUserStorage] = React.useState<
     RenderSeenUser[]
   >([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [watched, setWatched] = React.useState<number>(8);
   const [modalVisible, setModalVisible] = React.useState<boolean>(false);
   const currentMonth = getDateTime('month');
@@ -119,6 +121,26 @@ const WishListPage = () => {
     setModalVisible(false);
   };
 
+  const renderToggleGrp = (label: string, toggleAim: string) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginVertical: '2%',
+        }}>
+        <ToggleSwitch
+          isOn={toggleStates[toggleAim] || false}
+          onColor="#AF90D6"
+          offColor="#515151"
+          onToggle={() => handleToggle(toggleAim)}
+          size="medium"
+        />
+        <Text style={styles.modalTxtDesStyle}>{label}</Text>
+      </View>
+    );
+  };
+
   const renderPopUp = () => {
     return (
       <Modal
@@ -144,27 +166,15 @@ const WishListPage = () => {
                 placeholderTextColor={'#CDCDCD'}
               />
             </View>
-            <View>
-              <Text style={styles.modalContentTxT}>Thời gian</Text>
+            <Text style={styles.modalContentTxT}>Thời gian</Text>
+            {renderToggleGrp('today', 'Ngay hôm nay')}
+            <View style={{rowGap: vh(2), marginVertical: vh(2)}}>
               <View
                 style={{
                   flexDirection: 'row',
+                  justifyContent: 'space-evenly',
                   alignItems: 'center',
-                  marginVertical: '2%',
                 }}>
-                <ToggleSwitch
-                  isOn={toggleStates.today || false}
-                  onColor="#AF90D6"
-                  offColor="#515151"
-                  onToggle={() => handleToggle('today')}
-                  size="medium"
-                />
-                <Text style={styles.modalTxtDesStyle}>Ngay hôm nay</Text>
-              </View>
-            </View>
-            <View>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                 {renderTimePicker('Ngày', '23')}
                 <Text style={styles.datePickerSeparator}>:</Text>
                 {renderTimePicker('Tháng', '07')}
@@ -172,11 +182,30 @@ const WishListPage = () => {
                 {renderTimePicker('Năm', '24')}
               </View>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                }}>
                 {renderTimePicker('Giờ', '16')}
                 <Text style={styles.datePickerSeparator}>:</Text>
                 {renderTimePicker('Phút', '30')}
               </View>
+            </View>
+            {renderToggleGrp(
+              'Thông báo kép cho tất cả người thân',
+              'notiForrelates',
+            )}
+            {renderToggleGrp('Bật thông báo', 'noti')}
+            <View style={styles.searchingContainer}>
+              <Searchbar
+                style={styles.textInput}
+                icon={() => searchingSVG(vw(5), vh(4))}
+                placeholder="Tìm người dùng"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+                placeholderTextColor={'#CDCDCD'}
+              />
             </View>
           </ScrollView>
         </View>
@@ -884,9 +913,9 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginVertical: 20,
   },
   modalTitle: {
     fontSize: 18,
@@ -894,18 +923,21 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   xIconStyle: {
-    padding: 8,
+    position: 'absolute',
+    right: '6%',
+    top: 0,
   },
   modalContentTxT: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#AF90D6',
     marginBottom: 10,
   },
   TxTinput: {
     borderWidth: 1,
     borderColor: '#EAE1EE',
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 15,
+    paddingHorizontal: vw(3),
+    height: 90,
     color: '#EAE1EE',
     fontSize: 16,
     marginBottom: 20,
@@ -913,8 +945,9 @@ const styles = StyleSheet.create({
   modalTxtDesStyle: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#EAE1EE',
+    color: '#CDCDCD',
   },
+  //Date picker
   datePickerContainer: {
     alignItems: 'center',
   },
@@ -940,5 +973,15 @@ const styles = StyleSheet.create({
   datePickerSeparator: {
     color: '#8B8B8B',
     fontSize: 16,
+  },
+  // Search bar
+  searchingContainer: {
+    marginVertical: vh(1),
+    width: '100%',
+  },
+  textInput: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#CDCDCD80',
   },
 });
