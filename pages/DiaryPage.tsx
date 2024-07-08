@@ -13,10 +13,12 @@ import {CalendarList} from 'react-native-calendars';
 import LocaleConfig from '../services/localeConfig';
 import useStatusBar from '../services/customHook';
 import {vh, vw} from '../styles/stylesheet';
+import WeekContentComponent from '../components/WeekContentComponent';
 
 const DiaryPage: React.FC = () => {
   const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
   const [isMonth, setIsMonth] = React.useState<boolean>(true);
+  const current = 16;
 
   useStatusBar('#19162E');
 
@@ -50,25 +52,27 @@ const DiaryPage: React.FC = () => {
         ) : (
           <ScrollView horizontal>
             {Array.from({length: 41}, (_, index) => (
-              <TouchableOpacity key={index} style={[styles.currentWeekGrp]}>
-                <Text style={styles.currentWeekGrpTxt}>{index + 1}</Text>
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.currentWeekGrp,
+                  index + 1 === current ? {backgroundColor: '#AA3A3A'} : {},
+                ]}
+                disabled>
+                <Text
+                  style={[
+                    styles.currentWeekGrpTxt,
+                    index + 1 !== current ? {color: '#8B8B8B'} : {},
+                  ]}>
+                  {index + 1}
+                </Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
         )}
       </View>
-      <View>{isMonth ? <CalendarRender /> : <WeekContent />}</View>
+      <View>{isMonth ? <CalendarRender /> : <WeekContentComponent />}</View>
     </SafeAreaView>
-  );
-};
-
-const WeekContent = () => {
-  return (
-    <ScrollView>
-      <View>
-        <Text>T</Text>
-      </View>
-    </ScrollView>
   );
 };
 

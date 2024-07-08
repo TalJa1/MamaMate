@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-// Full method for getting date
+// Full method for getting today all
 type DateTimeComponent =
   | 'day'
   | 'month'
@@ -120,4 +120,32 @@ export const getTimeAgoInVietnamese = (
   }
 
   return 'vừa xong'; // Just now
+};
+
+//Get 7 days of current week
+interface WeekDays {
+  days: string[];
+}
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear());
+  return JSON.stringify({day, month, year});
+};
+
+export const getCurrentWeekDays = (): WeekDays => {
+  const now = new Date();
+  const currentDay = now.getDay(); // 0 is Sunday, 1 is Monday, etc.
+  const diff = now.getDate() - currentDay + (currentDay === 0 ? -6 : 1); // Adjust when Sunday
+
+  const monday = new Date(now.setDate(diff));
+
+  const days = Array.from({length: 7}, (_, i) => {
+    const day = new Date(monday);
+    day.setDate(monday.getDate() + i);
+    return formatDate(day);
+  });
+
+  return {days};
 };
