@@ -89,6 +89,7 @@ const CalendarRender = () => {
         textDayFontWeight: '400',
       }}
       firstDay={1}
+      onDayPress={date => console.log(date)}
       markedDates={{
         '2024-06-26': {color: '#AF90D6', startingDay: true},
         '2024-06-27': {color: '#AF90D6'},

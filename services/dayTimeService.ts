@@ -45,7 +45,7 @@ export const getDateTime = (
   }
 };
 
-const getVietnameseDayOfWeek = (dayOfWeek: string): string => {
+export const getVietnameseDayOfWeek = (dayOfWeek: string): string => {
   switch (dayOfWeek) {
     case 'Chủ Nhật':
       return 'CN';
@@ -127,11 +127,22 @@ interface WeekDays {
   days: string[];
 }
 
+const vietnameseDaysOfWeek = [
+  'CN',
+  'T2',
+  'T3',
+  'T4',
+  'T5',
+  'T6',
+  'T7',
+];
+
 const formatDate = (date: Date): string => {
+  const dayOfWeek = vietnameseDaysOfWeek[date.getDay()];
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = String(date.getFullYear());
-  return JSON.stringify({day, month, year});
+  return JSON.stringify({dayOfWeek, day, month, year});
 };
 
 export const getCurrentWeekDays = (): WeekDays => {

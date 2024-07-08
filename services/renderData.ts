@@ -7,6 +7,7 @@ import {
   xIconSVG,
 } from '../assets/svgXml';
 import {vh, vw} from '../styles/stylesheet';
+import {getCurrentWeekDays, getDateTime} from './dayTimeService';
 
 export const handbookData = [
   'Các giai đoạn mang bầu',
@@ -229,54 +230,6 @@ export const messGrpData = [
   },
 ];
 
-export const doctorListData = [
-  {
-    name: 'Trần Thái Linh',
-    department: 'Khoa sản',
-    location: 'Viện Hồng Ngọc',
-    rating: 4.5,
-    workFrom: '8:00',
-    workTo: '16:00',
-    img: require('../assets/TaskList/doctorAvatar.png'),
-  },
-  {
-    name: '',
-    department: 'Khoa sản',
-    location: 'Viện Tây Á',
-    rating: 4,
-    workFrom: '8:00',
-    workTo: '16:00',
-    img: require('../assets/TaskList/doctorAvatar.png'),
-  },
-  {
-    name: '',
-    department: 'Khoa sản',
-    location: 'Viện Hồng Ngọc',
-    rating: 5,
-    workFrom: '8:00',
-    workTo: '16:00',
-    img: require('../assets/TaskList/doctorAvatar.png'),
-  },
-  {
-    name: '',
-    department: 'Khoa sản',
-    location: 'Viện Nam Á',
-    rating: 5,
-    workFrom: '8:00',
-    workTo: '16:00',
-    img: require('../assets/TaskList/doctorAvatar.png'),
-  },
-  {
-    name: '',
-    department: 'Khoa sản',
-    location: 'Viện Minh Nguyệt',
-    rating: 4.5,
-    workFrom: '8:00',
-    workTo: '16:00',
-    img: require('../assets/TaskList/doctorAvatar.png'),
-  },
-];
-
 export const remindData = [
   {
     title: 'Uống thuốc sắt',
@@ -492,4 +445,81 @@ export const lineChartDataBelly = {
         ),
     },
   ],
+};
+
+export const doctorListData = [
+  {
+    name: 'Trần Thái Linh',
+    department: 'Khoa sản',
+    location: 'Viện Hồng Ngọc',
+    rating: 4.5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Tây Á',
+    rating: 4,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Hồng Ngọc',
+    rating: 5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Nam Á',
+    rating: 5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+  {
+    name: '',
+    department: 'Khoa sản',
+    location: 'Viện Minh Nguyệt',
+    rating: 4.5,
+    workFrom: '8:00',
+    workTo: '16:00',
+    img: require('../assets/TaskList/doctorAvatar.png'),
+  },
+];
+
+// Data for week tab in diary
+export const getDiaryWeekData = () => {
+  const {days} = getCurrentWeekDays();
+  const today = getDateTime('day');
+  const diaryWeekData = days.map(dayInfo => {
+    const {dayOfWeek, day} = JSON.parse(dayInfo);
+    return {
+      dayOfWeek,
+      date: day,
+      status:
+        Number(today) > Number(day)
+          ? 'Mẹ quên không theo dõi rùi'
+          : 'Chưa có thông tin',
+      setTime: '',
+      reservation: {
+        weight: 0,
+        bellySize: 0,
+        type: '',
+        time: '',
+      },
+      mood: '',
+      tag: [],
+      note: '',
+    };
+  });
+
+  return diaryWeekData;
 };
