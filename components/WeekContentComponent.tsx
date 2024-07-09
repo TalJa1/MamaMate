@@ -12,11 +12,36 @@ import {getDiaryWeekData} from '../services/renderData';
 import {getDateTime} from '../services/dayTimeService';
 import {vh, vw} from '../styles/stylesheet';
 import {DiaryEntry} from '../services/typeProps';
+import {loadData, saveData} from '../data/storage';
 
 const WeekContentComponent = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [data, setData] = React.useState<DiaryEntry[]>(getDiaryWeekData);
+  const [data, setData] = React.useState<DiaryEntry[]>([]);
   const today = getDateTime('day');
+
+  React.useEffect(() => {
+    loadData<DiaryEntry[]>('diaryWeekData')
+      .then(loadedData => {
+        if (loadedData) {
+          setData(loadedData);
+          // console.log(loadedData);
+        } else {
+          const initialData = getDiaryWeekData();
+          setData(initialData);
+          saveData('diaryWeekData', initialData);
+        }
+      })
+      .catch(() => {
+        const initialData = getDiaryWeekData();
+        setData(initialData);
+        saveData('diaryWeekData', initialData);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (data.length > 0) {
+      saveData('diaryWeekData', data);
+    }
+  }, [data]);
 
   return (
     <ScrollView
