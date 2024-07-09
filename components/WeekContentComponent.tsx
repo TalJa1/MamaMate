@@ -13,8 +13,11 @@ import {getDateTime} from '../services/dayTimeService';
 import {vh, vw} from '../styles/stylesheet';
 import {DiaryEntry} from '../services/typeProps';
 import {loadData, saveData} from '../data/storage';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const WeekContentComponent = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [data, setData] = React.useState<DiaryEntry[]>([]);
   const today = getDateTime('day');
 
@@ -58,7 +61,7 @@ const WeekContentComponent = () => {
                 columnGap: vw(2),
               }}>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => navigation.navigate('DiaryUpdate', {index: i})}
                 style={[
                   styles.circleDate,
                   Number(today) === Number(v.date)

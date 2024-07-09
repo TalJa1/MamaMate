@@ -40,6 +40,7 @@ import WishListPage from './pages/Tracking/Wishlist/WishListPage';
 import TaskListPage from './pages/TaskList/TaskListPage';
 import PregnancyExaminationPage from './pages/TaskList/PregnancyExaminationPage';
 import BellySizePage from './pages/Tracking/BellySizePage';
+import DiaryUpdatePage from './pages/Diary/DiaryUpdatePage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -174,6 +175,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Main">
+        {/* Diary Group */}
+        <Stack.Screen
+          name="DiaryUpdate"
+          component={DiaryUpdatePage}
+          options={{headerShown: false}}
+        />
         {/* Task Group */}
         <Stack.Screen
           name="PregnancyExamination"
