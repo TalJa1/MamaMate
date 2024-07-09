@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
@@ -10,10 +17,25 @@ import {loadData} from '../../data/storage';
 import {getDateTime} from '../../services/dayTimeService';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
+import {
+  cameraIconSVG,
+  cruzIconSVG,
+  editIconSVG,
+  examinationScheduleIconSVG,
+  glassOfWaterFullIconSVG,
+  glassOfWaterSVGIcon,
+  lengthDiaryIconSVG,
+  weightDiaryIconSVG,
+} from '../../assets/svgXml';
 
 type DiaryUpdateRouteParams = {
   index: number;
 };
+
+interface RenderGlassProps {
+  filledGlasses: boolean[];
+  onGlassClick: (index: number) => void;
+}
 
 const DiaryUpdatePage = () => {
   useStatusBar('#19162E');
@@ -24,7 +46,10 @@ const DiaryUpdatePage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [entry, setEntry] = React.useState<DiaryEntry | null>(null);
   const currentMonth = getDateTime('month');
-  console.log(entry);
+  // console.log(entry);
+  const [filledGlasses, setFilledGlasses] = React.useState<boolean[]>(
+    Array(8).fill(false),
+  );
 
   React.useEffect(() => {
     loadData<DiaryEntry[]>('diaryWeekData').then(data => {
@@ -34,6 +59,13 @@ const DiaryUpdatePage = () => {
     });
   }, [index]);
 
+  const handleGlassClick = (index1: number) => {
+    setFilledGlasses(prevState => {
+      const newFilledGlasses = [...prevState];
+      newFilledGlasses[index1] = !newFilledGlasses[index1];
+      return newFilledGlasses;
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -41,9 +73,282 @@ const DiaryUpdatePage = () => {
           <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: '700'}}>
             {entry?.date} tháng {currentMonth.toLocaleString()} (Ngày 101)
           </Text>
+          {renderChildInfoBox()}
+          {renderMomInfoGrp()}
+          <RenderGlass
+            filledGlasses={filledGlasses}
+            onGlassClick={handleGlassClick}
+          />
+          {nutriSuggestion()}
+          {renderReservation()}
+          <View style={{}}>
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              Sức khỏe
+            </Text>
+            <Image
+              style={{
+                width: vw(100),
+                marginHorizontal: vw(-5),
+                height: vh(12),
+              }}
+              // resizeMode="contain"
+              source={require('../../assets/Diary/moodGrp.png')}
+            />
+            <Text
+              style={{
+                color: '#EAE1EE',
+                textAlign: 'center',
+                fontWeight: '700',
+                marginTop: vh(1),
+              }}>
+              U sầu
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const renderReservation = () => {
+  return (
+    <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
+      <View
+        style={{flexDirection: 'row', alignItems: 'center', columnGap: vw(2)}}>
+        {examinationScheduleIconSVG(vw(8), vh(4))}
+        <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+          Lịch khám:
+        </Text>
+      </View>
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{
+            width: 42,
+            height: 42,
+            backgroundColor: '#AF90D6',
+            borderRadius: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {cruzIconSVG(vw(8), vh(4))}
+        </TouchableOpacity>
+      </View>
+      <Text
+        style={{
+          color: '#EAE1EE',
+          fontSize: 16,
+          fontWeight: '400',
+          textAlign: 'center',
+        }}>
+        Nhập lịch
+      </Text>
+    </View>
+  );
+};
+
+const nutriSuggestion = () => {
+  return (
+    <View style={{marginTop: vh(2), rowGap: vh(2)}}>
+      <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+        Dinh dưỡng hôm nay
+      </Text>
+      <View style={{width: '100%', alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{
+            width: 42,
+            height: 42,
+            backgroundColor: '#AF90D6',
+            borderRadius: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {cruzIconSVG(vw(8), vh(4))}
+        </TouchableOpacity>
+      </View>
+      <Text
+        style={{
+          color: '#EAE1EE',
+          fontSize: 16,
+          fontWeight: '400',
+          textAlign: 'center',
+        }}>
+        Nhập thông tin bữa ăn
+      </Text>
+      <View style={styles.suggestGrp}>
+        <View style={styles.suggestGrpTxtContainer}>
+          <Text style={styles.suggestGrpTxT}>Gợi ý dinh dưỡng</Text>
+        </View>
+        <TouchableOpacity style={styles.suggestGrpBtn}>
+          <Text style={styles.suggestGrpBtnTxT}>Xem</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const RenderGlass: React.FC<RenderGlassProps> = ({
+  filledGlasses,
+  onGlassClick,
+}) => {
+  const filledCount = filledGlasses.filter(isFilled => isFilled).length;
+
+  return (
+    <View
+      style={{
+        backgroundColor: '#5784A1',
+        borderRadius: 10,
+        paddingVertical: vh(1),
+      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: vw(2),
+        }}>
+        <Text>Uống nước</Text>
+        <Text>Mục tiêu: {filledCount * 0.25}/2l</Text>
+      </View>
+      <View style={styles.iconContainer}>
+        {filledGlasses.map((isFilled, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => onGlassClick(index)}
+            style={styles.iconWrapper}>
+            {isFilled
+              ? glassOfWaterFullIconSVG(vw(8), vh(6))
+              : glassOfWaterSVGIcon(vw(8), vh(6))}
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+const renderMomInfoGrp = () => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        marginTop: vh(4),
+        marginBottom: vh(2),
+        justifyContent: 'space-between',
+      }}>
+      <TouchableOpacity style={styles.button}>
+        {cameraIconSVG(vw(10), vh(5))}
+      </TouchableOpacity>
+      <View
+        style={{height: vh(20), width: '28%', justifyContent: 'space-between'}}>
+        {renderMominfoBox('Cân nặng', '60kg', '#AF90D6')}
+        {renderMominfoBox('Vòng bụng', '80cm', 'transparent')}
+      </View>
+      <View style={{height: vh(20), width: '28%', alignItems: 'center'}}>
+        <View style={{position: 'absolute', top: -40}}>
+          <Image source={require('../../assets/Diary/pregnancy.png')} />
+        </View>
+        <View style={{height: '100%', justifyContent: 'flex-end'}}>
+          <TouchableOpacity
+            style={[
+              styles.momInfoBox,
+              {
+                backgroundColor: '#221E3D',
+                justifyContent: 'space-evenly',
+                paddingLeft: '10%',
+                borderWidth: 1,
+                borderColor: '#AF90D6',
+              },
+            ]}>
+            <Text style={{color: '#EAE1EE'}}>Nhiệt độ</Text>
+            <Text style={{color: '#221E3D', fontWeight: '700', fontSize: 16}}>
+              {cruzIconSVG(vw(6), vh(3), '#EAE1EE')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const renderMominfoBox = (label: string, data: string, backColor: string) => {
+  return (
+    <TouchableOpacity
+      style={[
+        styles.momInfoBox,
+        {
+          backgroundColor: backColor,
+          justifyContent: 'space-evenly',
+          paddingLeft: '10%',
+          borderWidth: 1,
+          borderColor: '#AF90D6',
+        },
+      ]}>
+      <Text style={{color: '#EAE1EE'}}>{label}</Text>
+      <Text
+        style={[
+          {fontWeight: '700', fontSize: 16},
+          backColor === 'transparent' ? {color: '#AF90D6'} : {color: '#221E3D'},
+        ]}>
+        {data}
+      </Text>
+      <View style={{position: 'absolute', right: '5%', top: '5%'}}>
+        {editIconSVG(vw(4), vh(2))}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const renderChildInfoBox = () => {
+  return (
+    <View style={{marginTop: vh(5), marginBottom: vh(2)}}>
+      <View style={styles.childInfoBox}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.childInfoBoxTxT}>Tuổi thai: </Text>
+          <Text style={[styles.childInfoBoxTxT, {fontWeight: '700'}]}>
+            16 tuần 2 ngày
+          </Text>
+          <Image
+            style={styles.kidImg}
+            source={require('../../assets/Diary/kid.png')}
+          />
+        </View>
+        <View style={{flexDirection: 'row', paddingTop: 15}}>
+          <View style={styles.childInfoiconGrp}>
+            {weightDiaryIconSVG(vw(10), vh(5))}
+            <Text style={styles.childInfoiconTxt}>110 gam</Text>
+          </View>
+          <View style={styles.childInfoBox60}>
+            <View
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: 100,
+                backgroundColor: '#AF90D6',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image source={require('../../assets/Diary/quaLe.png')} />
+            </View>
+          </View>
+          <View style={styles.childInfoiconGrp}>
+            {lengthDiaryIconSVG(vw(10), vh(5))}
+            <Text style={styles.childInfoiconTxt}>17 cm</Text>
+          </View>
+        </View>
+        <View style={{alignItems: 'center', paddingTop: 5}}>
+          <View style={{width: '50%'}}>
+            <Text
+              style={{
+                textAlign: 'center',
+                color: '#EAE1EE',
+                fontWeight: '400',
+                fontSize: 14,
+              }}>
+              Kích thước của Kít tương tự{' '}
+              <Text style={{color: '#E5CE7F'}}>một quả Lê</Text>
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
   );
 };
 
@@ -57,5 +362,100 @@ const styles = StyleSheet.create({
   pageLayout: {
     paddingHorizontal: vw(4),
     paddingVertical: vh(2),
+  },
+  childInfoBox: {
+    backgroundColor: '#322C56',
+    width: '100%',
+    height: 232,
+    padding: '3%',
+    borderRadius: 16,
+  },
+  childInfoBoxTxT: {
+    color: '#FFB9A6',
+    fontSize: 16,
+  },
+  kidImg: {
+    height: 106,
+    width: 75,
+    resizeMode: 'contain',
+    position: 'absolute',
+    right: 0,
+    top: -50,
+  },
+  childInfoiconGrp: {
+    width: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  childInfoiconTxt: {
+    textAlign: 'center',
+    color: '#EAE1EE',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  childInfoBox60: {
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    height: vh(20),
+    width: '38%',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 14,
+    shadowColor: '#ffffff',
+    shadowOffset: {
+      width: 20,
+      height: 20,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10, // Adjust this value for more/less blur
+    elevation: 10, // Adjust this value for more/less shadow depth
+  },
+  momInfoBox: {
+    width: '100%',
+    height: '47%',
+    borderRadius: 16,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: vw(2), // Adjust padding if needed
+  },
+  iconWrapper: {
+    marginHorizontal: vw(1), // Adjust margin if needed
+  },
+  suggestGrp: {
+    backgroundColor: '#FFFFFF',
+    height: 57,
+    width: '100%',
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: vw(4),
+  },
+  suggestGrpTxtContainer: {
+    width: '70%',
+  },
+  suggestGrpTxT: {
+    color: '#19162E',
+    fontSize: 14,
+    fontWeight: '400',
+  },
+  suggestGrpBtn: {
+    width: '30%',
+    backgroundColor: '#19162E',
+    borderRadius: 50,
+    height: '70%',
+    justifyContent: 'center',
+  },
+  suggestGrpBtnTxT: {
+    color: '#EAE1EE',
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
   },
 });
