@@ -4,9 +4,8 @@ export type RootStackParamList = {
 };
 
 export interface Reservation {
-  weight: number;
-  bellySize: number;
-  type: string;
+  doctorname: string;
+  status: string;
   time: string;
 }
 
@@ -15,6 +14,8 @@ export interface DiaryEntry {
   date: string;
   status: string;
   setTime: string;
+  weight: number;
+  bellySize: number;
   reservation: Reservation;
   mood: string;
   tag: string[];
