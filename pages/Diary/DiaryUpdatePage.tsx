@@ -40,6 +40,7 @@ import {
 } from '../../services/renderData';
 import {Searchbar} from 'react-native-paper';
 import ToggleSwitch from 'toggle-switch-react-native';
+import DatePicker from 'react-native-date-picker';
 
 type DiaryUpdateRouteParams = {
   index: number;
@@ -74,10 +75,18 @@ const DiaryUpdatePage = () => {
     string[]
   >([]);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [selectedItems, setSelectedItems] = React.useState<string>('');
   const [toggleStates, setToggleStates] = React.useState<{
     [key: string]: boolean;
   }>({});
+  const [date, setDate] = React.useState<Date>(new Date());
+  const [open, setOpen] = React.useState(false);
+  const [reservationBox, setReservationBox] = React.useState({
+    isSave: false,
+    doctorName: '',
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    status: '',
+  });
 
   // Handler function to toggle the state
   const handleToggle = (key: string) => {
@@ -105,26 +114,26 @@ const DiaryUpdatePage = () => {
 
   const toggleSelectItem = (
     item: string,
-    selectedItems: string[],
-    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
+    selectedItems1: string[],
+    setSelectedItems1: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(
-        selectedItems.filter(selectedItem => selectedItem !== item),
+    if (reservationBox.status.includes(item)) {
+      setSelectedItems1(
+        selectedItems1.filter(selectedItem1 => selectedItem1 !== item),
       );
     } else {
-      setSelectedItems([...selectedItems, item]);
+      setSelectedItems1([...selectedItems1, item]);
     }
   };
 
   const renderStatusCheckBox = (
     label: string,
     data: String[],
-    selectedItems: string[],
-    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
+    selectedItems2: string[],
+    setSelectedItems2: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
     const handleCancel = (item: string) => {
-      toggleSelectItem(item, selectedItems, setSelectedItems);
+      toggleSelectItem(item, selectedItems2, setSelectedItems2);
     };
     return (
       <View style={{rowGap: vh(2), marginTop: vh(2)}}>
@@ -140,7 +149,7 @@ const DiaryUpdatePage = () => {
           placeholderTextColor={'#CDCDCD'}
         />
         <View style={styles.selectedContainer}>
-          {selectedItems.map((item, indexn) => (
+          {selectedItems2.map((item, indexn) => (
             <View key={indexn} style={styles.selectedCheckbox}>
               <Text style={styles.selectedText}>{item}</Text>
               <TouchableOpacity
@@ -170,7 +179,11 @@ const DiaryUpdatePage = () => {
             <TouchableOpacity
               key={i}
               onPress={() =>
-                toggleSelectItem(v.toString(), selectedItems, setSelectedItems)
+                toggleSelectItem(
+                  v.toString(),
+                  selectedItems2,
+                  setSelectedItems2,
+                )
               }
               style={[
                 {
@@ -180,14 +193,14 @@ const DiaryUpdatePage = () => {
                   paddingVertical: 10,
                   borderRadius: 25,
                 },
-                selectedItems.includes(v.toString())
+                reservationBox.status.includes(v.toString())
                   ? {borderColor: '#AF90D6'}
                   : {},
               ]}>
               <Text
                 style={[
                   {color: '#CDCDCD', fontWeight: '400', fontSize: 14},
-                  selectedItems.includes(v.toString())
+                  reservationBox.status.includes(v.toString())
                     ? {color: '#AF90D6'}
                     : {},
                 ]}>
@@ -218,7 +231,16 @@ const DiaryUpdatePage = () => {
             onGlassClick={handleGlassClick}
           />
           {nutriSuggestion()}
-          {renderReservation(handleOpenModal)}
+          {renderReservation(
+            handleOpenModal,
+            reservationBox.isSave,
+            reservationBox.doctorName,
+            reservationBox.hour,
+            reservationBox.minute,
+            reservationBox.status,
+            toggleStates,
+            handleToggle,
+          )}
           <View style={{}}>
             <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
               Sức khỏe
@@ -335,6 +357,16 @@ const DiaryUpdatePage = () => {
               <TextInput
                 placeholder="Nhập tên"
                 placeholderTextColor={'#CDCDCD'}
+                value={reservationBox.doctorName}
+                onChange={e =>
+                  setReservationBox({
+                    isSave: false,
+                    doctorName: e.nativeEvent.text,
+                    hour: reservationBox.hour,
+                    minute: reservationBox.minute,
+                    status: reservationBox.status,
+                  })
+                }
                 style={styles.textInputmodal}
               />
             </View>
@@ -354,7 +386,15 @@ const DiaryUpdatePage = () => {
                 style={{flexDirection: 'row', flexWrap: 'wrap', gap: vw(3)}}>
                 {diaryModalData.map((v, i) => (
                   <TouchableOpacity
-                    onPress={() => setSelectedItems(v.toString())}
+                    onPress={() =>
+                      setReservationBox({
+                        isSave: false,
+                        doctorName: reservationBox.doctorName,
+                        hour: reservationBox.hour,
+                        minute: reservationBox.minute,
+                        status: v.toString(),
+                      })
+                    }
                     key={i}
                     style={[
                       {
@@ -365,14 +405,14 @@ const DiaryUpdatePage = () => {
                         borderRadius: 25,
                         alignSelf: 'auto',
                       },
-                      selectedItems.includes(v.toString())
+                      reservationBox.status.includes(v.toString())
                         ? {backgroundColor: '#AF90D6', borderColor: '#AF90D6'}
                         : {},
                     ]}>
                     <Text
                       style={[
                         {color: '#CDCDCD', fontWeight: '400', fontSize: 14},
-                        selectedItems.includes(v.toString())
+                        reservationBox.status.includes(v.toString())
                           ? {color: '#221E3D'}
                           : {},
                       ]}>
@@ -394,9 +434,17 @@ const DiaryUpdatePage = () => {
                     columnGap: vw(10),
                     marginTop: vh(1),
                   }}>
-                  {renderTimePicker('Giờ', '16')}
+                  {renderTimePicker(
+                    'Giờ',
+                    reservationBox.hour.toString(),
+                    setOpen,
+                  )}
                   <Text style={styles.datePickerSeparator}>:</Text>
-                  {renderTimePicker('Phút', '30')}
+                  {renderTimePicker(
+                    'Phút',
+                    reservationBox.minute.toString(),
+                    setOpen,
+                  )}
                 </View>
               </View>
               {renderToggleAnouncement(
@@ -412,6 +460,49 @@ const DiaryUpdatePage = () => {
                 2,
               )}
             </View>
+            <TouchableOpacity
+              onPress={() => {
+                setOpen(false);
+                setReservationBox({
+                  isSave: true,
+                  doctorName: reservationBox.doctorName,
+                  hour: reservationBox.hour,
+                  minute: reservationBox.minute,
+                  status: reservationBox.status,
+                });
+              }}
+              style={{
+                backgroundColor: '#EAE1EE',
+                borderRadius: 30,
+                height: 60,
+                justifyContent: 'center',
+                marginTop: vh(2),
+              }}>
+              <Text
+                style={{textAlign: 'center', color: '#221E3D', fontSize: 16}}>
+                Lưu
+              </Text>
+            </TouchableOpacity>
+            <DatePicker
+              modal
+              open={open}
+              mode="time"
+              date={date}
+              onConfirm={datet => {
+                setOpen(false);
+                setReservationBox({
+                  isSave: false,
+                  doctorName: reservationBox.doctorName,
+                  hour: datet.getHours(),
+                  minute: datet.getMinutes(),
+                  status: reservationBox.status,
+                });
+                setDate(datet);
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
           </View>
         </ScrollView>
       </Modal>
@@ -447,51 +538,134 @@ const renderToggleAnouncement = (
   );
 };
 
-const renderTimePicker = (label: string, daytime: string) => {
+const renderTimePicker = (label: string, daytime: string, setOpen: any) => {
   return (
     <View style={styles.datePickerContainer}>
       <Text style={styles.datePickerLabel}>{label}</Text>
-      <TouchableOpacity style={styles.datePickerValueContainer}>
+      <TouchableOpacity
+        style={styles.datePickerValueContainer}
+        onPress={() => setOpen(true)}>
         <Text style={styles.datePickerValue}>{daytime}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const renderReservation = (setModal: () => void) => {
+const renderReservation = (
+  setModal: () => void,
+  isSave: boolean,
+  doctorName: string,
+  hour: number,
+  minute: number,
+  status: string,
+  toggleStates: {[key: string]: boolean},
+  handleToggle: (key: string) => void,
+) => {
   return (
-    <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
-      <View
-        style={{flexDirection: 'row', alignItems: 'center', columnGap: vw(2)}}>
-        {examinationScheduleIconSVG(vw(8), vh(4))}
-        <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
-          Lịch khám:
-        </Text>
-      </View>
-      <View style={{width: '100%', alignItems: 'center'}}>
-        <TouchableOpacity
-          onPress={() => setModal()}
+    <>
+      {isSave ? (
+        <View
           style={{
-            width: 42,
-            height: 42,
-            backgroundColor: '#AF90D6',
-            borderRadius: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
+            marginVertical: vh(2),
+            rowGap: vh(2),
+            backgroundColor: '#382E75',
+            padding: vw(3),
+            borderRadius: 16,
           }}>
-          {cruzIconSVG(vw(8), vh(4))}
-        </TouchableOpacity>
-      </View>
-      <Text
-        style={{
-          color: '#EAE1EE',
-          fontSize: 16,
-          fontWeight: '400',
-          textAlign: 'center',
-        }}>
-        Nhập lịch
-      </Text>
-    </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                columnGap: vw(2),
+              }}>
+              {examinationScheduleIconSVG(vw(8), vh(4))}
+              <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+                Lịch khám:
+              </Text>
+            </View>
+            <ToggleSwitch
+              isOn={toggleStates[`reminderToggle_${3}`] || false}
+              onColor="#221E3D"
+              offColor="#221E3D"
+              circleColor={'#EAE1EE'}
+              onToggle={() => handleToggle(`reminderToggle_${3}`)}
+              size="medium"
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View>
+              <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '400'}}>
+                Bác sĩ {doctorName} khoa sản
+              </Text>
+              <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '400'}}>
+                {status}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{
+                  backgroundColor: '#EAE1EE',
+                  paddingVertical: vh(1),
+                  paddingHorizontal: vw(2),
+                  borderRadius: 10,
+                  color: '#221E3D',
+                  fontSize: 18,
+                  fontWeight: '400',
+                }}>
+                {hour.toString()}:{minute.toString()}
+              </Text>
+            </View>
+          </View>
+        </View>
+      ) : (
+        <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              columnGap: vw(2),
+            }}>
+            {examinationScheduleIconSVG(vw(8), vh(4))}
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              Lịch khám:
+            </Text>
+          </View>
+          <View style={{width: '100%', alignItems: 'center'}}>
+            <TouchableOpacity
+              onPress={() => setModal()}
+              style={{
+                width: 42,
+                height: 42,
+                backgroundColor: '#AF90D6',
+                borderRadius: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {cruzIconSVG(vw(8), vh(4))}
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={{
+              color: '#EAE1EE',
+              fontSize: 16,
+              fontWeight: '400',
+              textAlign: 'center',
+            }}>
+            Nhập lịch
+          </Text>
+        </View>
+      )}
+    </>
   );
 };
 
