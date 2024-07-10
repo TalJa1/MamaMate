@@ -509,10 +509,11 @@ export const getDiaryWeekData = () => {
           ? 'Mẹ quên không theo dõi rùi'
           : 'Chưa có thông tin',
       setTime: '',
+      weight: 60,
+      bellySize: 80,
       reservation: {
-        weight: 0,
-        bellySize: 0,
-        type: '',
+        doctorname: '',
+        status: '',
         time: '',
       },
       mood: '',
@@ -558,4 +559,12 @@ export const diaryModalData = [
   'Nước tiểu',
   'Siêu âm',
   'Xét nghiệm sinh hóa máu',
+];
+
+export const moodImgSelectionData = [
+  {label: 'Tức giận', img: require('../assets/angryface.png')},
+  {label: 'Vui cực', img: require('../assets/happywithhalo.png')},
+  {label: 'U sầu', img: require('../assets/sadface.png')},
+  {label: 'Tim', img: require('../assets/happywithhearteye.png')},
+  {label: 'Vui', img: require('../assets/smilingFace.png')},
 ];

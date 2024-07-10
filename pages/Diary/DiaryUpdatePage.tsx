@@ -34,6 +34,7 @@ import {
 } from '../../assets/svgXml';
 import {
   diaryModalData,
+  moodImgSelectionData,
   moodReasonData,
   sexStatusData,
   StatementData,
@@ -212,6 +213,17 @@ const DiaryUpdatePage = () => {
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
+  const [images, setImages] = React.useState(moodImgSelectionData);
+
+  const swapWithCenter = (i: number) => {
+    const centerIndex = Math.floor(images.length / 2);
+    const newImages = [...images];
+    [newImages[i], newImages[centerIndex]] = [
+      newImages[centerIndex],
+      newImages[i],
+    ];
+    setImages(newImages);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -241,24 +253,24 @@ const DiaryUpdatePage = () => {
             <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
               Sức khỏe
             </Text>
-            <Image
-              style={{
-                width: vw(100),
-                marginHorizontal: vw(-5),
-                height: vh(12),
-              }}
-              // resizeMode="contain"
-              source={require('../../assets/Diary/moodGrp.png')}
-            />
-            <Text
-              style={{
-                color: '#EAE1EE',
-                textAlign: 'center',
-                fontWeight: '700',
-                marginTop: vh(1),
-              }}>
-              U sầu
-            </Text>
+            <View style={styles.containerMood}>
+              {images.map((image, ind) => (
+                <View key={ind}>
+                  <TouchableOpacity onPress={() => swapWithCenter(ind)}>
+                    <Image source={image.img} style={styles.image} />
+                  </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: '#EAE1EE',
+                      textAlign: 'center',
+                      fontWeight: '700',
+                      marginTop: vh(1),
+                    }}>
+                    {ind === 2 ? image.label : ''}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
           {renderStatusCheckBox(
             'Lý do khiến mẹ có tâm trạng đó?',
@@ -1047,5 +1059,18 @@ const styles = StyleSheet.create({
     color: '#EAE1EE',
     fontSize: 18,
     textAlign: 'center',
+  },
+  containerMood: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+  },
+  imageContainer: {
+    position: 'relative',
+  },
+  image: {
+    width: 60,
+    height: 60,
   },
 });
