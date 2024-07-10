@@ -552,3 +552,10 @@ export const sexStatusData = [
   'Ít có nhu cầu tình dục',
   'Quan hệ miệng',
 ];
+
+export const diaryModalData = [
+  'Định kỳ',
+  'Nước tiểu',
+  'Siêu âm',
+  'Xét nghiệm sinh hóa máu',
+];

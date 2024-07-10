@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {
   Image,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -32,11 +33,13 @@ import {
   weightDiaryIconSVG,
 } from '../../assets/svgXml';
 import {
+  diaryModalData,
   moodReasonData,
   sexStatusData,
   StatementData,
 } from '../../services/renderData';
 import {Searchbar} from 'react-native-paper';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 type DiaryUpdateRouteParams = {
   index: number;
@@ -70,6 +73,19 @@ const DiaryUpdatePage = () => {
   const [selectedSexStatuses, setSelectedSexStatuses] = React.useState<
     string[]
   >([]);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [selectedItems, setSelectedItems] = React.useState<string>('');
+  const [toggleStates, setToggleStates] = React.useState<{
+    [key: string]: boolean;
+  }>({});
+
+  // Handler function to toggle the state
+  const handleToggle = (key: string) => {
+    setToggleStates(prevState => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
 
   React.useEffect(() => {
     loadData<DiaryEntry[]>('diaryWeekData').then(data => {
@@ -184,6 +200,10 @@ const DiaryUpdatePage = () => {
     );
   };
 
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -198,7 +218,7 @@ const DiaryUpdatePage = () => {
             onGlassClick={handleGlassClick}
           />
           {nutriSuggestion()}
-          {renderReservation()}
+          {renderReservation(handleOpenModal)}
           <View style={{}}>
             <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
               Sức khỏe
@@ -286,11 +306,159 @@ const DiaryUpdatePage = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => {
+          setIsModalVisible(false);
+        }}>
+        <ScrollView style={styles.modalContainer}>
+          <View style={{alignItems: 'center', paddingTop: vh(3)}}>
+            <TouchableOpacity
+              onPress={() => setIsModalVisible(false)}
+              style={{position: 'absolute', top: vh(2), right: vw(5)}}>
+              {cancelSVG(vw(6), vh(3), '#CDCDCD')}
+            </TouchableOpacity>
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              Lịch khám
+            </Text>
+            <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+              Ngày {entry?.date} tháng {currentMonth.toLocaleString()}
+            </Text>
+          </View>
+          <View style={{paddingHorizontal: vw(4)}}>
+            <View style={{marginTop: vh(2), rowGap: vh(2)}}>
+              <Text style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
+                Tên bác sĩ
+              </Text>
+              <TextInput
+                placeholder="Nhập tên"
+                placeholderTextColor={'#CDCDCD'}
+                style={styles.textInputmodal}
+              />
+            </View>
+            <View style={{marginTop: vh(2), rowGap: vh(2)}}>
+              <Text style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
+                Mục đích
+              </Text>
+              <Searchbar
+                style={styles.textInput}
+                icon={() => searchingSVG(vw(5), vh(5))}
+                placeholder="Tìm"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+                placeholderTextColor={'#CDCDCD'}
+              />
+              <View
+                style={{flexDirection: 'row', flexWrap: 'wrap', gap: vw(3)}}>
+                {diaryModalData.map((v, i) => (
+                  <TouchableOpacity
+                    onPress={() => setSelectedItems(v.toString())}
+                    key={i}
+                    style={[
+                      {
+                        borderWidth: 1,
+                        borderColor: '#CDCDCD',
+                        paddingHorizontal: 14,
+                        paddingVertical: 10,
+                        borderRadius: 25,
+                        alignSelf: 'auto',
+                      },
+                      selectedItems.includes(v.toString())
+                        ? {backgroundColor: '#AF90D6', borderColor: '#AF90D6'}
+                        : {},
+                    ]}>
+                    <Text
+                      style={[
+                        {color: '#CDCDCD', fontWeight: '400', fontSize: 14},
+                        selectedItems.includes(v.toString())
+                          ? {color: '#221E3D'}
+                          : {},
+                      ]}>
+                      {v}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View>
+                <Text
+                  style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
+                  Thời gian
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    columnGap: vw(10),
+                    marginTop: vh(1),
+                  }}>
+                  {renderTimePicker('Giờ', '16')}
+                  <Text style={styles.datePickerSeparator}>:</Text>
+                  {renderTimePicker('Phút', '30')}
+                </View>
+              </View>
+              {renderToggleAnouncement(
+                toggleStates,
+                handleToggle,
+                'Nhắc nhở trước 1 ngày',
+                1,
+              )}
+              {renderToggleAnouncement(
+                toggleStates,
+                handleToggle,
+                'Thông báo kép cho bạn đời',
+                2,
+              )}
+            </View>
+          </View>
+        </ScrollView>
+      </Modal>
     </SafeAreaView>
   );
 };
 
-const renderReservation = () => {
+const renderToggleAnouncement = (
+  toggleStates: {[key: string]: boolean},
+  handleToggle: (key: string) => void,
+  label: string,
+  index: number,
+) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        columnGap: vw(2),
+      }}>
+      <ToggleSwitch
+        isOn={toggleStates[`reminderToggle_${index}`] || false}
+        onColor="#AF90D6"
+        offColor="#AF90D6"
+        circleColor={'#EAE1EE'}
+        onToggle={() => handleToggle(`reminderToggle_${index}`)}
+        size="medium"
+      />
+      <Text style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
+        {label}
+      </Text>
+    </View>
+  );
+};
+
+const renderTimePicker = (label: string, daytime: string) => {
+  return (
+    <View style={styles.datePickerContainer}>
+      <Text style={styles.datePickerLabel}>{label}</Text>
+      <TouchableOpacity style={styles.datePickerValueContainer}>
+        <Text style={styles.datePickerValue}>{daytime}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const renderReservation = (setModal: () => void) => {
   return (
     <View style={{marginVertical: vh(2), rowGap: vh(2)}}>
       <View
@@ -302,6 +470,7 @@ const renderReservation = () => {
       </View>
       <View style={{width: '100%', alignItems: 'center'}}>
         <TouchableOpacity
+          onPress={() => setModal()}
           style={{
             width: 42,
             height: 42,
@@ -644,6 +813,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '#CDCDCD80',
+    color: '#EAE1EE',
   },
   selectedCheckbox: {
     borderColor: '#AF90D6',
@@ -665,5 +835,46 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 14,
     fontWeight: '400',
+  },
+  modalContainer: {
+    backgroundColor: '#221E3D',
+    flex: 1,
+  },
+  textInputmodal: {
+    width: vw(90),
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#CDCDCD80',
+    borderRadius: 30,
+    padding: vh(2),
+    color: '#CDCDCD',
+  },
+
+  // Date picker
+  datePickerSeparator: {
+    color: '#8B8B8B',
+    fontSize: 16,
+  },
+  datePickerContainer: {
+    alignItems: 'center',
+  },
+  datePickerLabel: {
+    color: '#8B8B8B',
+    fontSize: 16,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  datePickerValueContainer: {
+    borderWidth: 1,
+    borderColor: '#EAE1EE',
+    height: 50,
+    width: 50,
+    borderRadius: 20,
+    padding: 10,
+  },
+  datePickerValue: {
+    color: '#EAE1EE',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
