@@ -11,6 +11,17 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const noteIconSVG = (w?: any, h?: any, color?: any) => {
+  const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7 8.875H15.75M7 13.875H13.25M16.6191 21.0397L20.8784 22.4595C21.8556 22.7852 22.7853 21.8555 22.4595 20.8783L21.0398 16.6191M16.125 20.8751C16.125 20.8751 14.6059 22 11.375 22C5.50697 22 0.75 17.243 0.75 11.375C0.75 5.50697 5.50697 0.75 11.375 0.75C17.243 0.75 22 5.50697 22 11.375C22 14.5 20.875 16.1251 20.875 16.1251" stroke=${
+    color ?? '"#EAE1EE"'
+  } style="stroke:#EAE1EE;stroke:color(display-p3 0.9176 0.8824 0.9333);stroke-opacity:1;" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const glassOfWaterFullIconSVG = (w?: any, h?: any) => {
   const xml = `<svg width="29" height="36" viewBox="0 0 29 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M14.0987 2.39646H27.1115C27.1115 2.38505 27.1115 2.37744 27.1115 2.37744H1.33643V2.39646H13.4915H14.0987Z" fill="#E3ECF1" style="fill:#E3ECF1;fill:color(display-p3 0.8902 0.9255 0.9451);fill-opacity:1;"/>
@@ -382,7 +393,7 @@ export const nextIconSVG = (w?: any, h?: any, color?: any) => {
 
 export const cancelSVG = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 1L1 15M1.00003 1L15 15" stroke=${color} style="stroke:#AF90D6;stroke:color(display-p3 0.6863 0.5647 0.8392);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 1L1 15M1.00003 1L15 15" stroke=${color ?? '#AF90D6'} style="stroke:#AF90D6;stroke:color(display-p3 0.6863 0.5647 0.8392);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
 

@@ -523,3 +523,32 @@ export const getDiaryWeekData = () => {
 
   return diaryWeekData;
 };
+
+export const moodReasonData = [
+  'Ổn',
+  'Đau người',
+  'Đau ngực',
+  'Khó thở',
+  'Ợ hơi',
+  'Mụn',
+  'Phù nề',
+];
+
+export const StatementData = [
+  'Ổn',
+  'Đau người',
+  'Đau ngực',
+  'Khó thở',
+  'Ợ hơi',
+  'Mụn',
+  'Phù nề',
+];
+
+export const sexStatusData = [
+  'Quan hệ có bảo vệ',
+  'Nhu cầu tình dục cao',
+  'Quan hệ không bảo vệ',
+  'Vuốt ve cơ thể',
+  'Ít có nhu cầu tình dục',
+  'Quan hệ miệng',
+];

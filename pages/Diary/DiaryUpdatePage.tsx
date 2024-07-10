@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -25,8 +26,16 @@ import {
   glassOfWaterFullIconSVG,
   glassOfWaterSVGIcon,
   lengthDiaryIconSVG,
+  noteIconSVG,
+  searchingSVG,
   weightDiaryIconSVG,
 } from '../../assets/svgXml';
+import {
+  moodReasonData,
+  sexStatusData,
+  StatementData,
+} from '../../services/renderData';
+import {Searchbar} from 'react-native-paper';
 
 type DiaryUpdateRouteParams = {
   index: number;
@@ -46,7 +55,8 @@ const DiaryUpdatePage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [entry, setEntry] = React.useState<DiaryEntry | null>(null);
   const currentMonth = getDateTime('month');
-  // console.log(entry);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [textInputValue, setTextInputValue] = React.useState('');
   const [filledGlasses, setFilledGlasses] = React.useState<boolean[]>(
     Array(8).fill(false),
   );
@@ -66,6 +76,48 @@ const DiaryUpdatePage = () => {
       return newFilledGlasses;
     });
   };
+
+  const renderStatusCheckBox = (label: string, data: String[]) => {
+    return (
+      <View style={{rowGap: vh(2), marginTop: vh(2)}}>
+        <Text style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
+          {label}
+        </Text>
+        <Searchbar
+          style={styles.textInput}
+          icon={() => searchingSVG(vw(5), vh(5))}
+          placeholder="Tìm"
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          placeholderTextColor={'#CDCDCD'}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            columnGap: vw(2),
+            rowGap: vh(1),
+          }}>
+          {data.map((v, i) => (
+            <TouchableOpacity
+              key={i}
+              style={{
+                borderWidth: 1,
+                borderColor: '#CDCDCD',
+                paddingHorizontal: 14,
+                paddingVertical: 10,
+                borderRadius: 25,
+              }}>
+              <Text style={{color: '#CDCDCD', fontWeight: '400', fontSize: 14}}>
+                {v}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -104,6 +156,59 @@ const DiaryUpdatePage = () => {
               U sầu
             </Text>
           </View>
+          {renderStatusCheckBox(
+            'Lý do khiến mẹ có tâm trạng đó?',
+            moodReasonData,
+          )}
+          {renderStatusCheckBox(
+            'Thể trạng của mẹ hôm nay thế nào?',
+            StatementData,
+          )}
+          {renderStatusCheckBox('Hoạt động tình dục', sexStatusData)}
+          <View
+            style={{
+              backgroundColor: '#382E75',
+              padding: vw(3),
+              borderRadius: 16,
+              marginTop: vh(2),
+              rowGap: vh(1),
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                columnGap: vw(2),
+                alignItems: 'center',
+              }}>
+              {noteIconSVG(vw(8), vh(4))}
+              <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
+                Ghi chú
+              </Text>
+            </View>
+            <TextInput
+              numberOfLines={4}
+              value={textInputValue}
+              onChangeText={newValue => setTextInputValue(newValue)}
+              multiline
+              style={{
+                backgroundColor: '#D9D9D90F',
+                borderRadius: 8,
+                height: 100,
+              }}
+            />
+          </View>
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: '#EAE1EE',
+              borderRadius: 30,
+              height: 60,
+              justifyContent: 'center',
+              marginTop: vh(2),
+            }}>
+            <Text style={{textAlign: 'center', color: '#EAE1EE', fontSize: 16}}>
+              Cập nhật
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -245,14 +350,15 @@ const renderMomInfoGrp = () => {
         <View style={{position: 'absolute', top: -40}}>
           <Image source={require('../../assets/Diary/pregnancy.png')} />
         </View>
-        <View style={{height: '100%', justifyContent: 'flex-end'}}>
+        <View
+          style={{height: '100%', width: '100%', justifyContent: 'flex-end'}}>
           <TouchableOpacity
             style={[
               styles.momInfoBox,
               {
                 backgroundColor: '#221E3D',
                 justifyContent: 'space-evenly',
-                paddingLeft: '10%',
+                alignItems: 'center',
                 borderWidth: 1,
                 borderColor: '#AF90D6',
               },
@@ -457,5 +563,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     textAlign: 'center',
+  },
+  textInput: {
+    width: vw(90),
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#CDCDCD80',
   },
 });
