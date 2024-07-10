@@ -20,6 +20,7 @@ import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
 import {
   cameraIconSVG,
+  cancelSVG,
   cruzIconSVG,
   editIconSVG,
   examinationScheduleIconSVG,
@@ -60,6 +61,15 @@ const DiaryUpdatePage = () => {
   const [filledGlasses, setFilledGlasses] = React.useState<boolean[]>(
     Array(8).fill(false),
   );
+  const [selectedMoodReasons, setSelectedMoodReasons] = React.useState<
+    string[]
+  >([]);
+  const [selectedStatements, setSelectedStatements] = React.useState<string[]>(
+    [],
+  );
+  const [selectedSexStatuses, setSelectedSexStatuses] = React.useState<
+    string[]
+  >([]);
 
   React.useEffect(() => {
     loadData<DiaryEntry[]>('diaryWeekData').then(data => {
@@ -77,7 +87,29 @@ const DiaryUpdatePage = () => {
     });
   };
 
-  const renderStatusCheckBox = (label: string, data: String[]) => {
+  const toggleSelectItem = (
+    item: string,
+    selectedItems: string[],
+    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
+  ) => {
+    if (selectedItems.includes(item)) {
+      setSelectedItems(
+        selectedItems.filter(selectedItem => selectedItem !== item),
+      );
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+
+  const renderStatusCheckBox = (
+    label: string,
+    data: String[],
+    selectedItems: string[],
+    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
+  ) => {
+    const handleCancel = (item: string) => {
+      toggleSelectItem(item, selectedItems, setSelectedItems);
+    };
     return (
       <View style={{rowGap: vh(2), marginTop: vh(2)}}>
         <Text style={{color: '#AF90D6', fontSize: 16, fontWeight: '400'}}>
@@ -91,6 +123,26 @@ const DiaryUpdatePage = () => {
           value={searchQuery}
           placeholderTextColor={'#CDCDCD'}
         />
+        <View style={styles.selectedContainer}>
+          {selectedItems.map((item, indexn) => (
+            <View key={indexn} style={styles.selectedCheckbox}>
+              <Text style={styles.selectedText}>{item}</Text>
+              <TouchableOpacity
+                onPress={() => handleCancel(item)}
+                style={{
+                  height: vw(5),
+                  width: vw(5),
+                  borderRadius: 30,
+                  backgroundColor: '#515151',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  opacity: 0.6,
+                }}>
+                {cancelSVG(vw(3), vh(2), '#100F11')}
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
         <View
           style={{
             flexDirection: 'row',
@@ -101,14 +153,28 @@ const DiaryUpdatePage = () => {
           {data.map((v, i) => (
             <TouchableOpacity
               key={i}
-              style={{
-                borderWidth: 1,
-                borderColor: '#CDCDCD',
-                paddingHorizontal: 14,
-                paddingVertical: 10,
-                borderRadius: 25,
-              }}>
-              <Text style={{color: '#CDCDCD', fontWeight: '400', fontSize: 14}}>
+              onPress={() =>
+                toggleSelectItem(v.toString(), selectedItems, setSelectedItems)
+              }
+              style={[
+                {
+                  borderWidth: 1,
+                  borderColor: '#CDCDCD',
+                  paddingHorizontal: 14,
+                  paddingVertical: 10,
+                  borderRadius: 25,
+                },
+                selectedItems.includes(v.toString())
+                  ? {borderColor: '#AF90D6'}
+                  : {},
+              ]}>
+              <Text
+                style={[
+                  {color: '#CDCDCD', fontWeight: '400', fontSize: 14},
+                  selectedItems.includes(v.toString())
+                    ? {color: '#AF90D6'}
+                    : {},
+                ]}>
                 {v}
               </Text>
             </TouchableOpacity>
@@ -159,12 +225,21 @@ const DiaryUpdatePage = () => {
           {renderStatusCheckBox(
             'Lý do khiến mẹ có tâm trạng đó?',
             moodReasonData,
+            selectedMoodReasons,
+            setSelectedMoodReasons,
           )}
           {renderStatusCheckBox(
             'Thể trạng của mẹ hôm nay thế nào?',
             StatementData,
+            selectedStatements,
+            setSelectedStatements,
           )}
-          {renderStatusCheckBox('Hoạt động tình dục', sexStatusData)}
+          {renderStatusCheckBox(
+            'Hoạt động tình dục',
+            sexStatusData,
+            selectedSexStatuses,
+            setSelectedSexStatuses,
+          )}
           <View
             style={{
               backgroundColor: '#382E75',
@@ -569,5 +644,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '#CDCDCD80',
+  },
+  selectedCheckbox: {
+    borderColor: '#AF90D6',
+    backgroundColor: '#AF90D6', // Light pink background
+    paddingVertical: 10,
+    flexDirection: 'row',
+    paddingHorizontal: 14,
+    borderRadius: 25,
+    columnGap: vw(1),
+    alignItems: 'center',
+  },
+  selectedContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    columnGap: vw(2),
+    rowGap: vh(1),
+  },
+  selectedText: {
+    color: '#000000',
+    fontSize: 14,
+    fontWeight: '400',
   },
 });
