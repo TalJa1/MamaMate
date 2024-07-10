@@ -114,26 +114,26 @@ const DiaryUpdatePage = () => {
 
   const toggleSelectItem = (
     item: string,
-    selectedItems1: string[],
-    setSelectedItems1: React.Dispatch<React.SetStateAction<string[]>>,
+    selectedItems: string[],
+    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
-    if (reservationBox.status.includes(item)) {
-      setSelectedItems1(
-        selectedItems1.filter(selectedItem1 => selectedItem1 !== item),
+    if (selectedItems.includes(item)) {
+      setSelectedItems(
+        selectedItems.filter(selectedItem => selectedItem !== item),
       );
     } else {
-      setSelectedItems1([...selectedItems1, item]);
+      setSelectedItems([...selectedItems, item]);
     }
   };
 
   const renderStatusCheckBox = (
     label: string,
     data: String[],
-    selectedItems2: string[],
-    setSelectedItems2: React.Dispatch<React.SetStateAction<string[]>>,
+    selectedItems: string[],
+    setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>,
   ) => {
     const handleCancel = (item: string) => {
-      toggleSelectItem(item, selectedItems2, setSelectedItems2);
+      toggleSelectItem(item, selectedItems, setSelectedItems);
     };
     return (
       <View style={{rowGap: vh(2), marginTop: vh(2)}}>
@@ -149,7 +149,7 @@ const DiaryUpdatePage = () => {
           placeholderTextColor={'#CDCDCD'}
         />
         <View style={styles.selectedContainer}>
-          {selectedItems2.map((item, indexn) => (
+          {selectedItems.map((item, indexn) => (
             <View key={indexn} style={styles.selectedCheckbox}>
               <Text style={styles.selectedText}>{item}</Text>
               <TouchableOpacity
@@ -179,11 +179,7 @@ const DiaryUpdatePage = () => {
             <TouchableOpacity
               key={i}
               onPress={() =>
-                toggleSelectItem(
-                  v.toString(),
-                  selectedItems2,
-                  setSelectedItems2,
-                )
+                toggleSelectItem(v.toString(), selectedItems, setSelectedItems)
               }
               style={[
                 {
@@ -317,12 +313,13 @@ const DiaryUpdatePage = () => {
             style={{
               borderWidth: 1,
               borderColor: '#EAE1EE',
+              backgroundColor: '#EAE1EE',
               borderRadius: 30,
               height: 60,
               justifyContent: 'center',
               marginTop: vh(2),
             }}>
-            <Text style={{textAlign: 'center', color: '#EAE1EE', fontSize: 16}}>
+            <Text style={{textAlign: 'center', color: '#221E3D', fontSize: 16}}>
               Cập nhật
             </Text>
           </TouchableOpacity>
@@ -462,7 +459,7 @@ const DiaryUpdatePage = () => {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setOpen(false);
+                setIsModalVisible(false);
                 setReservationBox({
                   isSave: true,
                   doctorName: reservationBox.doctorName,
@@ -563,7 +560,7 @@ const renderReservation = (
 ) => {
   return (
     <>
-      {isSave ? (
+      {isSave && doctorName !== '' ? (
         <View
           style={{
             marginVertical: vh(2),
