@@ -15,7 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DiaryEntry} from '../../services/typeProps';
-import {loadData} from '../../data/storage';
+import {loadData, updateData} from '../../data/storage';
 import {getDateTime} from '../../services/dayTimeService';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
@@ -57,7 +57,6 @@ const DiaryUpdatePage = () => {
   const route =
     useRoute<RouteProp<{params: DiaryUpdateRouteParams}, 'params'>>();
   const {index} = route.params;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [entry, setEntry] = React.useState<DiaryEntry | null>(null);
   const currentMonth = getDateTime('month');
@@ -81,6 +80,7 @@ const DiaryUpdatePage = () => {
   }>({});
   const [date, setDate] = React.useState<Date>(new Date());
   const [open, setOpen] = React.useState(false);
+  const [images, setImages] = React.useState(moodImgSelectionData);
   const [reservationBox, setReservationBox] = React.useState({
     isSave: false,
     doctorName: '',
@@ -88,6 +88,9 @@ const DiaryUpdatePage = () => {
     minute: date.getMinutes(),
     status: '',
   });
+
+  const currentHour = getDateTime('hour');
+  const currentMinute = getDateTime('minute');
 
   // Handler function to toggle the state
   const handleToggle = (key: string) => {
@@ -213,7 +216,6 @@ const DiaryUpdatePage = () => {
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
-  const [images, setImages] = React.useState(moodImgSelectionData);
 
   const swapWithCenter = (i: number) => {
     const centerIndex = Math.floor(images.length / 2);
@@ -223,6 +225,63 @@ const DiaryUpdatePage = () => {
       newImages[i],
     ];
     setImages(newImages);
+  };
+
+  // console.log(images[2].label);
+
+  const handleUpdatePressed = async () => {
+    const formatTime = (value: number) =>
+      value < 10 ? `0${value}` : value.toString();
+    const combineTags = [
+      ...selectedMoodReasons,
+      ...selectedStatements,
+      ...selectedSexStatuses,
+    ];
+    const updateReservation = {
+      doctorname: reservationBox.doctorName,
+      status: reservationBox.status,
+      time:
+        reservationBox.hour.toString() + ':' + reservationBox.minute.toString(),
+    };
+    const dataforUpdating = {
+      dayOfWeek: entry?.dayOfWeek ?? '',
+      date: entry?.date ?? '',
+      status: 'Trạng thái',
+      setTime:
+        formatTime(Number(currentHour)) +
+        ':' +
+        formatTime(Number(currentMinute)),
+      weight: 60,
+      bellySize: 80,
+      reservation: updateReservation,
+      mood: images[2].label,
+      tag: combineTags,
+      note: textInputValue,
+    };
+    setEntry(dataforUpdating);
+    loadData<any[]>('diaryWeekData')
+      .then(existingData => {
+        if (existingData && Array.isArray(existingData)) {
+          if (index >= 0 && index < existingData.length) {
+            existingData[index] = dataforUpdating;
+            return updateData('diaryWeekData', existingData).then(
+              () => existingData,
+            );
+          } else {
+            throw new Error('Invalid index: ' + index);
+          }
+        } else {
+          throw new Error('No existing data or data is not an array');
+        }
+      })
+      .then((updatedData: any[]) => {
+        console.log('Data updated successfully');
+        console.log('Updated data:', updatedData);
+      })
+      .catch(error => {
+        console.error('Error in data operation:', error);
+      });
+    navigation.navigate('Diary');
   };
 
   return (
@@ -322,6 +381,7 @@ const DiaryUpdatePage = () => {
             />
           </View>
           <TouchableOpacity
+            onPress={handleUpdatePressed}
             style={{
               borderWidth: 1,
               borderColor: '#EAE1EE',
@@ -570,6 +630,8 @@ const renderReservation = (
   toggleStates: {[key: string]: boolean},
   handleToggle: (key: string) => void,
 ) => {
+  const formatTime = (value: number) =>
+    value < 10 ? `0${value}` : value.toString();
   return (
     <>
       {isSave && doctorName !== '' ? (
@@ -631,7 +693,7 @@ const renderReservation = (
                   fontSize: 18,
                   fontWeight: '400',
                 }}>
-                {hour.toString()}:{minute.toString()}
+                {formatTime(hour)}:{formatTime(minute)}
               </Text>
             </View>
           </View>

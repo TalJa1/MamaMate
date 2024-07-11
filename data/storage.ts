@@ -25,7 +25,7 @@ export const storage = new Storage({
   },
 });
 
-// Save data & Create data
+// Create data
 export const saveData = <T>(key: string, data: T): void => {
   storage.save({
     key: key, // Note: Do not use underscore("_") in key!

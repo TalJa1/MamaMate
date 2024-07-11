@@ -14,10 +14,14 @@ import LocaleConfig from '../services/localeConfig';
 import useStatusBar from '../services/customHook';
 import {vh, vw} from '../styles/stylesheet';
 import WeekContentComponent from '../components/WeekContentComponent';
+import {loadData, saveData} from '../data/storage';
+import {DiaryEntry} from '../services/typeProps';
+import {getDiaryWeekData} from '../services/renderData';
 
 const DiaryPage: React.FC = () => {
   const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
-  const [isMonth, setIsMonth] = React.useState<boolean>(true);
+  const [data, setData] = React.useState<DiaryEntry[]>([]);
+  const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const current = 16;
 
   useStatusBar('#19162E');
@@ -25,6 +29,31 @@ const DiaryPage: React.FC = () => {
   React.useEffect(() => {
     LocaleConfig;
   }, []);
+
+  React.useEffect(() => {
+    loadData<DiaryEntry[]>('diaryWeekData')
+      .then(loadedData => {
+        if (loadedData) {
+          setData(loadedData);
+          // console.log(loadedData);
+        } else {
+          const initialData = getDiaryWeekData();
+          setData(initialData);
+          saveData('diaryWeekData', initialData);
+        }
+      })
+      .catch(() => {
+        const initialData = getDiaryWeekData();
+        setData(initialData);
+        saveData('diaryWeekData', initialData);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (data.length > 0) {
+      saveData('diaryWeekData', data);
+    }
+  }, [data]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,7 +100,15 @@ const DiaryPage: React.FC = () => {
           </ScrollView>
         )}
       </View>
-      <View>{isMonth ? <CalendarRender /> : <WeekContentComponent />}</View>
+      <View style={{flex: 1}}>
+        {!isMonth ? (
+          <View style={{paddingTop: vh(1)}}>
+            <WeekContentComponent />
+          </View>
+        ) : (
+          <CalendarRender />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
