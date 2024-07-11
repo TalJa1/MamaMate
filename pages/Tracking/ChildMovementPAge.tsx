@@ -8,19 +8,94 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
 
-const ChildMovementPAge = () => {
+const ChildMovementPage = () => {
   useStatusBar('#19162E');
+
+  const [history, setHistory] = React.useState<
+    {count: number; time: number; last: string}[]
+  >([
+    {count: 40, time: Date.now() - 86400000, last: '12:33'},
+    {count: 12, time: Date.now() - 259200000, last: '01:45'},
+  ]);
+  const [lastPressTime, setLastPressTime] = React.useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [elapsedTime, setElapsedTime] = React.useState<number>(0);
+
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return `${String(date.getDate()).padStart(2, '0')} Thg ${String(
+      date.getMonth() + 1,
+    ).padStart(2, '0')}, ${String(date.getHours()).padStart(2, '0')}:${String(
+      date.getMinutes(),
+    ).padStart(2, '0')}`;
+  };
+
+  const formatElapsedTime = (milliseconds: number) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
+
+  const handleCount = () => {
+    const now = Date.now();
+    const timeSinceLastPress = lastPressTime ? now - lastPressTime : 0;
+
+    if (lastPressTime === null || timeSinceLastPress > 5000) {
+      setHistory(prevHistory => [
+        {count: 1, time: now, last: '00:00'},
+        ...prevHistory,
+      ]);
+    } else {
+      setHistory(prevHistory => {
+        const [lastEntry, ...rest] = prevHistory;
+        const newEntry = {
+          count: lastEntry.count + 1,
+          time: lastEntry.time,
+          last: formatElapsedTime(now - lastEntry.time),
+        };
+        return [newEntry, ...rest];
+      });
+    }
+
+    setLastPressTime(now);
+    setElapsedTime(0);
+  };
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (lastPressTime) {
+      timer = setInterval(() => {
+        const now = Date.now();
+        const timeElapsed = now - lastPressTime;
+
+        if (timeElapsed >= 5000) {
+          clearInterval(timer);
+        } else {
+          setElapsedTime(timeElapsed);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [lastPressTime]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgContainerGrp}>
         <Text style={styles.imgTxT}>90</Text>
-        <TouchableOpacity style={styles.imgContainerGrpImg}>
+        <TouchableOpacity
+          style={styles.imgContainerGrpImg}
+          onPress={handleCount}>
           <Image source={require('../../assets/MOVE.png')} />
         </TouchableOpacity>
         <Text style={styles.imgTxT}>30</Text>
@@ -45,13 +120,28 @@ const ChildMovementPAge = () => {
               <Text style={styles.historyGrpTitleTxT}>Số lần</Text>
             </View>
           </View>
+          {history.map((entry, index) => (
+            <View key={index} style={styles.historyGrpItem}>
+              <View style={styles.historyGrpTitleContainer}>
+                <Text style={styles.historyGrpItemTxT}>
+                  {formatDate(entry.time)}
+                </Text>
+              </View>
+              <View style={styles.historyGrpTitleContainer}>
+                <Text style={styles.historyGrpItemTxT}>{entry.last}</Text>
+              </View>
+              <View style={styles.historyGrpTitleContainer}>
+                <Text style={styles.historyGrpItemTxT}>{entry.count}</Text>
+              </View>
+            </View>
+          ))}
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 
-export default ChildMovementPAge;
+export default ChildMovementPage;
 
 const styles = StyleSheet.create({
   container: {
@@ -103,5 +193,17 @@ const styles = StyleSheet.create({
     color: '#EAE1EE',
     fontSize: 14,
     fontWeight: '700',
+  },
+  historyGrpItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: vw(100),
+    marginTop: vh(2),
+  },
+  historyGrpItemTxT: {
+    textAlign: 'center',
+    color: '#EAE1EE',
+    fontSize: 14,
+    fontWeight: '400',
   },
 });
