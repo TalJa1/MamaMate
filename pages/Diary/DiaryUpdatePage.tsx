@@ -43,6 +43,7 @@ import {Searchbar} from 'react-native-paper';
 import ToggleSwitch from 'toggle-switch-react-native';
 import DatePicker from 'react-native-date-picker';
 import DiaryVerifyUpdateModalComponent from '../../components/DiaryVerifyUpdateModalComponent';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 type DiaryUpdateRouteParams = {
   index: number;
@@ -90,6 +91,7 @@ const DiaryUpdatePage = () => {
     status: '',
   });
   const [isModalUpdateVisible, setIsModalUpdateVisible] = React.useState(false);
+  const [image, setImage] = React.useState<Array<string>>([]);
 
   const currentHour = getDateTime('hour');
   const currentMinute = getDateTime('minute');
@@ -304,7 +306,7 @@ const DiaryUpdatePage = () => {
             {entry?.date} tháng {currentMonth.toLocaleString()} (Ngày 101)
           </Text>
           {renderChildInfoBox()}
-          {renderMomInfoGrp(navigation)}
+          {renderMomInfoGrp(navigation, setImage, image)}
           <RenderGlass
             filledGlasses={filledGlasses}
             onGlassClick={handleGlassClick}
@@ -839,7 +841,11 @@ const RenderGlass: React.FC<RenderGlassProps> = ({
   );
 };
 
-const renderMomInfoGrp = (navigation: NativeStackNavigationProp<any>) => {
+const renderMomInfoGrp = (
+  navigation: NativeStackNavigationProp<any>,
+  setImage: React.Dispatch<React.SetStateAction<string[]>>,
+  image: string[],
+) => {
   return (
     <View
       style={{
@@ -848,8 +854,34 @@ const renderMomInfoGrp = (navigation: NativeStackNavigationProp<any>) => {
         marginBottom: vh(2),
         justifyContent: 'space-between',
       }}>
-      <TouchableOpacity style={styles.button}>
-        {cameraIconSVG(vw(10), vh(5))}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={async () => {
+          try {
+            setImage([]);
+            const result: any = await launchImageLibrary({
+              mediaType: 'photo',
+              selectionLimit: 1,
+            });
+            if (result.assets.length > 0) {
+              for (let i = 0; i < result.assets.length; i++) {
+                setImage(pre => {
+                  return [...pre, result.assets[i].uri];
+                });
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }}>
+        {image.length > 0 ? (
+          <Image
+            source={{uri: image[0]}}
+            style={{width: '100%', height: '100%'}}
+          />
+        ) : (
+          cameraIconSVG(vw(10), vh(5))
+        )}
       </TouchableOpacity>
       <View
         style={{height: vh(20), width: '28%', justifyContent: 'space-between'}}>
@@ -1036,6 +1068,7 @@ const styles = StyleSheet.create({
   button: {
     height: vh(20),
     width: '38%',
+    overflow: 'hidden',
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
