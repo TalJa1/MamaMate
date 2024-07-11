@@ -49,7 +49,7 @@ const lineChartConfig = {
 const WeightTrackingPage = () => {
   useStatusBar('#221E3D');
 
-  const [isMonth, setIsMonth] = React.useState<boolean>(true);
+  const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);

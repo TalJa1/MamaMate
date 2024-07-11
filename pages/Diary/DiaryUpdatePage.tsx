@@ -304,12 +304,12 @@ const DiaryUpdatePage = () => {
             {entry?.date} tháng {currentMonth.toLocaleString()} (Ngày 101)
           </Text>
           {renderChildInfoBox()}
-          {renderMomInfoGrp()}
+          {renderMomInfoGrp(navigation)}
           <RenderGlass
             filledGlasses={filledGlasses}
             onGlassClick={handleGlassClick}
           />
-          {nutriSuggestion()}
+          {nutriSuggestion(navigation)}
           {renderReservation(
             handleOpenModal,
             reservationBox.isSave,
@@ -759,7 +759,7 @@ const renderReservation = (
   );
 };
 
-const nutriSuggestion = () => {
+const nutriSuggestion = (navigation: NativeStackNavigationProp<any>) => {
   return (
     <View style={{marginTop: vh(2), rowGap: vh(2)}}>
       <Text style={{color: '#EAE1EE', fontSize: 18, fontWeight: '700'}}>
@@ -791,7 +791,9 @@ const nutriSuggestion = () => {
         <View style={styles.suggestGrpTxtContainer}>
           <Text style={styles.suggestGrpTxT}>Gợi ý dinh dưỡng</Text>
         </View>
-        <TouchableOpacity style={styles.suggestGrpBtn}>
+        <TouchableOpacity
+          style={styles.suggestGrpBtn}
+          onPress={() => navigation.navigate('Suggestion')}>
           <Text style={styles.suggestGrpBtnTxT}>Xem</Text>
         </TouchableOpacity>
       </View>
@@ -837,7 +839,7 @@ const RenderGlass: React.FC<RenderGlassProps> = ({
   );
 };
 
-const renderMomInfoGrp = () => {
+const renderMomInfoGrp = (navigation: NativeStackNavigationProp<any>) => {
   return (
     <View
       style={{
@@ -851,8 +853,20 @@ const renderMomInfoGrp = () => {
       </TouchableOpacity>
       <View
         style={{height: vh(20), width: '28%', justifyContent: 'space-between'}}>
-        {renderMominfoBox('Cân nặng', '60kg', '#AF90D6')}
-        {renderMominfoBox('Vòng bụng', '80cm', 'transparent')}
+        {renderMominfoBox(
+          'Cân nặng',
+          '60kg',
+          '#AF90D6',
+          navigation,
+          'WeightTracking',
+        )}
+        {renderMominfoBox(
+          'Vòng bụng',
+          '80cm',
+          'transparent',
+          navigation,
+          'BellySize',
+        )}
       </View>
       <View style={{height: vh(20), width: '28%', alignItems: 'center'}}>
         <View style={{position: 'absolute', top: -40}}>
@@ -882,9 +896,16 @@ const renderMomInfoGrp = () => {
   );
 };
 
-const renderMominfoBox = (label: string, data: string, backColor: string) => {
+const renderMominfoBox = (
+  label: string,
+  data: string,
+  backColor: string,
+  navigation: NativeStackNavigationProp<any>,
+  destination: string,
+) => {
   return (
     <TouchableOpacity
+      onPress={() => navigation.navigate(destination)}
       style={[
         styles.momInfoBox,
         {
