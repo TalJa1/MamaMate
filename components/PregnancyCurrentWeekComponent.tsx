@@ -27,6 +27,7 @@ const PregnancyCurrentWeekComponent: React.FC<
       <ScrollView horizontal style={styles.currentWeekGrpContainer}>
         {Array.from({length: 41}, (_, index) => (
           <TouchableOpacity
+            disabled
             key={index}
             onPress={() => setCurrentWeek(index + 1)}
             style={[
