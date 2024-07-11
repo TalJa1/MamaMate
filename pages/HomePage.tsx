@@ -19,8 +19,11 @@ import {
 } from '../services/imageHelper';
 import weekNoti from '../data/weekNoti.json';
 import useStatusBar from '../services/customHook';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const HomePage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   useStatusBar('#221E3D');
 
@@ -103,16 +106,18 @@ const HomePage = () => {
             </Text>
           </View>
           <View style={styles.momFeelingright}>
-            <View style={styles.plusStyle}>
+            <TouchableOpacity
+              style={styles.plusStyle}
+              onPress={() => navigation.navigate('Mood')}>
               {plusSVG(vw(5), vh(5), '#E5CFEF')}
-            </View>
+            </TouchableOpacity>
             {pregnancySVG(100, 100)}
           </View>
         </View>
         <View style={styles.tabSchedule}>
           <View style={styles.tabScheduleTop}>
             <Text style={styles.tabScheduleTopTxt}>Lịch khám trong tuần</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('TaskList')}>
               <Text style={styles.tabScheduleTopTxtBtn}>Xem thêm{'>'} </Text>
             </TouchableOpacity>
           </View>
