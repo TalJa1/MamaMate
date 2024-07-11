@@ -21,7 +21,7 @@ import weekNoti from '../data/weekNoti.json';
 import useStatusBar from '../services/customHook';
 
 const HomePage = () => {
-  const [currentWeek, setCurrentWeek] = React.useState<number>(1);
+  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   useStatusBar('#221E3D');
 
   return (
@@ -31,6 +31,7 @@ const HomePage = () => {
         <ScrollView horizontal>
           {Array.from({length: 41}, (_, index) => (
             <TouchableOpacity
+              disabled
               key={index}
               onPress={() => setCurrentWeek(index + 1)}
               style={[
