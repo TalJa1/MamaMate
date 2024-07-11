@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Image,
   Modal,
@@ -276,7 +277,7 @@ const DiaryUpdatePage = () => {
       })
       .then((updatedData: any[]) => {
         console.log('Data updated successfully');
-        console.log('Updated data:', updatedData);
+        // console.log('Updated data:', updatedData);
       })
       .catch(error => {
         console.error('Error in data operation:', error);
