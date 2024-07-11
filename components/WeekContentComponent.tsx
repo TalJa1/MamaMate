@@ -134,6 +134,7 @@ const WeekContentComponent = () => {
                 {v.reservation.doctorname !== '' ? (
                   <View
                     style={{
+                      marginTop: vh(1),
                       backgroundColor: '#382E75',
                       borderRadius: 16,
                       padding: vw(2),

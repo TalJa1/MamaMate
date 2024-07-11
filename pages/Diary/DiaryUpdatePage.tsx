@@ -242,7 +242,9 @@ const DiaryUpdatePage = () => {
       doctorname: reservationBox.doctorName,
       status: reservationBox.status,
       time:
-        reservationBox.hour.toString() + ':' + reservationBox.minute.toString(),
+        formatTime(Number(reservationBox.hour)) +
+        ':' +
+        formatTime(Number(reservationBox.minute)),
     };
     const dataforUpdating = {
       dayOfWeek: entry?.dayOfWeek ?? '',
@@ -378,6 +380,7 @@ const DiaryUpdatePage = () => {
                 backgroundColor: '#D9D9D90F',
                 borderRadius: 8,
                 height: 100,
+                color: '#EAE1EE',
               }}
             />
           </View>
