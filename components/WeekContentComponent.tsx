@@ -224,7 +224,10 @@ const WeekContentComponent = () => {
                       </Text>
                     </View>
                   </View>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('DiaryUpdate', {index: i})
+                    }>
                     {editIconSVG(vw(6), vh(3))}
                   </TouchableOpacity>
                 </View>
