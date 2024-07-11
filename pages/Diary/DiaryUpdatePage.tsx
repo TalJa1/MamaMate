@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Image,
   Modal,
@@ -43,6 +42,7 @@ import {
 import {Searchbar} from 'react-native-paper';
 import ToggleSwitch from 'toggle-switch-react-native';
 import DatePicker from 'react-native-date-picker';
+import DiaryVerifyUpdateModalComponent from '../../components/DiaryVerifyUpdateModalComponent';
 
 type DiaryUpdateRouteParams = {
   index: number;
@@ -89,6 +89,7 @@ const DiaryUpdatePage = () => {
     minute: date.getMinutes(),
     status: '',
   });
+  const [isModalUpdateVisible, setIsModalUpdateVisible] = React.useState(false);
 
   const currentHour = getDateTime('hour');
   const currentMinute = getDateTime('minute');
@@ -262,11 +263,19 @@ const DiaryUpdatePage = () => {
       note: textInputValue,
     };
     setEntry(dataforUpdating);
+    setIsModalUpdateVisible(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsModalUpdateVisible(false);
+  };
+
+  const handleYestoUpdate = () => {
     loadData<any[]>('diaryWeekData')
       .then(existingData => {
         if (existingData && Array.isArray(existingData)) {
           if (index >= 0 && index < existingData.length) {
-            existingData[index] = dataforUpdating;
+            existingData[index] = entry;
             return updateData('diaryWeekData', existingData).then(
               () => existingData,
             );
@@ -277,9 +286,9 @@ const DiaryUpdatePage = () => {
           throw new Error('No existing data or data is not an array');
         }
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .then((updatedData: any[]) => {
         console.log('Data updated successfully');
-        // console.log('Updated data:', updatedData);
       })
       .catch(error => {
         console.error('Error in data operation:', error);
@@ -399,6 +408,12 @@ const DiaryUpdatePage = () => {
               Cập nhật
             </Text>
           </TouchableOpacity>
+          <DiaryVerifyUpdateModalComponent
+            visible={isModalUpdateVisible}
+            onClose={handleCloseUpdateModal}
+            onUpdate={handleYestoUpdate}
+            data={entry}
+          />
         </View>
       </ScrollView>
       <Modal

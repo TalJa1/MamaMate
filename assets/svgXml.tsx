@@ -11,6 +11,21 @@ export const test = (w?: any, h?: any) => {
   return <SvgXml xml={xml} width={w} height={h} />;
 };
 
+export const playIconSVG = (w?: any, h?: any) => {
+  const xml = `<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.166504 21.0121C0.166504 9.51311 9.51737 0.166748 20.9998 0.166748C32.4823 0.166748 41.8332 9.51311 41.8332 21.0121C41.8332 32.4871 32.4823 41.8334 20.9998 41.8334C9.51737 41.8334 0.166504 32.4871 0.166504 21.0121ZM28.6414 23.1206C28.8626 22.8995 29.1441 22.5578 29.2045 22.4774C29.5262 22.0553 29.6871 21.5327 29.6871 21.0121C29.6871 20.4272 29.5061 19.8845 29.1643 19.4424C29.1362 19.4144 29.0814 19.3546 29.0099 19.2768C28.8761 19.1312 28.6841 18.9222 28.5006 18.7389C26.8517 16.9701 22.5483 14.0757 20.296 13.1913C19.9541 13.0527 19.0894 12.7492 18.6269 12.7291C18.1845 12.7291 17.7622 12.8296 17.36 13.0306C16.8573 13.3119 16.4551 13.7541 16.2339 14.2767C16.0931 14.6385 15.8719 15.7239 15.8719 15.744C15.6507 16.9299 15.5301 18.8595 15.5301 20.99C15.5301 23.0221 15.6507 24.8693 15.8317 26.0753C15.8367 26.0802 15.854 26.1665 15.8809 26.3005C15.9626 26.7078 16.1328 27.5565 16.3144 27.9043C16.7568 28.7485 17.6215 29.2711 18.5465 29.2711H18.6269C19.2302 29.251 20.4971 28.7284 20.4971 28.7083C22.6287 27.8239 26.8316 25.0703 28.5208 23.2412L28.6414 23.1206Z" fill="url(#paint0_linear_1001_3482)" fill-opacity="0.8" style=""/>
+<defs>
+<linearGradient id="paint0_linear_1001_3482" x1="-15.5693" y1="-5.76592" x2="36.1933" y2="39.1735" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.04" style="stop-color:white;stop-opacity:0.04;"/>
+<stop offset="1" stop-color="#788DB2" style="stop-color:#788DB2;stop-color:color(display-p3 0.4714 0.5519 0.6969);stop-opacity:1;"/>
+</linearGradient>
+</defs>
+</svg>
+`;
+
+  return <SvgXml xml={xml} width={w} height={h} />;
+};
+
 export const noteIconSVG = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M7 8.875H15.75M7 13.875H13.25M16.6191 21.0397L20.8784 22.4595C21.8556 22.7852 22.7853 21.8555 22.4595 20.8783L21.0398 16.6191M16.125 20.8751C16.125 20.8751 14.6059 22 11.375 22C5.50697 22 0.75 17.243 0.75 11.375C0.75 5.50697 5.50697 0.75 11.375 0.75C17.243 0.75 22 5.50697 22 11.375C22 14.5 20.875 16.1251 20.875 16.1251" stroke=${
@@ -393,7 +408,9 @@ export const nextIconSVG = (w?: any, h?: any, color?: any) => {
 
 export const cancelSVG = (w?: any, h?: any, color?: any) => {
   const xml = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15 1L1 15M1.00003 1L15 15" stroke=${color ?? '#AF90D6'} style="stroke:#AF90D6;stroke:color(display-p3 0.6863 0.5647 0.8392);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 1L1 15M1.00003 1L15 15" stroke=${
+    color ?? '#AF90D6'
+  } style="stroke:#AF90D6;stroke:color(display-p3 0.6863 0.5647 0.8392);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `;
 
