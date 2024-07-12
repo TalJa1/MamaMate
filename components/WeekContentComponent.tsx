@@ -227,7 +227,8 @@ const WeekContentComponent = () => {
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate('DiaryUpdate', {index: i})
-                    }>
+                    }
+                    disabled={Number(today) > Number(v.date)}>
                     {editIconSVG(vw(6), vh(3))}
                   </TouchableOpacity>
                 </View>

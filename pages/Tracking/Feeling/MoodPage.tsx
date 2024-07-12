@@ -5,6 +5,7 @@
 import {
   Animated,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,8 +26,15 @@ import {
   getDateTime,
 } from '../../../services/dayTimeService';
 import {editIconSVG} from '../../../assets/svgXml';
-import {moodSuggestionData} from '../../../services/renderData';
+import {
+  getDiaryWeekData,
+  moodImgSelectionData,
+  moodSuggestionData,
+} from '../../../services/renderData';
 import {suggestionRenderData} from '../../../data/meal/suggestionData';
+import {DiaryEntry} from '../../../services/typeProps';
+import {loadData} from '../../../data/storage';
+import {diaryWeekData} from '../../../services/storageService';
 
 interface MoodSuggestion {
   img: any;
@@ -40,6 +48,7 @@ const MoodPage = () => {
   const [noteText, setNoteText] = React.useState<string>(
     'Cơ thể rất mệt mỏi, chồng và mọi người xung quanh làm gì cũng không vừa ý gây',
   );
+  const [data, setData] = React.useState<DiaryEntry>();
   const [daysOfWeek, setDaysOfWeek] = React.useState([
     {day: 18, progress: 20},
     {day: 19, progress: 40},
@@ -52,6 +61,29 @@ const MoodPage = () => {
   const vietnameseDayOfWeek = getVietnamDayOfWeek();
   const today = getDateTime('day');
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const returnData: DiaryEntry[] = await loadData(diaryWeekData);
+        const useData = returnData.filter(
+          v => Number(v.date) === Number(today),
+        );
+        setData(useData[0]);
+      } catch (error) {
+        console.error('Failed to load diary entry data', error);
+      }
+    };
+    fetchData();
+  }, [today]);
+
+  const getImg = (label: string): any => {
+    const item = moodImgSelectionData.find(v => v.label === label);
+    if (item) {
+      return item.img;
+    } else {
+      return null;
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -89,96 +121,198 @@ const MoodPage = () => {
             </View>
           ))}
         </View>
-        <View style={{width: vw(100), alignItems: 'center'}}>
-          <View style={styles.wholeCardContainer}>
-            <View style={styles.cardDayContainer}>
-              <View style={styles.cardDayTitle}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 12,
-                    fontWeight: '400',
-                  }}>
-                  {vietnameseDayOfWeek}
-                </Text>
+        {data &&
+        data?.mood !== '' &&
+        data?.tag.length > 0 &&
+        data?.note !== '' ? (
+          <View style={{width: vw(100), alignItems: 'center'}}>
+            <View style={styles.wholeCardContainer}>
+              <View style={styles.cardDayContainer}>
+                <View style={styles.cardDayTitle}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 12,
+                      fontWeight: '400',
+                    }}>
+                    {vietnameseDayOfWeek}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 18,
+                      fontWeight: '700',
+                    }}>
+                    {`${today}`}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     textAlign: 'center',
                     fontSize: 18,
                     fontWeight: '700',
+                    color: '#EAE1EE',
                   }}>
-                  {`${today}`}
+                  Hôm nay
                 </Text>
               </View>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  fontWeight: '700',
-                  color: '#EAE1EE',
-                }}>
-                Hôm nay
-              </Text>
-            </View>
-            <View style={styles.cardContentContainer}>
-              <View style={styles.cardHeaderContainer}>
-                <View style={styles.cardHeaderLeftGrp}>
-                  <View>
-                    <Image
-                      style={{width: 35, height: 35, resizeMode: 'contain'}}
-                      source={getMoodCardImg('disappointed')}
-                    />
+              <View style={styles.cardContentContainer}>
+                <View style={styles.cardHeaderContainer}>
+                  <View style={styles.cardHeaderLeftGrp}>
+                    <View>
+                      <Image
+                        style={{width: 35, height: 35, resizeMode: 'contain'}}
+                        source={getImg(data.mood)}
+                      />
+                    </View>
+                    <View style={styles.cardHeaderTitle}>
+                      <Text
+                        style={{
+                          color: '#EAE1EE',
+                          fontSize: 18,
+                          fontWeight: '700',
+                        }}>
+                        {data.mood}
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#CDCDCD',
+                          fontSize: 12,
+                          fontWeight: '700',
+                        }}>
+                        {data.setTime}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.cardHeaderTitle}>
-                    <Text
-                      style={{
-                        color: '#EAE1EE',
-                        fontSize: 18,
-                        fontWeight: '700',
-                      }}>
-                      U sầu
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#CDCDCD',
-                        fontSize: 12,
-                        fontWeight: '700',
-                      }}>
-                      20:10
-                    </Text>
-                  </View>
+                  {editIconSVG(vw(5), vh(3))}
                 </View>
-                {editIconSVG(vw(5), vh(3))}
-              </View>
-              <View
-                style={{
-                  width: '100%',
-                  height: 1,
-                  backgroundColor: '#382E75',
-                  marginVertical: vh(2),
-                }}></View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  overflow: 'hidden',
-                  rowGap: 10,
-                  columnGap: 10,
-                }}>
-                {renderMoodTag('Nhu cầu tình dục cao')}
-                {renderMoodTag('Tủi thân')}
-                {renderMoodTag('Khó chịu')}
-              </View>
-              <View style={{marginVertical: 10}}>
-                <Text
-                  numberOfLines={2}
-                  style={{color: '#EAE1EE', fontSize: 14, fontWeight: '400'}}>
-                  Ghi chú: {noteText}
-                </Text>
+                <View
+                  style={{
+                    width: '100%',
+                    height: 1,
+                    backgroundColor: '#382E75',
+                    marginVertical: vh(2),
+                  }}></View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    overflow: 'hidden',
+                    rowGap: 10,
+                    columnGap: 10,
+                  }}>
+                  {data.tag.map((v, i) => (
+                    <View
+                      key={i}
+                      style={{
+                        alignSelf: 'auto',
+                      }}>
+                      {renderMoodTag(v)}
+                    </View>
+                  ))}
+                </View>
+                <View style={{marginVertical: 10}}>
+                  <Text
+                    numberOfLines={2}
+                    style={{color: '#EAE1EE', fontSize: 14, fontWeight: '400'}}>
+                    Ghi chú: {data.note}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
+        ) : (
+          <View style={{width: vw(100), alignItems: 'center'}}>
+            <View style={styles.wholeCardContainer}>
+              <View style={styles.cardDayContainer}>
+                <View style={styles.cardDayTitle}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 12,
+                      fontWeight: '400',
+                    }}>
+                    {vietnameseDayOfWeek}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 18,
+                      fontWeight: '700',
+                    }}>
+                    {`${today}`}
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 18,
+                    fontWeight: '700',
+                    color: '#EAE1EE',
+                  }}>
+                  Hôm nay
+                </Text>
+              </View>
+              <View style={styles.cardContentContainer}>
+                <View style={styles.cardHeaderContainer}>
+                  <View style={styles.cardHeaderLeftGrp}>
+                    <View>
+                      <Image
+                        style={{width: 35, height: 35, resizeMode: 'contain'}}
+                        source={getMoodCardImg('disappointed')}
+                      />
+                    </View>
+                    <View style={styles.cardHeaderTitle}>
+                      <Text
+                        style={{
+                          color: '#EAE1EE',
+                          fontSize: 18,
+                          fontWeight: '700',
+                        }}>
+                        U sầu
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#CDCDCD',
+                          fontSize: 12,
+                          fontWeight: '700',
+                        }}>
+                        20:10
+                      </Text>
+                    </View>
+                  </View>
+                  {editIconSVG(vw(5), vh(3))}
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    height: 1,
+                    backgroundColor: '#382E75',
+                    marginVertical: vh(2),
+                  }}></View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    overflow: 'hidden',
+                    rowGap: 10,
+                    columnGap: 10,
+                  }}>
+                  {renderMoodTag('Nhu cầu tình dục cao')}
+                  {renderMoodTag('Tủi thân')}
+                  {renderMoodTag('Khó chịu')}
+                </View>
+                <View style={{marginVertical: 10}}>
+                  <Text
+                    numberOfLines={2}
+                    style={{color: '#EAE1EE', fontSize: 14, fontWeight: '400'}}>
+                    Ghi chú: {noteText}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        )}
         <View
           style={{width: vw(100), alignItems: 'center', marginVertical: 10}}>
           <TouchableOpacity
