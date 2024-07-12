@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {
   Text,
@@ -9,6 +9,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import useStatusBar from '../services/customHook';
+import {QuestionPageData} from '../services/typeProps';
+import {loadData} from '../data/storage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -17,6 +19,19 @@ const MenstrualcyclePage = () => {
   useStatusBar('#AF90D6');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [amount, setAmount] = React.useState('01');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: QuestionPageData = await loadData('questionData');
+        console.log(data);
+      } catch (error) {
+        console.error('Failed to load question data', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const renderView = () => {
     return (
       <SafeAreaView style={styles.container}>

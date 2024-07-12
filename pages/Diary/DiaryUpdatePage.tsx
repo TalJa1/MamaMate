@@ -578,6 +578,7 @@ const DiaryUpdatePage = () => {
               open={open}
               mode="time"
               date={date}
+              locale="vi"
               onConfirm={datet => {
                 setOpen(false);
                 setReservationBox({

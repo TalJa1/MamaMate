@@ -38,7 +38,7 @@ const QuestionPage = () => {
       data.isMom = true;
       await updateData('questionData', data)
         .then(() => {
-          console.log('update success');
+          // console.log('update success');
         })
         .catch(err => {
           console.warn(err.message);

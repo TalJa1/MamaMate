@@ -6,16 +6,36 @@ import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
 import {loadData} from '../data/storage';
+import {QuestionPageData} from '../services/typeProps';
 
 const Question2Page = () => {
   useStatusBar('#AF90D6');
   const [choice, setChoice] = React.useState<number>(0);
 
   React.useEffect(() => {
-    loadData('questionData').then(data => {
-      console.log(data);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const data: QuestionPageData = await loadData('questionData');
+        switch (choice) {
+          case 1:
+            data.calculateMethod = 'Ngày đầu tiên của chu kỳ';
+            break;
+          case 2:
+            data.calculateMethod = 'Ngày thụ thai';
+            break;
+          case 3:
+            data.calculateMethod = 'Bố/Mẹ biết con đang ở tuần thứ mấy';
+            break;
+          case 4:
+            data.calculateMethod = 'Ngày sinh dự kiến của con';
+            break;
+        }
+      } catch (error) {
+        console.error('Failed to load question data', error);
+      }
+    };
+    fetchData();
+  }, [choice]);
 
   const renderView = () => {
     return (

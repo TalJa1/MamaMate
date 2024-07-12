@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRoute, RouteProp} from '@react-navigation/native';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {getTitleSource} from '../services/imageHelper';
@@ -12,6 +12,9 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
+import {QuestionPageData} from '../services/typeProps';
+import {loadData} from '../data/storage';
+import DatePicker from 'react-native-date-picker';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -28,12 +31,25 @@ const MethodinputPage = () => {
   useStatusBar('#AF90D6');
   const route = useRoute<RouteProp<RootStackParamList, 'MethodInput'>>();
   const {value} = route.params;
+  const [open, setOpen] = React.useState(false);
 
-  const [date, setDate] = React.useState({
-    day: 'DD',
-    month: 'MM',
-    year: 'YYYY',
-  });
+  const [date, setDate] = React.useState(new Date());
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: QuestionPageData = await loadData('questionData');
+        console.log(data);
+      } catch (error) {
+        console.error('Failed to load question data', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleOpenDatePicker = () => {
+    setOpen(true);
+  };
 
   const renderView = () => {
     return value !== 3 ? (
@@ -41,8 +57,10 @@ const MethodinputPage = () => {
         <View style={styles.columnStyle}>
           <Text style={styles.inputTxt}>Ngày</Text>
           <View>
-            <TouchableOpacity style={styles.btnOpacity}>
-              <Text style={styles.timeTxt}>{date.day}</Text>
+            <TouchableOpacity
+              style={styles.btnOpacity}
+              onPress={handleOpenDatePicker}>
+              <Text style={styles.timeTxt}>{date.getDate()}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -51,13 +69,8 @@ const MethodinputPage = () => {
           <Text style={styles.inputTxt}>Tháng</Text>
           <TouchableOpacity
             style={styles.btnOpacity}
-            onPress={() =>
-              setDate(prevDate => ({
-                ...prevDate,
-                month: '02',
-              }))
-            }>
-            <Text style={styles.timeTxt}>{date.month}</Text>
+            onPress={handleOpenDatePicker}>
+            <Text style={styles.timeTxt}>{date.getMonth()}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.dashed}>-</Text>
@@ -65,15 +78,24 @@ const MethodinputPage = () => {
           <Text style={styles.inputTxt}>Năm</Text>
           <TouchableOpacity
             style={styles.btnOpacity}
-            onPress={() =>
-              setDate(prevDate => ({
-                ...prevDate,
-                year: '2024',
-              }))
-            }>
-            <Text style={styles.timeTxt}>{date.year}</Text>
+            onPress={handleOpenDatePicker}>
+            <Text style={styles.timeTxt}>{date.getFullYear()}</Text>
           </TouchableOpacity>
         </View>
+        <DatePicker
+          modal
+          open={open}
+          mode="date"
+          locale="vi"
+          date={date}
+          onConfirm={datet => {
+            setOpen(false);
+            setDate(datet);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
       </SafeAreaView>
     ) : (
       <View>
