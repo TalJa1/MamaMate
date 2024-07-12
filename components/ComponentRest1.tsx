@@ -7,7 +7,11 @@ import {vh, vw} from '../styles/stylesheet';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
 
-const ComponentRest1 = () => {
+interface RenderLayout {
+  expectedDateOfBirth: Date | null;
+}
+
+const ComponentRest1: React.FC<RenderLayout> = ({expectedDateOfBirth}) => {
   return (
     <View style={styles.container}>
       <View>
@@ -19,7 +23,9 @@ const ComponentRest1 = () => {
             <Text style={styles.inputTxt}>Ngày</Text>
             <View>
               <View style={styles.btnOpacity}>
-                <Text style={styles.timeTxt}>1</Text>
+                <Text style={styles.timeTxt}>
+                  {expectedDateOfBirth?.getDate() ?? '-'}
+                </Text>
               </View>
             </View>
           </View>
@@ -27,14 +33,20 @@ const ComponentRest1 = () => {
           <View style={styles.columnStyle}>
             <Text style={styles.inputTxt}>Tháng</Text>
             <View style={styles.btnOpacity}>
-              <Text style={styles.timeTxt}>1</Text>
+              <Text style={styles.timeTxt}>
+                {expectedDateOfBirth?.getMonth() != null
+                  ? expectedDateOfBirth.getMonth() + 1
+                  : '-'}
+              </Text>
             </View>
           </View>
           <Text style={styles.dashed}>-</Text>
           <View style={styles.columnStyle}>
             <Text style={styles.inputTxt}>Năm</Text>
             <View style={styles.btnOpacity}>
-              <Text style={styles.timeTxt}>2021</Text>
+              <Text style={styles.timeTxt}>
+                {expectedDateOfBirth?.getFullYear() ?? '-'}
+              </Text>
             </View>
           </View>
         </View>

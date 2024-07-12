@@ -18,12 +18,17 @@ import {vh, vw} from '../styles/stylesheet';
 import {backIconSVG} from '../assets/svgXml';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
+import {loadData} from '../data/storage';
+import {QuestionPageData} from '../services/typeProps';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
 const RestScreenPage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [layoutIndex, setLayoutIndex] = React.useState<number>(1);
+  const [firstDate, setFirstDate] = React.useState(new Date());
+  const [expectedDateOfBirth, setExpectedDateOfBirth] =
+    React.useState<Date | null>(null);
 
   const handlePagination = () => {
     if (layoutIndex < 4) {
@@ -33,10 +38,36 @@ const RestScreenPage = () => {
     }
   };
 
+  const convertToDate = (dateString: string): Date => {
+    const [day, month, year] = dateString.split('/').map(Number);
+    return new Date(year, month - 1, day); // month is 0-indexed
+  };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data: QuestionPageData = await loadData('questionData');
+        setFirstDate(convertToDate(data.calculateValue));
+      } catch (error) {
+        console.error('Failed to load question data', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  React.useEffect(() => {
+    if (firstDate) {
+      const newDate = new Date(firstDate);
+      newDate.setDate(newDate.getDate() + 7); // Add 7 days
+      newDate.setMonth(newDate.getMonth() + 9); // Add 9 months
+      setExpectedDateOfBirth(newDate);
+    }
+  }, [firstDate]);
+
   const renderItem = () => {
     switch (layoutIndex) {
       case 1:
-        return <ComponentRest1 />;
+        return <ComponentRest1 expectedDateOfBirth={expectedDateOfBirth} />;
       case 2:
         return <ComponentRest2 />;
       case 3:

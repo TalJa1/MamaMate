@@ -9,12 +9,12 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {launchImageLibrary} from 'react-native-image-picker';
 import useStatusBar from '../services/customHook';
 import {QuestionPageData} from '../services/typeProps';
-import {loadData} from '../data/storage';
+import {loadData, updateData} from '../data/storage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -24,17 +24,22 @@ const MedicalhistoryPage = () => {
   const [diseaseName, setDiseaseName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data: QuestionPageData = await loadData('questionData');
-        console.log(data);
-      } catch (error) {
-        console.error('Failed to load question data', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const handleSubmit = async () => {
+    try {
+      const data: QuestionPageData = await loadData('questionData');
+      data.medicalHistory[0].name = diseaseName;
+      data.medicalHistory[0].img = image;
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+        })
+        .catch(err => {
+          console.warn(err.message);
+        });
+    } catch (error) {
+      console.error('Failed to load question data', error);
+    }
+  };
 
   const renderView = () => {
     return (
@@ -101,6 +106,7 @@ const MedicalhistoryPage = () => {
       isDiscard={true}
       value={diseaseName === '' ? 0 : 5}
       nextPage="Medicalused"
+      supportFucntion={handleSubmit}
     />
   );
 };

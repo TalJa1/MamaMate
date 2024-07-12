@@ -12,11 +12,31 @@ import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {launchImageLibrary} from 'react-native-image-picker';
 import useStatusBar from '../services/customHook';
+import {QuestionPageData} from '../services/typeProps';
+import {loadData, updateData} from '../data/storage';
 
 const MedicationusedPage = () => {
   useStatusBar('#AF90D6');
   const [medicineName, setMedicineName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
+
+  const handleSubmit = async () => {
+    try {
+      const data: QuestionPageData = await loadData('questionData');
+      data.medicine[0].name = medicineName;
+      data.medicine[0].img = image;
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+        })
+        .catch(err => {
+          console.warn(err.message);
+        });
+    } catch (error) {
+      console.error('Failed to load question data', error);
+    }
+  };
+
   const renderView = () => {
     return (
       <View>
@@ -52,7 +72,6 @@ const MedicationusedPage = () => {
               />
             </TouchableOpacity>
             <TextInput
-              editable={false}
               placeholder="Tên thuốc"
               onChangeText={setMedicineName}
               placeholderTextColor={'#E5CFEF61'}
@@ -82,6 +101,7 @@ const MedicationusedPage = () => {
       isDiscard={true}
       value={medicineName === '' ? 0 : 5}
       nextPage="RestScreen"
+      supportFucntion={handleSubmit}
     />
   );
 };

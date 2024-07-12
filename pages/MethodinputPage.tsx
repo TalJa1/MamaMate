@@ -41,7 +41,7 @@ const MethodinputPage = () => {
       data.calculateValue = `${date.getDate()}/${
         date.getMonth() + 1
       }/${date.getFullYear()}`;
-      updateData('questionData', data)
+      await updateData('questionData', data)
         .then()
         .catch(error => {
           console.error('Failed to update question data', error);

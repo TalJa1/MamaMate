@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import useStatusBar from '../services/customHook';
 import {QuestionPageData} from '../services/typeProps';
-import {loadData} from '../data/storage';
+import {loadData, updateData} from '../data/storage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -29,6 +29,13 @@ const MenstrualcyclePage = () => {
       data.averageMenstrualCycle = Number(
         getCombinedValue(amount.first, amount.second),
       );
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+        })
+        .catch((err: any) => {
+          console.warn(err.message);
+        });
     } catch (error) {
       console.error('Failed to load question data', error);
     }
