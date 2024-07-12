@@ -54,7 +54,11 @@ const RestScreenLastPage = () => {
         </View>
 
         <View style={styles.btnGrp}>
-          <TouchableOpacity style={styles.nextBtn}>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={() => {
+              navigation.navigate('Main');
+            }}>
             <Text style={styles.nextBtnTxt}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
