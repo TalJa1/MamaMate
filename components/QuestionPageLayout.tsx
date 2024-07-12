@@ -15,7 +15,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {getImageSource} from '../services/imageHelper';
 import {vh, vw} from '../styles/stylesheet';
 import {backIconSVG} from '../assets/svgXml';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 
@@ -28,6 +28,7 @@ interface RenderLayout {
   value?: number;
   // Name of navigation page
   nextPage: string;
+  supportFucntion?: () => void;
 }
 
 const QuestionPageLayout: React.FC<RenderLayout> = ({
@@ -37,10 +38,12 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
   isDiscard,
   value = -1,
   nextPage,
+  supportFucntion,
 }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handlePagination = () => {
+    supportFucntion && supportFucntion();
     if (value === -1) {
     }
 

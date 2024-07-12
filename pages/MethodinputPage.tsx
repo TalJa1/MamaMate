@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useRoute, RouteProp} from '@react-navigation/native';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {getTitleSource} from '../services/imageHelper';
@@ -35,24 +35,21 @@ const MethodinputPage = () => {
 
   const [date, setDate] = React.useState(new Date());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data: QuestionPageData = await loadData('questionData');
-        data.calculateValue = `${date.getDate()}/${
-          date.getMonth() + 1
-        }/${date.getFullYear()}`;
-        updateData('questionData', data)
-          .then()
-          .catch(error => {
-            console.error('Failed to update question data', error);
-          });
-      } catch (error) {
-        console.error('Failed to load question data', error);
-      }
-    };
-    fetchData();
-  }, [date]);
+  const fetchData = async () => {
+    try {
+      const data: QuestionPageData = await loadData('questionData');
+      data.calculateValue = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
+      updateData('questionData', data)
+        .then()
+        .catch(error => {
+          console.error('Failed to update question data', error);
+        });
+    } catch (error) {
+      console.error('Failed to load question data', error);
+    }
+  };
 
   const handleOpenDatePicker = () => {
     setOpen(true);
@@ -119,6 +116,7 @@ const MethodinputPage = () => {
       isDiscard={false}
       value={5}
       nextPage="Menstrualcycle"
+      supportFucntion={fetchData}
     />
   );
 };
