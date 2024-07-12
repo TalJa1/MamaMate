@@ -13,7 +13,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
 import {QuestionPageData} from '../services/typeProps';
-import {loadData} from '../data/storage';
+import {loadData, updateData} from '../data/storage';
 import DatePicker from 'react-native-date-picker';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,13 +39,20 @@ const MethodinputPage = () => {
     const fetchData = async () => {
       try {
         const data: QuestionPageData = await loadData('questionData');
-        console.log(data);
+        data.calculateValue = `${date.getDate()}/${
+          date.getMonth() + 1
+        }/${date.getFullYear()}`;
+        updateData('questionData', data)
+          .then()
+          .catch(error => {
+            console.error('Failed to update question data', error);
+          });
       } catch (error) {
         console.error('Failed to load question data', error);
       }
     };
     fetchData();
-  }, []);
+  }, [date]);
 
   const handleOpenDatePicker = () => {
     setOpen(true);
@@ -70,7 +77,7 @@ const MethodinputPage = () => {
           <TouchableOpacity
             style={styles.btnOpacity}
             onPress={handleOpenDatePicker}>
-            <Text style={styles.timeTxt}>{date.getMonth()}</Text>
+            <Text style={styles.timeTxt}>{date.getMonth() + 1}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.dashed}>-</Text>
