@@ -13,8 +13,11 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {vw, vh} from '../styles/stylesheet';
 import {backIconSVG, standingYogaSVG} from '../assets/svgXml';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
+import {questionData} from '../services/renderData';
+import {loadData, saveData, updateData} from '../data/storage';
+import {QuestionPageData} from '../services/typeProps';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -24,13 +27,36 @@ const QuestionPage = () => {
   const [momDad, setMomDad] = React.useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-  const handleSelectMomDad = (value: string) => {
+  React.useEffect(() => {
+    saveData('questionData', questionData);
+  }, []);
+
+  const handleSelectMomDad = async (value: string) => {
     if (value === 'M') {
       setMomDad('M');
+      const data: QuestionPageData = await loadData('questionData');
+      data.isMom = true;
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+        })
+        .catch(err => {
+          console.warn(err.message);
+        });
     } else {
       setMomDad('D');
+      const data: QuestionPageData = await loadData('questionData');
+      data.isMom = false;
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+        })
+        .catch(err => {
+          console.warn(err.message);
+        });
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.upperview}>

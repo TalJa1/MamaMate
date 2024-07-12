@@ -3,12 +3,20 @@
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
+import {loadData} from '../data/storage';
 
 const Question2Page = () => {
   useStatusBar('#AF90D6');
   const [choice, setChoice] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    loadData('questionData').then(data => {
+      console.log(data);
+    });
+  }, []);
+
   const renderView = () => {
     return (
       <SafeAreaView style={styles.container}>

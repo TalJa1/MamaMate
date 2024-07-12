@@ -30,13 +30,13 @@ export interface QuestionPageData {
   medicalHistory: [
     {
       name: string;
-      img: any;
+      img: [];
     },
   ];
   medicine: [
     {
       name: string;
-      img: any;
+      img: [];
     },
   ];
 }

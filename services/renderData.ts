@@ -568,3 +568,22 @@ export const moodImgSelectionData = [
   {label: 'Tim', img: require('../assets/happywithhearteye.png')},
   {label: 'Vui', img: require('../assets/smilingFace.png')},
 ];
+
+export const questionData = {
+  isMom: false,
+  calculateMethod: '',
+  calculateValue: '',
+  averageMenstrualCycle: 0,
+  medicalHistory: [
+    {
+      name: '',
+      img: [],
+    },
+  ],
+  medicine: [
+    {
+      name: '',
+      img: [],
+    },
+  ],
+};
