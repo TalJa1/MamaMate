@@ -174,7 +174,8 @@ const App = () => {
   };
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main">
+      {/* Onboarding || Main */}
+      <Stack.Navigator initialRouteName="Onboarding">
         {/* Diary Group */}
         <Stack.Screen
           name="DiaryUpdate"

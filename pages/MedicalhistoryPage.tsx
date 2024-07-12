@@ -12,11 +12,13 @@ import {
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {launchImageLibrary} from 'react-native-image-picker';
+import useStatusBar from '../services/customHook';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
 
 const MedicalhistoryPage = () => {
+  useStatusBar('#AF90D6');
   const [diseaseName, setDiseaseName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
 

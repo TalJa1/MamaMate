@@ -4,8 +4,10 @@ import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 
 const Question2Page = () => {
+  useStatusBar('#AF90D6');
   const [choice, setChoice] = React.useState<number>(0);
   const renderView = () => {
     return (

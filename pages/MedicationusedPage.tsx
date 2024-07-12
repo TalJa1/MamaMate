@@ -11,8 +11,10 @@ import {
 import React from 'react';
 import QuestionPageLayout from '../components/QuestionPageLayout';
 import {launchImageLibrary} from 'react-native-image-picker';
+import useStatusBar from '../services/customHook';
 
 const MedicationusedPage = () => {
+  useStatusBar('#AF90D6');
   const [medicineName, setMedicineName] = React.useState<string>('');
   const [image, setImage] = React.useState<Array<string>>([]);
   const renderView = () => {

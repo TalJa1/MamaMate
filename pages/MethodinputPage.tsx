@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
@@ -24,6 +25,7 @@ type RootStackParamList = {
 };
 
 const MethodinputPage = () => {
+  useStatusBar('#AF90D6');
   const route = useRoute<RouteProp<RootStackParamList, 'MethodInput'>>();
   const {value} = route.params;
 

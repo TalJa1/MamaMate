@@ -24,13 +24,13 @@ interface TrackingFieldModel {
 }
 
 const TrackingPage = () => {
+  useStatusBar('#221E3D');
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const handleNavigation = (page: string) => {
     navigation.navigate(page);
   };
 
-  useStatusBar('#221E3D');
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

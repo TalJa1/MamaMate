@@ -14,11 +14,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {vw, vh} from '../styles/stylesheet';
 import {backIconSVG, standingYogaSVG} from '../assets/svgXml';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import useStatusBar from '../services/customHook';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
 
 const QuestionPage = () => {
+  useStatusBar('#AF90D6');
   const [momDad, setMomDad] = React.useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 

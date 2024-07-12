@@ -8,11 +8,13 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
+import useStatusBar from '../services/customHook';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('screen');
 
 const MenstrualcyclePage = () => {
+  useStatusBar('#AF90D6');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [amount, setAmount] = React.useState('01');
   const renderView = () => {

@@ -21,3 +21,22 @@ export interface DiaryEntry {
   tag: string[];
   note: string;
 }
+
+export interface QuestionPageData {
+  isMom: boolean;
+  calculateMethod: string;
+  calculateValue: string;
+  averageMenstrualCycle: number;
+  medicalHistory: [
+    {
+      name: string;
+      img: any;
+    },
+  ];
+  medicine: [
+    {
+      name: string;
+      img: any;
+    },
+  ];
+}
