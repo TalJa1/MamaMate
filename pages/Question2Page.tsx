@@ -55,7 +55,7 @@ const Question2Page = () => {
             Ngày thụ thai
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setChoice(3)}>
+        <TouchableOpacity disabled onPress={() => setChoice(3)}>
           <Text
             style={[
               styles.txtStyle,
