@@ -327,10 +327,10 @@ const DiaryUpdatePage = () => {
               Sức khỏe
             </Text>
             <View style={styles.containerMood}>
-              {images.map((image, ind) => (
+              {images.map((img, ind) => (
                 <View key={ind}>
                   <TouchableOpacity onPress={() => swapWithCenter(ind)}>
-                    <Image source={image.img} style={styles.image} />
+                    <Image source={img.img} style={styles.image} />
                   </TouchableOpacity>
                   <Text
                     style={{
@@ -339,7 +339,7 @@ const DiaryUpdatePage = () => {
                       fontWeight: '700',
                       marginTop: vh(1),
                     }}>
-                    {ind === 2 ? image.label : ''}
+                    {ind === 2 ? img.label : ''}
                   </Text>
                 </View>
               ))}

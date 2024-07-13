@@ -15,7 +15,7 @@ import {getDateTime} from '../services/dayTimeService';
 import {vh, vw} from '../styles/stylesheet';
 import {DiaryEntry} from '../services/typeProps';
 import {loadData, saveData} from '../data/storage';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {editIconSVG} from '../assets/svgXml';
@@ -65,6 +65,29 @@ const WeekContentComponent = () => {
     const moodData = moodImgSelectionData.find(item => item.label === mood);
     return moodData ? moodData.img : null;
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData<DiaryEntry[]>('diaryWeekData')
+        .then(loadedData => {
+          if (loadedData) {
+            setData(loadedData);
+            // console.log(loadedData);
+          } else {
+            const initialData = getDiaryWeekData();
+            setData(initialData);
+            saveData('diaryWeekData', initialData);
+          }
+        })
+        .catch(() => {
+          const initialData = getDiaryWeekData();
+          setData(initialData);
+          saveData('diaryWeekData', initialData);
+        });
+
+      return () => {};
+    }, []),
+  );
 
   return (
     <ScrollView

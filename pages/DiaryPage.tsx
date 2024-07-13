@@ -17,6 +17,7 @@ import WeekContentComponent from '../components/WeekContentComponent';
 import {loadData, saveData} from '../data/storage';
 import {DiaryEntry} from '../services/typeProps';
 import {getDiaryWeekData} from '../services/renderData';
+import {useFocusEffect} from '@react-navigation/native';
 
 const DiaryPage: React.FC = () => {
   const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
@@ -54,6 +55,29 @@ const DiaryPage: React.FC = () => {
       saveData('diaryWeekData', data);
     }
   }, [data]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData<DiaryEntry[]>('diaryWeekData')
+        .then(loadedData => {
+          if (loadedData) {
+            setData(loadedData);
+            // console.log(loadedData);
+          } else {
+            const initialData = getDiaryWeekData();
+            setData(initialData);
+            saveData('diaryWeekData', initialData);
+          }
+        })
+        .catch(() => {
+          const initialData = getDiaryWeekData();
+          setData(initialData);
+          saveData('diaryWeekData', initialData);
+        });
+
+      return () => {};
+    }, []),
+  );
 
   return (
     <SafeAreaView style={styles.container}>
