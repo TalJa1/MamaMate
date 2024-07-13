@@ -307,15 +307,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 40,
     alignItems: 'center',
+    rowGap: vh(2),
   },
   input: {
     width: '40%',
     borderBottomWidth: 1,
     borderBottomColor: '#322C56',
-    marginBottom: 20,
     textAlign: 'center',
   },
   modalUpdateBtn: {
+    marginTop: vh(2),
     backgroundColor: '#221E3D',
     paddingHorizontal: 20,
     paddingVertical: 15,
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#322C56',
     borderRadius: 10,
-    paddingVertical: 6,
+    paddingVertical: vh(1),
     paddingHorizontal: 11,
   },
   modalTxTGrp: {
