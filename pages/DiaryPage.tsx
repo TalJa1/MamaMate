@@ -138,6 +138,7 @@ const DiaryPage: React.FC = () => {
 };
 
 const CalendarRender = () => {
+  const today = new Date().toISOString().split('T')[0];
   return (
     <CalendarList
       theme={{
@@ -145,17 +146,27 @@ const CalendarRender = () => {
         dayTextColor: '#ffffff',
         todayTextColor: '#221E3D',
         monthTextColor: '#96C1DE',
-        todayBackgroundColor: '#E5CFEF',
+        todayBackgroundColor: '#EAE1EE',
         textDayFontSize: 18,
         textDayFontWeight: '400',
       }}
       firstDay={1}
-      onDayPress={date => console.log(date)}
       markedDates={{
         '2024-06-26': {color: '#AF90D6', startingDay: true},
         '2024-06-27': {color: '#AF90D6'},
         '2024-06-28': {color: '#AF90D6'},
         '2024-06-29': {color: '#AF90D6', endingDay: true},
+        [today]: {
+          customStyles: {
+            container: {
+              backgroundColor: '#EAE1EE',
+              borderRadius: 20,
+            },
+            text: {
+              color: '#221E3D',
+            },
+          },
+        },
       }}
       markingType="period"
     />
