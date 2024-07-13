@@ -39,4 +39,5 @@ export interface QuestionPageData {
       img: string[];
     },
   ];
+  isFinished: boolean;
 }

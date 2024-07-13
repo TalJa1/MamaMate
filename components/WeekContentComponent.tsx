@@ -94,7 +94,7 @@ const WeekContentComponent = () => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{rowGap: vh(2)}}>
+      <View style={{rowGap: vh(2), paddingBottom: vh(1)}}>
         {data.map((v, i) => (
           <View key={i} style={styles.container}>
             <View

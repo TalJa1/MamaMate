@@ -586,4 +586,5 @@ export const questionData = {
       img: [],
     },
   ],
+  isFinished: false,
 };

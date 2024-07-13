@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import OnboardingPage from './pages/OnboardingPage';
 import {NavigationContainer} from '@react-navigation/native';
@@ -24,7 +25,7 @@ import {
   timeIconSVG,
 } from './assets/svgXml';
 import {vh, vw} from './styles/stylesheet';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import DiaryPage from './pages/DiaryPage';
 import TrackingPage from './pages/TrackingPage';
 import WeightTrackingPage from './pages/Tracking/WeightTrackingPage';
@@ -41,6 +42,8 @@ import TaskListPage from './pages/TaskList/TaskListPage';
 import PregnancyExaminationPage from './pages/TaskList/PregnancyExaminationPage';
 import BellySizePage from './pages/Tracking/BellySizePage';
 import DiaryUpdatePage from './pages/Diary/DiaryUpdatePage';
+import {loadData} from './data/storage';
+import {LogBox} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -172,10 +175,39 @@ const App = () => {
       </View>
     );
   };
+
+  const LoadingScreen = () => (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Loading...</Text>
+    </View>
+  );
+
+  const [isMain, setIsMain] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    LogBox.ignoreAllLogs();
+    const fetchData = async () => {
+      await loadData('questionData')
+        .then(() => {
+          setIsMain(true);
+        })
+        .catch(() => {
+          setIsMain(false);
+        });
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <NavigationContainer>
       {/* Onboarding || Main */}
-      <Stack.Navigator initialRouteName="Main">
+      <Stack.Navigator initialRouteName={isMain ? 'Main' : 'Onboarding'}>
         {/* Diary Group */}
         <Stack.Screen
           name="DiaryUpdate"

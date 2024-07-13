@@ -14,6 +14,8 @@ import {backPinkbuttonSVG} from '../assets/svgXml';
 import {vh, vw} from '../styles/stylesheet';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../services/customHook';
+import {QuestionPageData} from '../services/typeProps';
+import {loadData, updateData} from '../data/storage';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const {width, height} = Dimensions.get('window');
@@ -27,6 +29,23 @@ const RestScreenLastPage = () => {
   });
 
   useStatusBar('#221E3D');
+
+  const handleSubmit = async () => {
+    try {
+      const data: QuestionPageData = await loadData('questionData');
+      data.isFinished = true;
+      await updateData('questionData', data)
+        .then(() => {
+          console.log('update success');
+          navigation.navigate('Main');
+        })
+        .catch(err => {
+          console.warn(err.message);
+        });
+    } catch (error) {
+      console.error('Failed to load question data', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,11 +73,7 @@ const RestScreenLastPage = () => {
         </View>
 
         <View style={styles.btnGrp}>
-          <TouchableOpacity
-            style={styles.nextBtn}
-            onPress={() => {
-              navigation.navigate('Main');
-            }}>
+          <TouchableOpacity style={styles.nextBtn} onPress={handleSubmit}>
             <Text style={styles.nextBtnTxt}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
