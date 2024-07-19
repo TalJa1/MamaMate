@@ -12,7 +12,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DiaryEntry} from '../../services/typeProps';
 import {loadData, updateData} from '../../data/storage';
@@ -104,13 +109,22 @@ const DiaryUpdatePage = () => {
     }));
   };
 
-  React.useEffect(() => {
-    loadData<DiaryEntry[]>('diaryWeekData').then(data => {
-      if (data && data[index]) {
-        setEntry(data[index]);
-      }
-    });
-  }, [index]);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const data = await loadData<DiaryEntry[]>('diaryWeekData');
+          if (data && data[index]) {
+            setEntry(data[index]);
+          }
+        } catch (error) {
+          console.error('Error fetching diary data:', error);
+        }
+      };
+
+      fetchData();
+    }, [index]),
+  );
 
   const handleGlassClick = (index1: number) => {
     setFilledGlasses(prevState => {
@@ -943,7 +957,9 @@ const renderMominfoBox = (
 ) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(destination, {updateItemIndex: dataIndex})}
+      onPress={() =>
+        navigation.navigate(destination, {updateItemIndex: dataIndex})
+      }
       style={[
         styles.momInfoBox,
         {

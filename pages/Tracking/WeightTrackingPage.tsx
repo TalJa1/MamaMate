@@ -17,8 +17,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
-import {barChartData, lineChartData} from '../../services/renderData';
+import {
+  barChartData as defaultBarChartData,
+  lineChartData as defaultLineChartData,
+  getDiaryWeekData,
+} from '../../services/renderData';
 import {RouteProp, useRoute} from '@react-navigation/native';
+import {loadData, saveData, updateData} from '../../data/storage';
+import {DiaryEntry} from '../../services/typeProps';
 
 interface DataRender {
   labels: string[];
@@ -51,11 +57,17 @@ type DiaryUpdateRouteParams = {
   updateItemIndex: number;
 };
 
+interface DataRender {
+  labels: string[];
+  datasets: {
+    data: number[];
+  }[];
+}
+
 const WeightTrackingPage = () => {
   useStatusBar('#221E3D');
   const route =
     useRoute<RouteProp<{params: DiaryUpdateRouteParams}, 'params'>>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {updateItemIndex} = route.params;
   const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -63,8 +75,48 @@ const WeightTrackingPage = () => {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const [selectedWeek, setSelectedWeek] = React.useState<number>(16);
 
-  const [data, setData] = React.useState(barChartData);
-  const [lineData, setLineData] = React.useState(lineChartData);
+  const [data, setData] = React.useState(defaultBarChartData);
+  const [lineData, setLineData] = React.useState(defaultLineChartData);
+  const [diaryData, setDiaryData] = React.useState<DiaryEntry[]>([]);
+
+  React.useEffect(() => {
+    const loadDataFromStorage = async () => {
+      try {
+        const storedBarChartData = await loadData<DataRender>('barChartData');
+        const storedLineChartData = await loadData<DataRender>('lineChartData');
+        const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
+
+        if (storedBarChartData) {
+          setData(storedBarChartData);
+        } else {
+          await saveData('barChartData', defaultBarChartData);
+          setData(defaultBarChartData);
+        }
+
+        if (storedLineChartData) {
+          setLineData(storedLineChartData);
+        } else {
+          await saveData('lineChartData', defaultLineChartData);
+          setLineData(defaultLineChartData);
+        }
+
+        if (loadedData) {
+          setDiaryData(loadedData);
+        } else {
+          const initialData = getDiaryWeekData();
+          await saveData('diaryWeekData', initialData);
+        }
+      } catch (error) {
+        console.error('Error loading data from storage:', error);
+        setData(defaultBarChartData);
+        setLineData(defaultLineChartData);
+        const initialData = getDiaryWeekData();
+        await saveData('diaryWeekData', initialData);
+      }
+    };
+
+    loadDataFromStorage();
+  }, []);
 
   const handleSelectWeek = (week: number) => {
     setSelectedWeek(week);
@@ -75,25 +127,64 @@ const WeightTrackingPage = () => {
     setModalVisible(true);
   };
 
-  const handleUpdate = (index: number, value: number) => {
+  const updateDiaryData = async (value: number) => {
+    try {
+      const updatedDiaryData = [...diaryData];
+      if (updatedDiaryData[updateItemIndex]) {
+        updatedDiaryData[updateItemIndex].weight = value;
+      }
+
+      await updateData('diaryWeekData', updatedDiaryData);
+      setDiaryData(updatedDiaryData);
+      console.log('Diary week data updated successfully');
+    } catch (error) {
+      console.error('Error updating diary week data:', error);
+    }
+  };
+
+  const handleUpdate = async (index: number, value: number) => {
     setData(prevData => {
       const updatedDatasets = [...prevData.datasets];
       const updatedData = [...updatedDatasets[0].data];
       updatedData[index] = value;
       updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
 
-      return {...prevData, datasets: updatedDatasets};
+      const updatedDataRender = {...prevData, datasets: updatedDatasets};
+
+      // Save updated data to storage
+      updateData('barChartData', updatedDataRender)
+        .then(() => {
+          console.log('Bar chart data updated successfully');
+          updateDiaryData(value);
+        })
+        .catch(error => {
+          console.error('Error updating bar chart data:', error);
+        });
+
+      return updatedDataRender;
     });
   };
 
-  const handleUpdateLine = (index: number, value: number) => {
+  const handleUpdateLine = async (index: number, value: number) => {
     setLineData(prevData => {
       const updatedDatasets = [...prevData.datasets];
       const updatedData = [...updatedDatasets[0].data];
       updatedData[index] = value;
       updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
 
-      return {...prevData, datasets: updatedDatasets};
+      const updatedDataRender = {...prevData, datasets: updatedDatasets};
+
+      // Save updated data to storage
+      updateData('lineChartData', updatedDataRender)
+        .then(() => {
+          console.log('Line chart data updated successfully');
+          updateDiaryData(value);
+        })
+        .catch(error => {
+          console.error('Error updating line chart data:', error);
+        });
+
+      return updatedDataRender;
     });
   };
 
@@ -125,7 +216,14 @@ const WeightTrackingPage = () => {
                 alignItems: 'center',
                 justifyContent: 'space-around',
               }}>
-              <TouchableOpacity style={styles.btnChangeWeight}>
+              <TouchableOpacity
+                style={styles.btnChangeWeight}
+                onPress={() => {
+                  if (inputValue !== '') {
+                    const newValue = (Number(inputValue) - 0.1).toFixed(1);
+                    setInputValue(newValue);
+                  }
+                }}>
                 <Text style={styles.modalTxTGrp}>-100gam</Text>
               </TouchableOpacity>
               <View
@@ -151,7 +249,14 @@ const WeightTrackingPage = () => {
                   kg
                 </Text>
               </View>
-              <TouchableOpacity style={styles.btnChangeWeight}>
+              <TouchableOpacity
+                style={styles.btnChangeWeight}
+                onPress={() => {
+                  if (inputValue !== '') {
+                    const newValue = (Number(inputValue) + 0.1).toFixed(1);
+                    setInputValue(newValue);
+                  }
+                }}>
                 <Text style={styles.modalTxTGrp}>+100gam</Text>
               </TouchableOpacity>
             </View>
