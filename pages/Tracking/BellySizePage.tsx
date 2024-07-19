@@ -82,24 +82,34 @@ const BellySizePage = () => {
         );
         const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
 
-        if (storedBarChartData) {
-          setData(storedBarChartData);
-        } else {
-          await saveData('barChartBellyData', defaultBarChartBellyData);
-          setData(defaultBarChartBellyData);
-        }
-
-        if (storedLineChartData) {
-          setLineData(storedLineChartData);
-        } else {
-          await saveData('lineChartBellyData', defaultLineChartBellyData);
-          setLineData(defaultLineChartBellyData);
-        }
         if (loadedData) {
           setDiaryData(loadedData);
         } else {
           const initialData = getDiaryWeekData();
           await saveData('diaryWeekData', initialData);
+          setDiaryData(initialData);
+        }
+
+        const updatedBellySize = loadedData[updateItemIndex].bellySize;
+
+        if (storedBarChartData) {
+          storedBarChartData.datasets[0].data[5] = updatedBellySize;
+          setData(storedBarChartData);
+        } else {
+          const updatedBarChartData = {...defaultBarChartBellyData};
+          updatedBarChartData.datasets[0].data[5] = updatedBellySize;
+          await saveData('barChartBellyData', updatedBarChartData);
+          setData(updatedBarChartData);
+        }
+
+        if (storedLineChartData) {
+          storedLineChartData.datasets[0].data[15] = updatedBellySize;
+          setLineData(storedLineChartData);
+        } else {
+          const updatedLineChartData = {...defaultLineChartBellyData};
+          updatedLineChartData.datasets[0].data[15] = updatedBellySize;
+          await saveData('lineChartBellyData', updatedLineChartData);
+          setLineData(updatedLineChartData);
         }
       } catch (error) {
         console.error('Error loading data from storage:', error);
@@ -107,11 +117,12 @@ const BellySizePage = () => {
         setLineData(defaultLineChartBellyData);
         const initialData = getDiaryWeekData();
         await saveData('diaryWeekData', initialData);
+        setDiaryData(initialData);
       }
     };
 
     loadDataFromStorage();
-  }, []);
+  }, [updateItemIndex]);
 
   const handleSelectWeek = (week: number) => {
     setSelectedWeek(week);

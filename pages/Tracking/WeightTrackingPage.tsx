@@ -82,29 +82,38 @@ const WeightTrackingPage = () => {
   React.useEffect(() => {
     const loadDataFromStorage = async () => {
       try {
+        const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
         const storedBarChartData = await loadData<DataRender>('barChartData');
         const storedLineChartData = await loadData<DataRender>('lineChartData');
-        const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
-
-        if (storedBarChartData) {
-          setData(storedBarChartData);
-        } else {
-          await saveData('barChartData', defaultBarChartData);
-          setData(defaultBarChartData);
-        }
-
-        if (storedLineChartData) {
-          setLineData(storedLineChartData);
-        } else {
-          await saveData('lineChartData', defaultLineChartData);
-          setLineData(defaultLineChartData);
-        }
 
         if (loadedData) {
           setDiaryData(loadedData);
         } else {
           const initialData = getDiaryWeekData();
           await saveData('diaryWeekData', initialData);
+          setDiaryData(initialData);
+        }
+
+        const updatedWeight = loadedData[updateItemIndex].weight;
+
+        if (storedBarChartData) {
+          storedBarChartData.datasets[0].data[5] = updatedWeight;
+          setData(storedBarChartData);
+        } else {
+          const updatedBarChartData = {...defaultBarChartData};
+          updatedBarChartData.datasets[0].data[5] = updatedWeight;
+          await saveData('barChartData', updatedBarChartData);
+          setData(updatedBarChartData);
+        }
+
+        if (storedLineChartData) {
+          storedLineChartData.datasets[0].data[15] = updatedWeight;
+          setLineData(storedLineChartData);
+        } else {
+          const updatedLineChartData = {...defaultLineChartData};
+          updatedLineChartData.datasets[0].data[15] = updatedWeight;
+          await saveData('lineChartData', updatedLineChartData);
+          setLineData(updatedLineChartData);
         }
       } catch (error) {
         console.error('Error loading data from storage:', error);
@@ -112,11 +121,12 @@ const WeightTrackingPage = () => {
         setLineData(defaultLineChartData);
         const initialData = getDiaryWeekData();
         await saveData('diaryWeekData', initialData);
+        setDiaryData(initialData);
       }
     };
 
     loadDataFromStorage();
-  }, []);
+  }, [updateItemIndex]);
 
   const handleSelectWeek = (week: number) => {
     setSelectedWeek(week);
