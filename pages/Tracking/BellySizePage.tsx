@@ -17,6 +17,7 @@ import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
 import {barChartDataBelly, lineChartDataBelly} from '../../services/renderData';
+import {RouteProp, useRoute} from '@react-navigation/native';
 
 interface DataRender {
   labels: string[];
@@ -45,9 +46,16 @@ const lineChartConfig = {
   useShadowColorFromDataset: false,
 };
 
+type DiaryUpdateRouteParams = {
+  updateItemIndex: number;
+};
+
 const BellySizePage = () => {
   useStatusBar('#221E3D');
-
+  const route =
+    useRoute<RouteProp<{params: DiaryUpdateRouteParams}, 'params'>>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {updateItemIndex} = route.params;
   const [isMonth, setIsMonth] = React.useState<boolean>(true);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
@@ -115,7 +123,14 @@ const BellySizePage = () => {
                 alignItems: 'center',
                 justifyContent: 'space-around',
               }}>
-              <TouchableOpacity style={styles.btnChangeWeight}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (inputValue !== '') {
+                    const newValue = (Number(inputValue) - 0.1).toFixed(1);
+                    setInputValue(newValue);
+                  }
+                }}
+                style={styles.btnChangeWeight}>
                 <Text style={styles.modalTxTGrp}>-100mm</Text>
               </TouchableOpacity>
               <View
@@ -138,10 +153,17 @@ const BellySizePage = () => {
                     textAlignVertical: 'center',
                     marginLeft: '5%',
                   }}>
-                  mm
+                  cm
                 </Text>
               </View>
-              <TouchableOpacity style={styles.btnChangeWeight}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (inputValue !== '') {
+                    const newValue = (Number(inputValue) + 0.1).toFixed(1);
+                    setInputValue(newValue);
+                  }
+                }}
+                style={styles.btnChangeWeight}>
                 <Text style={styles.modalTxTGrp}>+100mm</Text>
               </TouchableOpacity>
             </View>

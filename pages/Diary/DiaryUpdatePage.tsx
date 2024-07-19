@@ -306,7 +306,7 @@ const DiaryUpdatePage = () => {
             {entry?.date} tháng {currentMonth.toLocaleString()} (Ngày 101)
           </Text>
           {renderChildInfoBox()}
-          {renderMomInfoGrp(navigation, setImage, image)}
+          {renderMomInfoGrp(navigation, setImage, image, entry, index)}
           <RenderGlass
             filledGlasses={filledGlasses}
             onGlassClick={handleGlassClick}
@@ -846,6 +846,8 @@ const renderMomInfoGrp = (
   navigation: NativeStackNavigationProp<any>,
   setImage: React.Dispatch<React.SetStateAction<string[]>>,
   image: string[],
+  entry: DiaryEntry | null,
+  dataIndex: number,
 ) => {
   return (
     <View
@@ -888,17 +890,19 @@ const renderMomInfoGrp = (
         style={{height: vh(20), width: '28%', justifyContent: 'space-between'}}>
         {renderMominfoBox(
           'Cân nặng',
-          '60kg',
+          entry?.weight.toLocaleString() + 'kg' ?? '0kg',
           '#AF90D6',
           navigation,
           'WeightTracking',
+          dataIndex,
         )}
         {renderMominfoBox(
           'Vòng bụng',
-          '80cm',
+          entry?.bellySize.toLocaleString() + 'cm' ?? '0cm',
           'transparent',
           navigation,
           'BellySize',
+          dataIndex,
         )}
       </View>
       <View style={{height: vh(20), width: '28%', alignItems: 'center'}}>
@@ -935,10 +939,11 @@ const renderMominfoBox = (
   backColor: string,
   navigation: NativeStackNavigationProp<any>,
   destination: string,
+  dataIndex: number,
 ) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(destination)}
+      onPress={() => navigation.navigate(destination, {updateItemIndex: dataIndex})}
       style={[
         styles.momInfoBox,
         {

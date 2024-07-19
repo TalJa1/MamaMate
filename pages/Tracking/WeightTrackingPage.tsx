@@ -18,6 +18,7 @@ import DayMonthSwitchComponent from '../../components/DayMonthSwitchComponent';
 import BarChartComponent from '../../components/BarChartComponent';
 import LineChartComponent from '../../components/LineChartComponent';
 import {barChartData, lineChartData} from '../../services/renderData';
+import {RouteProp, useRoute} from '@react-navigation/native';
 
 interface DataRender {
   labels: string[];
@@ -46,16 +47,24 @@ const lineChartConfig = {
   useShadowColorFromDataset: false,
 };
 
+type DiaryUpdateRouteParams = {
+  updateItemIndex: number;
+};
+
 const WeightTrackingPage = () => {
   useStatusBar('#221E3D');
-
+  const route =
+    useRoute<RouteProp<{params: DiaryUpdateRouteParams}, 'params'>>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {updateItemIndex} = route.params;
   const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+  const [selectedWeek, setSelectedWeek] = React.useState<number>(16);
+
   const [data, setData] = React.useState(barChartData);
   const [lineData, setLineData] = React.useState(lineChartData);
-  const [selectedWeek, setSelectedWeek] = React.useState<number>(16);
 
   const handleSelectWeek = (week: number) => {
     setSelectedWeek(week);

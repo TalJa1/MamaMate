@@ -16,6 +16,10 @@ import {getTrackingImageSource} from '../services/imageHelper';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {getDateTime} from '../services/dayTimeService';
+import {loadData} from '../data/storage';
+import {DiaryEntry} from '../services/typeProps';
+import {getDiaryWeekData} from '../services/renderData';
 
 interface TrackingFieldModel {
   img: string;
@@ -25,7 +29,37 @@ interface TrackingFieldModel {
 
 const TrackingPage = () => {
   useStatusBar('#221E3D');
+  const today = getDateTime('day');
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [moodIndex, setMoodIndex] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    const loadDataFromStorage = async () => {
+      try {
+        const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
+        if (loadedData) {
+          const todayIndex = loadedData.findIndex(
+            item => item.date === today.toLocaleString(),
+          );
+          setMoodIndex(todayIndex);
+        } else {
+          const initialData = getDiaryWeekData();
+          const todayIndex = initialData.findIndex(
+            item => item.date === today.toLocaleString(),
+          );
+          setMoodIndex(todayIndex);
+        }
+      } catch (error) {
+        const initialData = getDiaryWeekData();
+        const todayIndex = initialData.findIndex(
+          item => item.date === today.toLocaleString(),
+        );
+        setMoodIndex(todayIndex);
+      }
+    };
+
+    loadDataFromStorage();
+  }, [today]);
 
   const handleNavigation = (page: string) => {
     navigation.navigate(page);
@@ -39,10 +73,19 @@ const TrackingPage = () => {
           <TrackingField
             img="weight"
             label="Cân nặng"
-            onPress={() => handleNavigation('WeightTracking')}
+            onPress={() =>
+              navigation.navigate('WeightTracking', {
+                updateItemIndex: moodIndex,
+              })
+            }
           />
-          <TrackingField img="belly" label="Vòng bụng"
-          onPress={() => handleNavigation('BellySize')} />
+          <TrackingField
+            img="belly"
+            label="Vòng bụng"
+            onPress={() =>
+              navigation.navigate('BellySize', {updateItemIndex: moodIndex})
+            }
+          />
           <TrackingField
             img="smilingFace"
             label="Tinh thần"
