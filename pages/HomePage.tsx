@@ -31,7 +31,18 @@ const HomePage = () => {
   const today = getDateTime('day');
   const [moodIndex, setMoodIndex] = React.useState<number>(0);
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+  const scrollViewRef = React.useRef<ScrollView>(null);
+  const itemWidth = 44;
   useStatusBar('#221E3D');
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      setTimeout(() => {
+        const xOffset = (currentWeek - 1) * itemWidth;
+        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
+      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+    }
+  }, [currentWeek]);
 
   React.useEffect(() => {
     const loadDataFromStorage = async () => {
@@ -80,7 +91,7 @@ const HomePage = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Text style={styles.firstTxt}>Tuần thai hiện tại:</Text>
-        <ScrollView horizontal>
+        <ScrollView horizontal ref={scrollViewRef}>
           {Array.from({length: 41}, (_, index) => (
             <TouchableOpacity
               disabled
@@ -346,6 +357,8 @@ const styles = StyleSheet.create({
     columnGap: vw(2),
   },
   tabSchedule: {
+    overflow: 'hidden',
+    paddingHorizontal: vw(4),
     flexDirection: 'column',
     height: 120,
     marginVertical: vh(2),
@@ -357,10 +370,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: vw(3),
   },
   tabScheduleBottom: {
-    paddingHorizontal: vw(3),
     flexDirection: 'row',
     columnGap: vw(3),
     justifyContent: 'space-between',
