@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#382E75',
     borderTopLeftRadius: vh(2),
     borderTopRightRadius: vh(2),
+    maxHeight: vh(70),
   },
   modalTitleGrp: {
     flexDirection: 'row',
@@ -323,8 +324,9 @@ const styles = StyleSheet.create({
   },
   modalBottomBtnGrp: {
     flexDirection: 'row',
-    columnGap: vw(4),
-    justifyContent: 'center',
+    paddingHorizontal: vw(4),
+    justifyContent: 'space-between',
+    paddingBottom: vh(2),
   },
   modalBottomBtnLeft: {
     width: vw(50),
