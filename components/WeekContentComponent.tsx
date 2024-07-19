@@ -106,7 +106,7 @@ const WeekContentComponent = () => {
               }}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('DiaryUpdate', {index: i})}
-                // disabled={Number(today) > Number(v.date)}
+                disabled={Number(today) < Number(v.date)}
                 style={[
                   styles.circleDate,
                   Number(today) === Number(v.date)
