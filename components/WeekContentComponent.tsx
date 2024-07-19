@@ -41,6 +41,7 @@ const WeekContentComponent = () => {
       saveData('diaryWeekData', initialData);
     }
   };
+
   const [toggleStates, setToggleStates] = React.useState<{
     [key: string]: boolean;
   }>({});
@@ -105,7 +106,7 @@ const WeekContentComponent = () => {
               }}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('DiaryUpdate', {index: i})}
-                disabled={Number(today) > Number(v.date)}
+                // disabled={Number(today) > Number(v.date)}
                 style={[
                   styles.circleDate,
                   Number(today) === Number(v.date)
@@ -251,7 +252,8 @@ const WeekContentComponent = () => {
                     onPress={() =>
                       navigation.navigate('DiaryUpdate', {index: i})
                     }
-                    disabled={Number(today) > Number(v.date)}>
+                    // disabled={Number(today) > Number(v.date)}
+                  >
                     {editIconSVG(vw(6), vh(3))}
                   </TouchableOpacity>
                 </View>

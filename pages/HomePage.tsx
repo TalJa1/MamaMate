@@ -21,11 +21,45 @@ import weekNoti from '../data/weekNoti.json';
 import useStatusBar from '../services/customHook';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {loadData} from '../data/storage';
+import {DiaryEntry} from '../services/typeProps';
+import {getDiaryWeekData} from '../services/renderData';
+import {getDateTime} from '../services/dayTimeService';
 
 const HomePage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const today = getDateTime('day');
+  const [moodIndex, setMoodIndex] = React.useState<number>(0);
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   useStatusBar('#221E3D');
+
+  React.useEffect(() => {
+    const loadDataFromStorage = async () => {
+      try {
+        const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
+        if (loadedData) {
+          const todayIndex = loadedData.findIndex(
+            item => item.date === today.toLocaleString(),
+          );
+          setMoodIndex(todayIndex);
+        } else {
+          const initialData = getDiaryWeekData();
+          const todayIndex = initialData.findIndex(
+            item => item.date === today.toLocaleString(),
+          );
+          setMoodIndex(todayIndex);
+        }
+      } catch (error) {
+        const initialData = getDiaryWeekData();
+        const todayIndex = initialData.findIndex(
+          item => item.date === today.toLocaleString(),
+        );
+        setMoodIndex(todayIndex);
+      }
+    };
+
+    loadDataFromStorage();
+  }, [today]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,31 +142,32 @@ const HomePage = () => {
           <View style={styles.momFeelingright}>
             <TouchableOpacity
               style={styles.plusStyle}
-              onPress={() => navigation.navigate('Mood')}>
+              onPress={() =>
+                navigation.navigate('DiaryUpdate', {index: moodIndex})
+              }>
               {plusSVG(vw(5), vh(5), '#E5CFEF')}
             </TouchableOpacity>
             {pregnancySVG(100, 100)}
           </View>
         </View>
-        <View style={styles.tabSchedule}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('TaskList')}
+          style={styles.tabSchedule}>
           <View style={styles.tabScheduleTop}>
             <Text style={styles.tabScheduleTopTxt}>Lịch khám trong tuần</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('TaskList')}>
-              <Text style={styles.tabScheduleTopTxtBtn}>Xem thêm{'>'} </Text>
-            </TouchableOpacity>
+            <Text style={styles.tabScheduleTopTxtBtn}>Xem thêm{'>'} </Text>
           </View>
           <View style={styles.tabScheduleBottom}>
-            <View style={styles.tabScheduleBottomImg}>
-              <Image source={require('../assets/medicalTool.png')} />
-            </View>
-            <View style={styles.tabScheduleBottomTxtContainer}>
-              <Text style={styles.tabScheduleBottomTxt}>
-                Xét nghiệm sinh hóa máu trong tam cá nguyệt thứ 2: AFP, hcG,
-                uE3, inhbinA
-              </Text>
-            </View>
+            <Image
+              style={{width: vw(13), height: vw(13), resizeMode: 'contain'}}
+              source={require('../assets/medicalTool.png')}
+            />
+            <Text style={styles.tabScheduleBottomTxt}>
+              Xét nghiệm sinh hóa máu trong tam cá nguyệt thứ 2: AFP, hcG, uE3,
+              inhbinA
+            </Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={styles.notiContainer}>
           <Image source={require('../assets/yellowBell.png')} />
           <Text style={styles.notiContainerTxt}>
@@ -295,13 +330,15 @@ const styles = StyleSheet.create({
   },
   tabScheduleTop: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: vw(3),
   },
   tabScheduleBottom: {
+    paddingHorizontal: vw(3),
     flexDirection: 'row',
-    columnGap: vw(2),
-    justifyContent: 'space-evenly',
+    columnGap: vw(3),
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   tabScheduleTopTxt: {
@@ -315,6 +352,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   tabScheduleBottomTxt: {
+    width: vw(70),
     flexWrap: 'wrap',
     fontSize: 16,
     fontWeight: '400',
