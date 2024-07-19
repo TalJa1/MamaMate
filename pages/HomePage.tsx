@@ -61,6 +61,21 @@ const HomePage = () => {
     loadDataFromStorage();
   }, [today]);
 
+  const navigateByNameTag = (name: string) => {
+    switch (name) {
+      case 'Dinh dưỡng':
+        return 'Suggestion';
+      case 'Vận động':
+        return '';
+      case 'Tâm sự gia đình':
+        return 'WishList';
+      case 'Nhật ký':
+        return 'DiaryUpdate';
+      case 'Cẩm nang':
+        return 'HandBook';
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -121,13 +136,22 @@ const HomePage = () => {
         </View>
         <ScrollView horizontal>
           {homeChoices.map((v: any, i: number) => (
-            <View key={i} style={styles.imgChoiceGrpContainer}>
+            <TouchableOpacity
+              disabled={v.title === 'Vận động' ? true : false}
+              onPress={() =>
+                navigation.navigate(
+                  navigateByNameTag(v.title) || '',
+                  v.title === 'Nhật ký' ? {index: moodIndex} : {},
+                )
+              }
+              key={i}
+              style={styles.imgChoiceGrpContainer}>
               <Text style={styles.imgChoiceGrpTxt}>{v.title}</Text>
               <Image
                 style={styles.imgChoiceGrp}
                 source={getHomeImageSource(v.img)}
               />
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
         <View style={styles.momFeeling}>
@@ -301,6 +325,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: vh(2),
   },
   plusStyle: {
     height: 35,
