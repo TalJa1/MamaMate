@@ -24,6 +24,19 @@ const DiaryPage: React.FC = () => {
   const [data, setData] = React.useState<DiaryEntry[]>([]);
   const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const current = 16;
+  const itemWidth = 44;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      setTimeout(() => {
+        const xOffset = (currentWeek - 1) * itemWidth;
+        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
+      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+    }
+  }, [currentWeek]);
 
   useStatusBar('#19162E');
 
@@ -103,7 +116,7 @@ const DiaryPage: React.FC = () => {
             ))}
           </View>
         ) : (
-          <ScrollView horizontal>
+          <ScrollView horizontal ref={scrollViewRef}>
             {Array.from({length: 41}, (_, index) => (
               <TouchableOpacity
                 key={index}

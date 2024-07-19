@@ -18,13 +18,27 @@ interface PregnancyCurrentWeekComponentProps {
 const PregnancyCurrentWeekComponent: React.FC<
   PregnancyCurrentWeekComponentProps
 > = ({currentWeek, setCurrentWeek}) => {
+  const itemWidth = 44;
+  const scrollViewRef = React.useRef<ScrollView>(null);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      setTimeout(() => {
+        const xOffset = (currentWeek - 1) * itemWidth;
+        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
+      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+    }
+  }, [currentWeek]);
   return (
     <View>
       <View style={styles.topScrollViewLabelGrp}>
         <Text style={styles.topScrollViewLabel}>Tuần thai hiện tại:</Text>
         {nextIconSVG(vw(2), vh(2), '#96C1DE')}
       </View>
-      <ScrollView horizontal style={styles.currentWeekGrpContainer}>
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        style={styles.currentWeekGrpContainer}>
         {Array.from({length: 41}, (_, index) => (
           <TouchableOpacity
             disabled

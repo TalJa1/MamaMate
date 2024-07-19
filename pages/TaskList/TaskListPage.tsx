@@ -44,6 +44,19 @@ const TaskListPage = () => {
   const days = Array.from({length: 31}, (_, i) => i + 1);
   const today = getDateTime('day');
   useStatusBar('#19162E');
+  const scrollViewRef = React.useRef<ScrollView>(null);
+  const itemWidth = 44 + vw(4);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      setTimeout(() => {
+        const xOffset = (currentWeek - 1) * itemWidth;
+        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
+      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+    }
+  }, [currentWeek, itemWidth]);
 
   const [toggleStates, setToggleStates] = React.useState<{
     [key: string]: boolean;
@@ -72,7 +85,26 @@ const TaskListPage = () => {
             {formattedDate}
           </Text>
         </View>
-        <View>{renderDays(days, Number(today))}</View>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollView}>
+          {days.map((day, i) => (
+            <View
+              key={i}
+              style={[
+                styles.dayBox,
+                day === today ? {backgroundColor: '#96C1DE'} : {},
+              ]}>
+              <Text
+                style={[
+                  styles.dayText,
+                  day === today ? {color: '#221E3D', fontWeight: '700'} : {},
+                ]}>{`${day}`}</Text>
+            </View>
+          ))}
+        </ScrollView>
         <View>
           {renderReservedDoctor(doctorListData[0], handleToggle, toggleStates)}
         </View>
@@ -386,30 +418,6 @@ const renderReservedDoctor = (
         </View>
       </View>
     </View>
-  );
-};
-
-const renderDays = (days: Number[], today: number) => {
-  return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.scrollView}>
-      {days.map((day, i) => (
-        <View
-          key={i}
-          style={[
-            styles.dayBox,
-            day === today ? {backgroundColor: '#96C1DE'} : {},
-          ]}>
-          <Text
-            style={[
-              styles.dayText,
-              day === today ? {color: '#221E3D', fontWeight: '700'} : {},
-            ]}>{`${day}`}</Text>
-        </View>
-      ))}
-    </ScrollView>
   );
 };
 

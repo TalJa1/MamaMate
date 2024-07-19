@@ -32,6 +32,19 @@ const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
   onSelectWeek,
 }) => {
   const [isSelected, setIsSelected] = React.useState<number>(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+  const scrollViewRef = React.useRef<ScrollView>(null);
+  const itemWidth = 44 + vw(1);
+
+  React.useEffect(() => {
+    if (scrollViewRef.current) {
+      setTimeout(() => {
+        const xOffset = (currentWeek - 1) * itemWidth;
+        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
+      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+    }
+  }, [currentWeek, itemWidth]);
   return (
     <SafeAreaView>
       <View style={styles.diaryMode}>
@@ -52,7 +65,7 @@ const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
         {isMonth ? (
           <></>
         ) : (
-          <ScrollView horizontal>
+          <ScrollView horizontal ref={scrollViewRef}>
             {Array.from({length: 41}, (_, index) => {
               const weekNumber = index + 1;
               const isDisabled = weekNumber > current;

@@ -61,7 +61,7 @@ const BellySizePage = () => {
   const route =
     useRoute<RouteProp<{params: DiaryUpdateRouteParams}, 'params'>>();
   const {updateItemIndex} = route.params;
-  const [isMonth, setIsMonth] = React.useState<boolean>(true);
+  const [isMonth, setIsMonth] = React.useState<boolean>(false);
   const [modalVisible, setModalVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
