@@ -271,8 +271,8 @@ const DiaryUpdatePage = () => {
         formatTime(Number(currentHour)) +
         ':' +
         formatTime(Number(currentMinute)),
-      weight: 60,
-      bellySize: 80,
+      weight: entry?.weight ?? 60,
+      bellySize: entry?.bellySize ?? 80,
       reservation: updateReservation,
       mood: images[2].label,
       tag: combineTags,

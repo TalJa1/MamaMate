@@ -35,6 +35,8 @@ import {suggestionRenderData} from '../../../data/meal/suggestionData';
 import {DiaryEntry} from '../../../services/typeProps';
 import {loadData} from '../../../data/storage';
 import {diaryWeekData} from '../../../services/storageService';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface MoodSuggestion {
   img: any;
@@ -44,6 +46,8 @@ interface MoodSuggestion {
 
 const MoodPage = () => {
   useStatusBar('#19162E');
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   const [noteText, setNoteText] = React.useState<string>(
     'Cơ thể rất mệt mỏi, chồng và mọi người xung quanh làm gì cũng không vừa ý gây',
@@ -316,6 +320,7 @@ const MoodPage = () => {
         <View
           style={{width: vw(100), alignItems: 'center', marginVertical: 10}}>
           <TouchableOpacity
+            onPress={() => navigation.navigate('Diary')}
             style={{
               width: '90%',
               height: 55,
