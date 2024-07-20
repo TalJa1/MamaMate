@@ -84,6 +84,8 @@ const ChildMovementPage = () => {
       ...prevHistory,
       {count, time: now, last: formattedTime},
     ]);
+    setCount(0);
+    setElapsedTime(0);
   };
 
   return (
