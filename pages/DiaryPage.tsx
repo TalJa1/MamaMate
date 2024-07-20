@@ -152,35 +152,57 @@ const DiaryPage: React.FC = () => {
 
 const CalendarRender = () => {
   const today = new Date().toISOString().split('T')[0];
+
+  function getCurrentWeekDatesFormatted(): string[] {
+    const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay(); // Sunday - 0, Monday - 1, ..., Saturday - 6
+    const datesOfCurrentWeekFormatted = [];
+
+    // Calculate the date of the last Sunday
+    const lastSunday = new Date(currentDate);
+    lastSunday.setDate(currentDate.getDate() - currentDayOfWeek);
+
+    // Loop to get all dates from Sunday to Saturday
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(lastSunday);
+      day.setDate(lastSunday.getDate() + i);
+      // Format the date as 'YYYY-MM-DD'
+      const formattedDate = day.toISOString().split('T')[0];
+      datesOfCurrentWeekFormatted.push(formattedDate);
+    }
+
+    return datesOfCurrentWeekFormatted;
+  }
+
+  const arr = getCurrentWeekDatesFormatted();
+
+  const markedDates = arr.reduce((acc: any, date: string, index: number) => {
+    const isSunday = new Date(date).getDay() === 0; // Check if the date is Sunday
+    acc[date] = {
+      color: date === today ? '#FFFFFF' : '#AF90D6', // Set color to white if date is today, else use default color
+      ...(index === 0 && {startingDay: true}), // Add startingDay property for the first date
+      ...(index === arr.length - 1 && {endingDay: true}), // Add endingDay property for the last date
+      ...(isSunday && {text: '16'}), // Add the week number for Sundays
+    };
+    return acc;
+  }, {});
+
   return (
     <CalendarList
       theme={{
         calendarBackground: '#221E3D',
         dayTextColor: '#ffffff',
         todayTextColor: '#221E3D',
+        textMonthFontWeight: '800',
         monthTextColor: '#96C1DE',
+        textMonthFontSize: 18,
         todayBackgroundColor: '#EAE1EE',
         textDayFontSize: 18,
         textDayFontWeight: '400',
       }}
       firstDay={1}
-      markedDates={{
-        '2024-06-26': {color: '#AF90D6', startingDay: true},
-        '2024-06-27': {color: '#AF90D6'},
-        '2024-06-28': {color: '#AF90D6'},
-        '2024-06-29': {color: '#AF90D6', endingDay: true},
-        [today]: {
-          customStyles: {
-            container: {
-              backgroundColor: '#EAE1EE',
-              borderRadius: 20,
-            },
-            text: {
-              color: '#221E3D',
-            },
-          },
-        },
-      }}
+      markedDates={markedDates}
+      current={today}
       markingType="period"
     />
   );
