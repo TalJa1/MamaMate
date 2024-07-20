@@ -37,6 +37,7 @@ import {
   icon99SVG,
   nextIconSVG,
   noIconSVG,
+  plusSVG,
   removeIconSVG,
   searchingSVG,
   unCheckboxSVG,
@@ -289,6 +290,32 @@ const WishListPage = () => {
         <View style={{marginBottom: vh(2)}}>{renderMessGrp(messGrpData)}</View>
       </ScrollView>
       {renderPopUp()}
+      <TouchableOpacity
+        style={{
+          borderWidth: 1,
+          borderColor: '#AA3A3A',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: vw(15),
+          height: vw(15),
+          position: 'absolute',
+          bottom: vh(20),
+          right: 20,
+          backgroundColor: '#AA3A3A',
+          borderRadius: 100,
+          // Shadow properties for iOS to simulate a blur effect
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.3,
+          shadowRadius: 4.65,
+          // Elevation for Android
+          elevation: 8,
+        }}>
+        {plusSVG(vw(5), vw(5), '#FFFFFF')}
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
