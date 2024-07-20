@@ -25,7 +25,7 @@ import {
   getVietnamDayOfWeek,
   getDateTime,
 } from '../../../services/dayTimeService';
-import {editIconSVG} from '../../../assets/svgXml';
+import {editIconSVG, plusSVG} from '../../../assets/svgXml';
 import {
   getDiaryWeekData,
   moodImgSelectionData,
@@ -35,8 +35,8 @@ import {suggestionRenderData} from '../../../data/meal/suggestionData';
 import {DiaryEntry} from '../../../services/typeProps';
 import {loadData} from '../../../data/storage';
 import {diaryWeekData} from '../../../services/storageService';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface MoodSuggestion {
   img: any;
@@ -345,6 +345,35 @@ const MoodPage = () => {
           </View>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={{
+          borderWidth: 1,
+          borderColor: '#AA3A3A',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: vw(15),
+          height: vw(15),
+          position: 'absolute',
+          bottom: vh(20),
+          right: 20,
+          backgroundColor: '#AA3A3A',
+          borderRadius: 100,
+          // Shadow properties for iOS to simulate a blur effect
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.3,
+          shadowRadius: 4.65,
+          // Elevation for Android
+          elevation: 8,
+        }}
+        onPress={() => {
+          navigation.navigate('Diary');
+        }}>
+        {plusSVG(vw(5), vw(5), '#FFFFFF')}
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
