@@ -68,7 +68,7 @@ const ContractionsPage = () => {
   }, [firstClick]);
 
   // Define the maximum number of movements you want to track
-  const maxClicks = 100;
+  const maxClicks = 120;
 
   // Calculate the fill percentage based on the most recent count
   const fillPercentage = count > 0 ? (count / maxClicks) * 100 : 0;
