@@ -83,8 +83,6 @@ const WeightTrackingPage = () => {
     const loadDataFromStorage = async () => {
       try {
         const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
-        const storedBarChartData = await loadData<DataRender>('barChartData');
-        const storedLineChartData = await loadData<DataRender>('lineChartData');
 
         if (loadedData) {
           setDiaryData(loadedData);
@@ -93,32 +91,28 @@ const WeightTrackingPage = () => {
           await saveData('diaryWeekData', initialData);
           setDiaryData(initialData);
         }
-
         const updatedWeight = loadedData[updateItemIndex].weight;
 
-        if (storedBarChartData) {
-          storedBarChartData.datasets[0].data[5] = updatedWeight;
-          setData(storedBarChartData);
-        } else {
-          const updatedBarChartData = {...defaultBarChartData};
-          updatedBarChartData.datasets[0].data[5] = updatedWeight;
-          await saveData('barChartData', updatedBarChartData);
-          setData(updatedBarChartData);
-        }
+        setData(prevData => {
+          const updatedDatasets = [...prevData.datasets];
+          const updatedData = [...updatedDatasets[0].data];
+          updatedData[5] = updatedWeight;
+          updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
 
-        if (storedLineChartData) {
-          storedLineChartData.datasets[0].data[15] = updatedWeight;
-          setLineData(storedLineChartData);
-        } else {
-          const updatedLineChartData = {...defaultLineChartData};
-          updatedLineChartData.datasets[0].data[15] = updatedWeight;
-          await saveData('lineChartData', updatedLineChartData);
-          setLineData(updatedLineChartData);
-        }
+          return {...prevData, datasets: updatedDatasets};
+        });
+
+        setLineData(prevData => {
+          const updatedDatasets = [...prevData.datasets];
+          const updatedData = [...updatedDatasets[0].data];
+          updatedData[15] = updatedWeight;
+          updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
+
+          return {...prevData, datasets: updatedDatasets};
+        });
       } catch (error) {
         console.error('Error loading data from storage:', error);
-        setData(defaultBarChartData);
-        setLineData(defaultLineChartData);
+
         const initialData = getDiaryWeekData();
         await saveData('diaryWeekData', initialData);
         setDiaryData(initialData);

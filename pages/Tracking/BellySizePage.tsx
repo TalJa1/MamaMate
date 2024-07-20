@@ -74,12 +74,6 @@ const BellySizePage = () => {
   React.useEffect(() => {
     const loadDataFromStorage = async () => {
       try {
-        const storedBarChartData = await loadData<DataRender>(
-          'barChartBellyData',
-        );
-        const storedLineChartData = await loadData<DataRender>(
-          'lineChartBellyData',
-        );
         const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
 
         if (loadedData) {
@@ -92,25 +86,23 @@ const BellySizePage = () => {
 
         const updatedBellySize = loadedData[updateItemIndex].bellySize;
 
-        if (storedBarChartData) {
-          storedBarChartData.datasets[0].data[5] = updatedBellySize;
-          setData(storedBarChartData);
-        } else {
-          const updatedBarChartData = {...defaultBarChartBellyData};
-          updatedBarChartData.datasets[0].data[5] = updatedBellySize;
-          await saveData('barChartBellyData', updatedBarChartData);
-          setData(updatedBarChartData);
-        }
+        setData(prevData => {
+          const updatedDatasets = [...prevData.datasets];
+          const updatedData = [...updatedDatasets[0].data];
+          updatedData[5] = updatedBellySize;
+          updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
 
-        if (storedLineChartData) {
-          storedLineChartData.datasets[0].data[15] = updatedBellySize;
-          setLineData(storedLineChartData);
-        } else {
-          const updatedLineChartData = {...defaultLineChartBellyData};
-          updatedLineChartData.datasets[0].data[15] = updatedBellySize;
-          await saveData('lineChartBellyData', updatedLineChartData);
-          setLineData(updatedLineChartData);
-        }
+          return {...prevData, datasets: updatedDatasets};
+        });
+
+        setLineData(prevData => {
+          const updatedDatasets = [...prevData.datasets];
+          const updatedData = [...updatedDatasets[0].data];
+          updatedData[15] = updatedBellySize;
+          updatedDatasets[0] = {...updatedDatasets[0], data: updatedData};
+
+          return {...prevData, datasets: updatedDatasets};
+        });
       } catch (error) {
         console.error('Error loading data from storage:', error);
         setData(defaultBarChartBellyData);
