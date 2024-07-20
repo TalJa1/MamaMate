@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {vh, vw} from '../styles/stylesheet';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface ModeButtonProps {
   isActive: boolean;
@@ -37,14 +38,15 @@ const DayMonthSwitchComponent: React.FC<DayMonthSwitchComponentProps> = ({
   const scrollViewRef = React.useRef<ScrollView>(null);
   const itemWidth = 44 + vw(1);
 
-  React.useEffect(() => {
-    if (scrollViewRef.current) {
-      setTimeout(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isMonth && scrollViewRef.current) {
         const xOffset = (currentWeek - 1) * itemWidth;
-        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
-      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
-    }
-  }, [currentWeek, itemWidth]);
+        scrollViewRef.current.scrollTo({x: xOffset, animated: true});
+      }
+    }, [isMonth, currentWeek, scrollViewRef, itemWidth]),
+  );
+
   return (
     <SafeAreaView>
       <View style={styles.diaryMode}>
