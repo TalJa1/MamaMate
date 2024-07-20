@@ -74,7 +74,7 @@ const ChildMovementPage = () => {
   const fillPercentage = count > 0 ? (count / maxClicks) * 100 : 0;
 
   const handleRefresh = () => {
-    setCount(0);
+    setCount(1);
     setElapsedTime(0);
   };
 
