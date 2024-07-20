@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   scrollviewItemImgContainer: {
-    width: vw(90),
+    width: vw(85),
     height: 140,
   },
   scrollviewItemImg: {
     width: '100%',
     flex: 1,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
 });
