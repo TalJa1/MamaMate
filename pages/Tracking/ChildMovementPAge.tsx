@@ -12,6 +12,8 @@ import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {checkOnlyIconSVG, reFreshIconSVG} from '../../assets/svgXml';
 
 const ChildMovementPage = () => {
   useStatusBar('#19162E');
@@ -19,12 +21,14 @@ const ChildMovementPage = () => {
   const [history, setHistory] = React.useState<
     {count: number; time: number; last: string}[]
   >([
-    {count: 40, time: Date.now() - 86400000, last: '12:33'},
     {count: 12, time: Date.now() - 259200000, last: '01:45'},
+    {count: 40, time: Date.now() - 86400000, last: '12:33'},
   ]);
-  const [lastPressTime, setLastPressTime] = React.useState<number | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [elapsedTime, setElapsedTime] = React.useState<number>(0);
+  const [count, setCount] = React.useState(0);
+  const [formattedTime, setFormattedTime] = React.useState('00:00');
+  const [firstClick, setFirstClick] = React.useState(false);
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
@@ -35,59 +39,52 @@ const ChildMovementPage = () => {
     ).padStart(2, '0')}`;
   };
 
-  const formatElapsedTime = (milliseconds: number) => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
-    return `${minutes}:${seconds}`;
-  };
-
   const handleCount = () => {
-    const now = Date.now();
-    const timeSinceLastPress = lastPressTime ? now - lastPressTime : 0;
-
-    if (lastPressTime === null || timeSinceLastPress > 5000) {
-      setHistory(prevHistory => [
-        {count: 1, time: now, last: '00:00'},
-        ...prevHistory,
-      ]);
-    } else {
-      setHistory(prevHistory => {
-        const [lastEntry, ...rest] = prevHistory;
-        const newEntry = {
-          count: lastEntry.count + 1,
-          time: lastEntry.time,
-          last: formatElapsedTime(now - lastEntry.time),
-        };
-        return [newEntry, ...rest];
-      });
+    setCount(prevCount => prevCount + 1);
+    if (!firstClick) {
+      setFirstClick(true);
     }
-
-    setLastPressTime(now);
-    setElapsedTime(0);
   };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (lastPressTime) {
+    if (firstClick) {
       timer = setInterval(() => {
-        const now = Date.now();
-        const timeElapsed = now - lastPressTime;
-
-        if (timeElapsed >= 5000) {
-          clearInterval(timer);
-        } else {
-          setElapsedTime(timeElapsed);
-        }
+        setElapsedTime(prevTime => {
+          const newTime = prevTime + 1;
+          // Convert seconds to mm:ss format
+          const minutes = Math.floor(newTime / 60);
+          const seconds = newTime % 60;
+          const formatted = `${minutes.toString().padStart(2, '0')}:${seconds
+            .toString()
+            .padStart(2, '0')}`;
+          setFormattedTime(formatted);
+          return newTime;
+        });
       }, 1000);
     }
 
-    return () => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    };
-  }, [lastPressTime]);
+    return () => clearInterval(timer);
+  }, [firstClick]);
+
+  // Define the maximum number of movements you want to track
+  const maxClicks = 100;
+
+  // Calculate the fill percentage based on the most recent count
+  const fillPercentage = count > 0 ? (count / maxClicks) * 100 : 0;
+
+  const handleRefresh = () => {
+    setCount(0);
+    setElapsedTime(0);
+  };
+
+  const handleCheckSpace = () => {
+    const now = Date.now();
+    setHistory(prevHistory => [
+      ...prevHistory,
+      {count, time: now, last: formattedTime},
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -96,13 +93,62 @@ const ChildMovementPage = () => {
         <TouchableOpacity
           style={styles.imgContainerGrpImg}
           onPress={handleCount}>
-          <Image source={require('../../assets/MOVE.png')} />
+          <AnimatedCircularProgress
+            size={vw(50)} // Diameter of the circle
+            width={20} // Width of the circle border
+            fill={fillPercentage} // Percentage of the circle to fill
+            tintColor="#FFD700" // Color of the filled part
+            backgroundColor="#382E75" // Color of the unfilled part
+            rotation={0}
+            lineCap="round">
+            {_ => (
+              <View style={styles.circle}>
+                {count > 0 ? (
+                  <Text
+                    style={{color: '#EAE1EE', fontSize: 36, fontWeight: '700'}}>
+                    {count}
+                  </Text>
+                ) : (
+                  <Image
+                    source={require('../../assets/MOVE.png')}
+                    style={styles.imageStyle}
+                  />
+                )}
+              </View>
+            )}
+          </AnimatedCircularProgress>
         </TouchableOpacity>
         <Text style={styles.imgTxT}>30</Text>
       </View>
       <Text style={styles.imgTxT}>60</Text>
       <View style={styles.desTxTContainer}>
-        <Text style={styles.desTxT}>Nhấp vào bàn chân để bắt đầu đếm</Text>
+        {count <= 0 ? (
+          <Text style={styles.desTxT}>Nhấp vào bàn chân để bắt đầu đếm</Text>
+        ) : (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: vw(100),
+            }}>
+            <TouchableOpacity onPress={handleRefresh}>
+              {reFreshIconSVG(vw(8), vw(8))}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleCheckSpace}>
+              <View
+                style={{
+                  backgroundColor: '#82BA5F',
+                  borderRadius: vw(8),
+                  width: vw(8),
+                  height: vw(8),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {checkOnlyIconSVG(vw(5), vw(5))}
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={styles.historyGrp}>
         <ScrollView>
@@ -205,5 +251,19 @@ const styles = StyleSheet.create({
     color: '#EAE1EE',
     fontSize: 14,
     fontWeight: '400',
+  },
+  circle: {
+    borderRadius: vw(50),
+    borderWidth: 20,
+    borderColor: '#382E75',
+    width: vw(50),
+    height: vw(50),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageStyle: {
+    width: vw(25),
+    height: vw(25),
+    resizeMode: 'contain',
   },
 });
