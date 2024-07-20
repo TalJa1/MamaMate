@@ -29,14 +29,14 @@ const DiaryPage: React.FC = () => {
   const [currentWeek, setCurrentWeek] = React.useState<number>(16);
   const scrollViewRef = React.useRef<ScrollView>(null);
 
-  React.useEffect(() => {
-    if (scrollViewRef.current) {
-      setTimeout(() => {
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!isMonth && scrollViewRef.current) {
         const xOffset = (currentWeek - 1) * itemWidth;
-        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
-      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
-    }
-  }, [currentWeek]);
+        scrollViewRef.current.scrollTo({x: xOffset, animated: true});
+      }
+    }, [isMonth, currentWeek]),
+  );
 
   useStatusBar('#19162E');
 

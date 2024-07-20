@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#382E75',
     borderTopLeftRadius: vh(2),
     borderTopRightRadius: vh(2),
-    maxHeight: vh(70),
+    maxHeight: vh(80),
   },
   modalTitleGrp: {
     flexDirection: 'row',
