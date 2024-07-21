@@ -46,20 +46,23 @@ export const getDateTime = (
 };
 
 export const getVietnameseDayOfWeek = (dayOfWeek: string): string => {
+  // lowercase dayOfWeek
+  dayOfWeek = dayOfWeek.toLowerCase();
+
   switch (dayOfWeek) {
-    case 'Chủ Nhật':
+    case 'chủ nhật':
       return 'CN';
-    case 'Thứ hai':
+    case 'thứ hai':
       return 'T2';
-    case 'Thứ ba':
+    case 'thứ ba':
       return 'T3';
-    case 'Thứ tư':
+    case 'thứ tư':
       return 'T4';
-    case 'Thứ năm':
+    case 'thứ năm':
       return 'T5';
-    case 'Thứ sáu':
+    case 'thứ sáu':
       return 'T6';
-    case 'Thứ bảy':
+    case 'thứ bảy':
       return 'T7';
     default:
       return dayOfWeek;
@@ -127,15 +130,7 @@ interface WeekDays {
   days: string[];
 }
 
-const vietnameseDaysOfWeek = [
-  'CN',
-  'T2',
-  'T3',
-  'T4',
-  'T5',
-  'T6',
-  'T7',
-];
+const vietnameseDaysOfWeek = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
 const formatDate = (date: Date): string => {
   const dayOfWeek = vietnameseDaysOfWeek[date.getDay()];
