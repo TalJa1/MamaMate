@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#221E3D',
-    paddingVertical: vh(2),
+    paddingTop: vh(2),
   },
   titleTxT: {
     fontWeight: '600',

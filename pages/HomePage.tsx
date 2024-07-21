@@ -19,7 +19,7 @@ import {
 } from '../services/imageHelper';
 import weekNoti from '../data/weekNoti.json';
 import useStatusBar from '../services/customHook';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {loadData} from '../data/storage';
 import {DiaryEntry} from '../services/typeProps';
@@ -35,14 +35,16 @@ const HomePage = () => {
   const itemWidth = 44;
   useStatusBar('#221E3D');
 
-  React.useEffect(() => {
-    if (scrollViewRef.current) {
-      setTimeout(() => {
-        const xOffset = (currentWeek - 1) * itemWidth;
-        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
-      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
-    }
-  }, [currentWeek]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (scrollViewRef.current) {
+        setTimeout(() => {
+          const xOffset = (currentWeek - 1) * itemWidth;
+          scrollViewRef.current?.scrollTo({x: xOffset, animated: true});
+        }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+      }
+    }, [currentWeek, scrollViewRef, itemWidth]),
+  );
 
   React.useEffect(() => {
     const loadDataFromStorage = async () => {
@@ -174,7 +176,7 @@ const HomePage = () => {
               ghi lại tâm trạng
             </Text>
           </View>
-          <View style={styles.momFeelingright}>
+          <View>
             <TouchableOpacity
               style={styles.plusStyle}
               onPress={() =>
@@ -182,8 +184,8 @@ const HomePage = () => {
               }>
               {plusSVG(vw(5), vh(5), '#E5CFEF')}
             </TouchableOpacity>
-            {pregnancySVG(100, 100)}
           </View>
+          <View style={styles.momFeelingright}>{pregnancySVG(100, 100)}</View>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('TaskList')}
@@ -335,8 +337,10 @@ const styles = StyleSheet.create({
   momFeeling: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginTop: vh(2),
+    width: '100%',
+    columnGap: vw(2),
   },
   plusStyle: {
     height: 35,
@@ -347,13 +351,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E5CFEF38',
   },
   momFeelingleft: {
-    width: vw(45),
+    flex: 3,
   },
   momFeelingright: {
-    width: vw(45),
+    flex: 2,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
     columnGap: vw(2),
   },
   tabSchedule: {

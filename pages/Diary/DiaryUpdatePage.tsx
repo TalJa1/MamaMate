@@ -20,7 +20,7 @@ import {
 } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {DiaryEntry} from '../../services/typeProps';
-import {loadData, updateData} from '../../data/storage';
+import {loadData, saveData, updateData} from '../../data/storage';
 import {getDateTime} from '../../services/dayTimeService';
 import useStatusBar from '../../services/customHook';
 import {vh, vw} from '../../styles/stylesheet';
@@ -39,6 +39,7 @@ import {
 } from '../../assets/svgXml';
 import {
   diaryModalData,
+  getDiaryWeekData,
   moodImgSelectionData,
   moodReasonData,
   sexStatusData,
@@ -116,9 +117,16 @@ const DiaryUpdatePage = () => {
           const data = await loadData<DiaryEntry[]>('diaryWeekData');
           if (data && data[index]) {
             setEntry(data[index]);
+          } else {
+            const initialData = getDiaryWeekData();
+            setEntry(initialData[index]);
+            saveData('diaryWeekData', initialData);
           }
         } catch (error) {
           console.error('Error fetching diary data:', error);
+          const initialData = getDiaryWeekData();
+          setEntry(initialData[index]);
+          saveData('diaryWeekData', initialData);
         }
       };
 
