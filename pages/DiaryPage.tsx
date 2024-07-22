@@ -196,7 +196,6 @@ const CalendarRender = () => {
         textMonthFontWeight: '800',
         monthTextColor: '#96C1DE',
         textMonthFontSize: 18,
-        todayBackgroundColor: '#EAE1EE',
         textDayFontSize: 18,
         textDayFontWeight: '400',
       }}
