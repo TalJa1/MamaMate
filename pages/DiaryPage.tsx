@@ -38,6 +38,12 @@ const DiaryPage: React.FC = () => {
     }, [isMonth, currentWeek]),
   );
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsMonth(false);
+    }, []),
+  );
+
   useStatusBar('#19162E');
 
   React.useEffect(() => {
