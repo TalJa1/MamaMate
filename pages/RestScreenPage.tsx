@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -6,6 +7,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -80,27 +82,29 @@ const RestScreenPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.upperview}>
-        {layoutIndex === 1 ? (
-          <View style={styles.imageHalf}>
-            <Image source={require('../assets/halfTimetable.png')} />
-          </View>
-        ) : (
-          <></>
-        )}
-        <TouchableOpacity
-          style={styles.backBtnOpa}
-          onPress={() => {
-            if (layoutIndex > 1) {
-              setLayoutIndex(pre => pre - 1);
-            } else {
-              navigation.goBack();
-            }
-          }}>
-          {backIconSVG(vw(6), vh(6))}
-        </TouchableOpacity>
-      </View>
-      <View style={styles.mainContent}>{renderItem()}</View>
+      <ScrollView style={{height: '80%', width: vw(100)}}>
+        <View style={styles.upperview}>
+          {layoutIndex === 1 ? (
+            <View style={styles.imageHalf}>
+              <Image source={require('../assets/halfTimetable.png')} />
+            </View>
+          ) : (
+            <></>
+          )}
+          <TouchableOpacity
+            style={styles.backBtnOpa}
+            onPress={() => {
+              if (layoutIndex > 1) {
+                setLayoutIndex(pre => pre - 1);
+              } else {
+                navigation.goBack();
+              }
+            }}>
+            {backIconSVG(vw(6), vh(6))}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.mainContent}>{renderItem()}</View>
+      </ScrollView>
 
       <View style={styles.btnGrp}>
         {layoutIndex === 1 ? (
@@ -108,12 +112,7 @@ const RestScreenPage = () => {
             <Text style={styles.disBtnTxt}>Tính lại</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            style={styles.disBtn}
-            // onPress={() => {
-            //   setLayoutIndex(pre => pre - 1);
-            // }}
-          >
+          <TouchableOpacity style={styles.disBtn}>
             <Text style={styles.disBtnTxt}>Bỏ qua</Text>
           </TouchableOpacity>
         )}
@@ -138,11 +137,12 @@ const styles = StyleSheet.create({
   },
   upperview: {
     alignItems: 'flex-start',
-    height: vh(10),
+    // height: '20%',
   },
   mainContent: {
-    marginTop: vh(3),
-    width: width,
+    paddingTop: vh(6),
+    // height: '80%',
+    width: vw(100),
     alignItems: 'center',
   },
   backBtnOpa: {
@@ -152,8 +152,7 @@ const styles = StyleSheet.create({
     left: vw(8),
   },
   btnGrp: {
-    position: 'absolute',
-    bottom: vh(5),
+    height: '20%',
     width: width,
     alignItems: 'center',
     rowGap: vh(1),

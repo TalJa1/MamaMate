@@ -10,7 +10,9 @@ const ComponentRest2 = () => {
         Ứng dụng này sẽ giúp bố mẹ cảm thấy yên tâm hơn nếu như được cung cấp
         một số thông tin chi tiết hơn nữa ạ
       </Text>
-      <Image source={require('../assets/Frame.png')} />
+      <Image
+        source={require('../assets/Frame.png')}
+      />
     </View>
   );
 };
@@ -18,7 +20,7 @@ const ComponentRest2 = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    rowGap: vh(2),
+    rowGap: vh(4),
     paddingHorizontal: 30,
   },
   titleTxt: {

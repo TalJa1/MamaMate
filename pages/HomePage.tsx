@@ -318,6 +318,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: vw(3),
+    overflow: 'hidden',
+    flexWrap: 'wrap',
   },
   imgChoiceGrp: {
     width: 100,

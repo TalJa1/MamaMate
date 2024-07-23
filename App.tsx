@@ -44,6 +44,7 @@ import BellySizePage from './pages/Tracking/BellySizePage';
 import DiaryUpdatePage from './pages/Diary/DiaryUpdatePage';
 import {loadData} from './data/storage';
 import {LogBox} from 'react-native';
+import {QuestionPageData} from './services/typeProps';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -188,9 +189,9 @@ const App = () => {
   React.useEffect(() => {
     LogBox.ignoreAllLogs();
     const fetchData = async () => {
-      await loadData('questionData')
-        .then(() => {
-          setIsMain(true);
+      await loadData<QuestionPageData>('questionData')
+        .then(value => {
+          value.isFinished ? setIsMain(true) : setIsMain(false);
         })
         .catch(() => {
           setIsMain(false);

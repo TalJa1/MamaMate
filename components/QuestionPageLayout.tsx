@@ -72,7 +72,10 @@ const QuestionPageLayout: React.FC<RenderLayout> = ({
             {backIconSVG(vh(6), vw(6))}
           </TouchableOpacity>
           <View style={styles.titleImgContainer}>
-            <Image source={getImageSource(image)} />
+            <Image
+              style={{width: vw(35), height: vw(35), resizeMode: 'contain'}}
+              source={getImageSource(image)}
+            />
           </View>
         </View>
         <View style={styles.lowerview}>

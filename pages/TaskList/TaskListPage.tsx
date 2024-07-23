@@ -23,7 +23,7 @@ import {
 } from '../../assets/svgXml';
 import ToggleSwitch from 'toggle-switch-react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface RenderReservedDoctor {
@@ -49,18 +49,21 @@ const TaskListPage = () => {
   const today = getDateTime('day');
   useStatusBar('#19162E');
   const scrollViewRef = React.useRef<ScrollView>(null);
-  const itemWidth = 44 + vw(4);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentWeek, setCurrentWeek] = React.useState<number>(16);
+  const [currentWeek, setCurrentWeek] = React.useState<number>(Number(today));
+  const itemWidth = 48;
 
-  React.useEffect(() => {
-    if (scrollViewRef.current) {
-      setTimeout(() => {
-        const xOffset = (currentWeek - 1) * itemWidth;
-        scrollViewRef?.current?.scrollTo({x: xOffset, animated: true});
-      }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
-    }
-  }, [currentWeek, itemWidth]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (scrollViewRef.current) {
+        const timeout = setTimeout(() => {
+          const xOffset = (currentWeek - 1) * itemWidth;
+          scrollViewRef.current?.scrollTo({x: xOffset, animated: true});
+        }, 0); // Set timeout to 0 to wait until the ScrollView has been rendered
+        return () => clearTimeout(timeout);
+      }
+    }, [currentWeek, itemWidth]),
+  );
 
   const [toggleStates, setToggleStates] = React.useState<{
     [key: string]: boolean;
