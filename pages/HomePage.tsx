@@ -50,22 +50,24 @@ const HomePage = () => {
     const loadDataFromStorage = async () => {
       try {
         const loadedData = await loadData<DiaryEntry[]>('diaryWeekData');
+
         if (loadedData) {
           const todayIndex = loadedData.findIndex(
-            item => item.date === today.toLocaleString(),
+            item => Number(item.date) === Number(today.toLocaleString()),
           );
+
           setMoodIndex(todayIndex);
         } else {
           const initialData = getDiaryWeekData();
           const todayIndex = initialData.findIndex(
-            item => item.date === today.toLocaleString(),
+            item => Number(item.date) === Number(today.toLocaleString()),
           );
           setMoodIndex(todayIndex);
         }
       } catch (error) {
         const initialData = getDiaryWeekData();
         const todayIndex = initialData.findIndex(
-          item => item.date === today.toLocaleString(),
+          item => Number(item.date) === Number(today.toLocaleString()),
         );
         setMoodIndex(todayIndex);
       }
